@@ -1,0 +1,76 @@
+/* src/components/features/checkout/PaymentInfo.module.css */
+.optionsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.paymentOption {
+  display: flex;
+  align-items: center;
+  padding: var(--space-md);
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--border-radius-md);
+  cursor: pointer;
+  transition: var(--transition-base);
+  background-color: var(--color-bg-card);
+}
+
+/* Estilo para opción no seleccionada */
+.paymentOption:hover {
+  border-color: var(--color-primary-light);
+}
+
+/* Estilo para opción seleccionada */
+.paymentOption.selected {
+  border-color: var(--color-primary);
+  background-color: var(--color-bg-sidebar);
+  box-shadow: 0 0 0 2px rgba(160, 82, 45, 0.2);
+}
+
+.radio {
+  /* Ocultar el radio button nativo */
+  display: none;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex-grow: 1;
+  font-weight: 500;
+  color: var(--color-text-dark);
+}
+
+.indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--color-text-muted);
+  display: inline-block;
+  position: relative;
+  transition: var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.selected .indicator {
+  border-color: var(--color-primary);
+}
+
+.selected .indicator::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-primary-dark);
+}
+
+.description {
+  font-size: 0.9rem;
+  color: var(--color-text-medium);
+  margin-top: var(--space-xs);
+  margin-left: calc(20px + var(--space-md)); /* Alineado con el texto del label */
+}

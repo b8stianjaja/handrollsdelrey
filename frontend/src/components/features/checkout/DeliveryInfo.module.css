@@ -1,0 +1,40 @@
+/* src/components/features/checkout/DeliveryInfo.module.css */
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: 0;
+  margin: 0;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.inputGroup label {
+  font-weight: 500;
+  color: var(--color-text-dark);
+  font-size: 0.95rem;
+}
+
+.inputGroup input,
+.inputGroup select,
+.inputGroup textarea { /* Añadido textarea */
+  padding: var(--space-sm);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--border-radius-md);
+  font-size: 1rem;
+  background-color: var(--color-bg-card);
+  transition: var(--transition-fast);
+}
+
+.inputGroup input:focus,
+.inputGroup select:focus,
+.inputGroup textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px rgba(160, 82, 45, 0.2);
+  outline: none;
+}
