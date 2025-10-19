@@ -1,121 +1,197 @@
 /* src/components/features/cart/CartItem.module.css */
-/* Estilos para una fila individual del carrito */
+/* --- Base Styles (Mobile First) --- */
 .cartItem {
-  display: grid; /* Usamos Grid para controlar las columnas */
-  /* Columnas: Imagen | Detalles (nombre, opciones) | Controles Cantidad | Precio Total Item | Botón Remover */
-  /* auto: toma el ancho de la imagen */
-  /* 1fr: toma el espacio restante */
-  /* auto: toman el ancho de su contenido */
-  grid-template-columns: auto 1fr auto auto auto; 
-  align-items: center; /* Centra verticalmente el contenido de las celdas */
-  gap: 10px; /* Espacio entre columnas */
-  padding: 12px 0;
+  display: flex; /* Flexbox principal: Imagen a la izquierda, Contenido a la derecha */
+  align-items: flex-start; /* Alinear arriba */
+  gap: var(--space-md); /* Espacio entre imagen y contenido */
+  padding: var(--space-md) 0; /* Padding vertical, sin padding horizontal interno */
   border-bottom: 1px solid var(--color-border);
 }
-
-/* Columna 1: Imagen miniatura */
-.image {
-  width: 50px;
-  height: 50px;
-  object-fit: cover; /* Evita distorsión */
-  border-radius: 4px;
+.cartItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
-/* Columna 2: Contenedor para Nombre, Opciones y Precio Unitario */
+.image {
+  width: 70px; /* Imagen ligeramente más grande */
+  height: 70px;
+  object-fit: cover; 
+  border-radius: var(--border-radius-md); 
+  flex-shrink: 0; 
+}
+
+/* Contenedor para todo el contenido a la derecha de la imagen */
+.itemContent {
+  flex-grow: 1; 
+  display: flex;
+  flex-direction: column; /* Apila detalles y controles/precio */
+  min-width: 0; /* Esencial para que el texto haga wrap correctamente */
+  gap: var(--space-sm); /* Espacio entre detalles y la fila inferior */
+}
+
+/* Contenedor para Nombre, Opciones, Precio Unitario */
 .details {
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* Necesario para que text-overflow funcione */
-  min-width: 0; /* Soluciona problemas de overflow en flex/grid */
+  gap: var(--space-xxs); 
 }
 
 .name {
-  font-weight: bold;
-  font-size: 0.95rem;
-  /* Truncar si el nombre es muy largo */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-weight: 600; 
+  font-size: 1rem; /* Tamaño legible */
+  color: var(--color-text-dark);
+  line-height: 1.4; /* Espaciado */
+  white-space: normal; /* Permitir wrap */
 }
 
 .options {
-  font-size: 0.85rem;
-  color: #555;
-  /* Truncar si el resumen de opciones es muy largo */
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 0.8rem; 
+  color: var(--color-text-medium); 
+  white-space: normal; 
+  line-height: 1.4; 
 }
 
-/* Estilo para el precio unitario (nuevo) */
 .unitPrice {
-  font-size: 0.8rem;
-  color: #777;
-  margin-top: 2px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted); /* Muted */
+  font-weight: 500; /* Medium */
 }
 
-/* Columna 3: Contenedor para botones +/- y cantidad (nuevo) */
+/* Fila inferior: Controles de cantidad a la izquierda, Total y Remover a la derecha */
+.controlsRow {
+  display: flex;
+  justify-content: space-between; /* Separa controles del total/remover */
+  align-items: center; /* Centra verticalmente */
+  margin-top: var(--space-xs); /* Pequeño espacio arriba */
+}
+
+/* Controles de Cantidad (+/-) */
 .quantityControl {
   display: flex;
   align-items: center;
-  gap: 5px; /* Espacio entre botones y número */
-  justify-content: center; /* Centra los controles horizontalmente */
+  gap: var(--space-sm); /* Espacio entre botones y número */
+  /* Quitar fondo y borde de aquí, aplicar a botones individuales si se desea */
 }
 
-/* Botones +/- (nuevo) */
 .quantityButton {
-  background-color: #eee;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  /* Tamaño fijo para consistencia */
-  width: 25px; 
-  height: 25px;
-  font-size: 1rem;
-  font-weight: bold;
-  line-height: 1; /* Alineación vertical del texto */
+  background-color: transparent; 
+  border: 1px solid var(--color-border-strong); 
+  border-radius: 50%; 
+  width: 28px; 
+  height: 28px;
+  font-size: 1.3rem; /* Icono +/- */
+  font-weight: 400; 
+  line-height: 0; /* Ajuste fino para centrar */
   cursor: pointer;
-  display: flex; /* Centra el texto +/- dentro del botón */
+  display: flex; 
   justify-content: center;
   align-items: center;
-  padding: 0; /* Quitamos padding por defecto */
-  color: #333; /* Color del texto +/- */
+  padding: 0; 
+  color: var(--color-primary); 
+  transition: var(--transition-base);
 }
 .quantityButton:hover {
-  background-color: #ddd;
+  background-color: var(--color-primary-light); 
+  color: var(--color-primary-dark);
+  border-color: var(--color-primary-light);
 }
 .quantityButton:active {
-  background-color: #ccc; /* Feedback visual al hacer clic */
+  transform: scale(0.95);
 }
 
-/* Display numérico de la cantidad (nuevo) */
 .quantity {
-  font-weight: 500;
-  min-width: 20px; /* Asegura un espacio mínimo para el número */
+  font-weight: 600; 
+  min-width: 20px; 
   text-align: center;
-  font-size: 1rem; /* Mismo tamaño que botones */
-  padding: 0 4px; /* Espacio lateral */
+  font-size: 1.05rem; /* Cantidad un poco más grande */
+  color: var(--color-text-dark);
 }
 
-/* Columna 4: Contenedor para el precio total de esta fila (nuevo) */
+/* Contenedor para Total del Item y Botón Remover */
+.totalAndRemove {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm); /* Espacio entre total y botón remover */
+}
+
+/* Total del Item */
 .itemTotal {
-  text-align: right;
-  font-weight: bold;
-  font-size: 0.95rem; /* Ligeramente más pequeño que el total general */
-  white-space: nowrap; /* Evita que el precio se parta en dos líneas */
-  padding-left: 10px; /* Espacio respecto a controles de cantidad */
+  font-weight: 600; 
+  font-size: 1rem; /* Tamaño consistente */
+  color: var(--color-text-dark);
+  white-space: nowrap; /* Evitar wrap del precio */
 }
 
-/* Columna 5: Botón remover (sin cambios funcionales, solo ajuste grid) */
+/* Botón Remover */
 .removeButton {
   background: none;
   border: none;
-  font-size: 1.5rem;
-  color: #aaa;
+  font-size: 1.4rem; /* Tamaño ajustado */
+  color: var(--color-text-muted); 
   cursor: pointer;
-  padding: 0 5px;
-  justify-self: end; /* Alinea el botón a la derecha dentro de su celda grid */
-  line-height: 1; /* Mejor alineación vertical */
+  padding: var(--space-xs); 
+  line-height: 1; 
+  transition: var(--transition-fast);
 }
 .removeButton:hover {
-  color: var(--color-primary);
+  color: var(--color-error); 
+  transform: scale(1.1);
+}
+
+/* --- Media Query para Desktop (Ajustes sutiles, la base flex funciona bien) --- */
+@media (min-width: 1024px) {
+  .cartItem {
+    gap: var(--space-lg); /* Mayor gap general */
+    padding: var(--space-lg) 0; /* Mayor padding vertical */
+  }
+
+  .image {
+    width: 75px; /* Ligeramente más grande */
+    height: 75px;
+  }
+
+  .itemContent {
+     gap: var(--space-md); /* Mayor espacio vertical interno */
+  }
+
+  .name {
+     font-size: 1.1rem; 
+  }
+
+  .options {
+    font-size: 0.85rem;
+  }
+
+  .unitPrice {
+    font-size: 0.9rem;
+  }
+  
+  .controlsRow {
+     margin-top: 0; /* Quitar margen superior extra */
+  }
+
+  .quantityControl {
+     gap: var(--space-md); /* Mayor espacio en controles */
+  }
+
+  .quantityButton {
+    width: 30px;
+    height: 30px;
+  }
+
+  .quantity {
+    font-size: 1.15rem;
+  }
+  
+  .totalAndRemove {
+     gap: var(--space-md); /* Mayor espacio */
+  }
+
+  .itemTotal {
+    font-size: 1.1rem;
+  }
+
+  .removeButton {
+    font-size: 1.6rem;
+  }
 }

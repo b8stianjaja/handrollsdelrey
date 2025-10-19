@@ -1,35 +1,83 @@
 /* src/components/features/cart/CartSummary.module.css */
 .summary {
-  padding-top: 16px;
-  border-top: 2px solid var(--color-border);
+  padding-top: var(--space-lg); /* Mayor padding superior */
+  margin-top: var(--space-lg); /* Mayor margen superior */
+  border-top: 1px solid var(--color-border-strong); /* Borde más visible */
 }
 .row {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
-  font-size: 1rem;
+  margin-bottom: var(--space-sm); /* Espacio entre filas */
+  font-size: 1rem; /* Tamaño base legible */
+  color: var(--color-text-medium); 
 }
+.row span:last-child {
+  font-weight: 600; /* Precios semi-bold */
+  color: var(--color-text-dark); 
+  white-space: nowrap; /* Evitar wrap del precio */
+}
+
+/* Fila del Total */
 .total {
-  font-weight: bold;
-  font-size: 1.2rem;
-  margin-top: 12px;
+  font-weight: 700; /* Bold */
+  font-size: 1.2rem; /* Tamaño destacado */
+  margin-top: var(--space-md);
+  padding-top: var(--space-md); 
+  border-top: 1px dashed var(--color-border-strong); /* Separador punteado */
+  color: var(--color-text-dark); 
 }
+.total span:last-child {
+   color: var(--color-primary-dark); 
+   font-size: 1.3rem; /* Precio total ligeramente más grande */
+}
+
+/* Botón checkout */
 .checkoutButton {
   width: 100%;
-  padding: 12px;
-  background-color: var(--color-primary);
-  color: var(--color-text-light);
+  padding: var(--space-md); /* Padding generoso */
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%); /* Gradiente primario */
+  color: var(--color-text-light); /* Texto claro */
   border: none;
-  border-radius: 4px;
-  font-size: 1.1rem;
-  font-weight: bold;
+  border-radius: var(--border-radius-md);
+  font-size: 1.1rem; 
+  font-weight: 600; /* Semi-bold */
   cursor: pointer;
-  margin-top: 16px;
+  margin-top: var(--space-lg);
+  transition: var(--transition-base), transform 0.1s ease;
+  box-shadow: 0 4px 12px rgba(160, 82, 45, 0.3); /* Sombra primaria sutil */
+  text-transform: uppercase; 
+  letter-spacing: 0.8px; /* Mayor espaciado */
 }
-.checkoutButton:hover {
-  opacity: 0.9;
+.checkoutButton:hover { 
+  opacity: 0.9; 
+  box-shadow: 0 6px 16px rgba(160, 82, 45, 0.4); 
+  transform: translateY(-2px); 
 }
-.checkoutButton:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+.checkoutButton:active { 
+  transform: translateY(0px); 
+  box-shadow: 0 2px 6px rgba(160, 82, 45, 0.3); 
+}
+.checkoutButton:disabled { 
+  background: #E0E0E0; 
+  color: var(--color-text-muted); 
+  cursor: not-allowed; 
+  box-shadow: none; 
+  transform: none; 
+}
+
+/* --- Media Query para Desktop --- */
+@media (min-width: 1024px) {
+  .row {
+     font-size: 1rem; /* Mantener tamaño base */
+  }
+  .total {
+     font-size: 1.4rem; /* Total más grande en desktop */
+  }
+   .total span:last-child {
+     font-size: 1.5rem; 
+   }
+  .checkoutButton {
+    font-size: 1.1rem; 
+    padding: var(--space-md) var(--space-xl); /* Más padding horizontal */
+  }
 }

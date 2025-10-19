@@ -1,0 +1,83 @@
+/* src/components/features/cart/FloatingCartButton.module.css */
+.floatingButton {
+  position: fixed;
+  bottom: var(--space-lg); /* Espacio desde abajo */
+  left: 50%; /* Centrado horizontalmente */
+  transform: translateX(-50%); /* Ajuste fino de centrado */
+  z-index: 900; /* Debajo de modales pero sobre contenido */
+  
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: var(--color-text-light);
+  border: none;
+  border-radius: 50px; /* Bordes muy redondeados */
+  box-shadow: var(--box-shadow-lg); /* Sombra pronunciada */
+  
+  cursor: pointer;
+  transition: var(--transition-base), transform 0.1s ease;
+  animation: slideInUp 0.5s ease-out forwards; /* Animación de entrada */
+}
+
+@keyframes slideInUp {
+  from { transform: translate(-50%, 100px); opacity: 0; }
+  to { transform: translate(-50%, 0px); opacity: 1; }
+}
+
+
+.floatingButton:hover {
+  transform: translate(-50%, -3px); /* Levitar ligeramente */
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+}
+.floatingButton:active {
+  transform: translate(-50%, 0px) scale(0.98); /* Efecto clic */
+}
+
+.iconWrapper {
+  position: relative;
+  display: flex; /* Necesario para el contador */
+}
+
+.itemCount {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background-color: var(--color-accent); /* Color acento */
+  color: white;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  line-height: 1;
+  border: 1px solid white; /* Borde para destacar */
+}
+
+.priceInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Alinear texto a la izquierda */
+  font-size: 0.9rem;
+  line-height: 1.2;
+}
+
+.priceInfo span:first-child {
+  font-weight: 600; /* 'Ver Pedido' */
+}
+
+.subtotal {
+  font-weight: 400; /* Precio normal */
+}
+
+/* Ocultar en Desktop (donde se usará la sidebar) */
+@media (min-width: 1024px) {
+  .floatingButton {
+    display: none;
+  }
+}

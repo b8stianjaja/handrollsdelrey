@@ -1,8 +1,8 @@
 // src/contexts/AppProviders.jsx
 import React from 'react';
-// CORRECCIÓN: Importar CartProvider como default (sin llaves {})
 import CartProvider from './CartContext'; 
-// import { AuthProvider } from './AuthContext'; // Listo para AuthContext
+// 1. Importar AuthProvider (como export nombrado)
+import { AuthProvider } from './AuthContext'; 
 
 /**
  * Componente que agrupa todos los proveedores de contexto de la aplicación.
@@ -10,11 +10,12 @@ import CartProvider from './CartContext';
  */
 export const AppProviders = ({ children }) => {
   return (
-    // La estructura de anidación sigue igual
-    <CartProvider>
-      {/* <AuthProvider> */}
+    // 2. Envolver CartProvider con AuthProvider
+    // El orden puede importar si un contexto depende de otro, aquí no es el caso.
+    <AuthProvider>
+      <CartProvider>
         {children}
-      {/* </AuthProvider> */}
-    </CartProvider>
+      </CartProvider>
+    </AuthProvider>
   );
 };

@@ -1,22 +1,49 @@
 /* src/pages/public/MenuPage.module.css */
+.menuPageContainer {
+  /* Contenedor externo para padding superior/inferior */
+  padding: var(--space-lg) 0; 
+}
+
 .menuPageLayout {
   display: grid;
-  grid-template-columns: 1fr; /* Mobile-first: una columna */
-  gap: 24px;
+  grid-template-columns: 1fr; /* Una columna por defecto */
+  gap: var(--space-xl);
+  max-width: var(--max-width); 
+  margin: 0 auto; 
+  padding: 0 var(--content-padding); /* Padding lateral adaptable */
 }
 
+/* Estilos específicos para la sección principal (menú) */
 .mainContent {
-  /* Ocupa todo el espacio en mobile */
+  /* No necesita estilos especiales por ahora */
 }
 
+/* Estilos específicos para la sidebar (carrito) */
 .sidebar {
-  /* En mobile, el carrito aparece debajo del menú */
+  /* En móvil no es sticky */
+   background-color: var(--color-bg-sidebar); /* Añadir fondo */
+   border-radius: var(--border-radius-lg);
+   padding: var(--space-lg);
+   box-shadow: var(--box-shadow-sm);
+   /* Limitar altura en móvil para evitar empujar footer demasiado */
+   max-height: 70vh; 
+   overflow-y: auto; 
 }
 
-/* Desktop: Layout de 2 columnas (contenido + sidebar) */
-@media (min-width: 992px) {
+/* Breakpoint para Desktop */
+@media (min-width: 1024px) {
+  .menuPageContainer {
+    padding: var(--space-xxl) 0; 
+  }
   .menuPageLayout {
-    /* Usamos la variable CSS para el ancho del sidebar */
-    grid-template-columns: 1fr var(--sidebar-width);
+    grid-template-columns: 1fr var(--sidebar-width-desktop); /* Dos columnas */
+    gap: var(--space-xxl); 
+  }
+  .sidebar {
+     position: sticky; 
+     top: calc(var(--navbar-height-desktop) + var(--space-lg)); 
+     height: fit-content; 
+     max-height: calc(100vh - var(--navbar-height-desktop) - var(--space-lg) * 2); 
+     padding: var(--space-xl); /* Mayor padding en desktop */
   }
 }

@@ -1,0 +1,84 @@
+/* src/components/features/checkout/CheckoutProgress.module.css */
+.progressNav {
+  margin-bottom: var(--space-xxl); /* Mayor margen inferior */
+}
+
+.progressList {
+  display: flex;
+  justify-content: space-between; /* Espaciado equitativo */
+  list-style: none;
+  padding: 0;
+  margin: 0 auto; /* Centrar la barra */
+  max-width: 600px; /* Ancho máximo para la barra */
+  position: relative; /* Para la línea de fondo */
+}
+
+/* Línea gris de fondo */
+.progressList::before {
+  content: '';
+  position: absolute;
+  top: 50%; /* A la mitad de la altura del texto */
+  left: 5%; /* Deja un margen */
+  right: 5%;
+  height: 2px;
+  background-color: var(--color-border);
+  transform: translateY(-50%);
+  z-index: 1; /* Detrás de los círculos */
+}
+
+.progressStep {
+  text-align: center;
+  color: var(--color-text-muted); /* Color muted por defecto */
+  font-weight: 600; /* Semi-bold */
+  position: relative; 
+  padding: var(--space-sm) var(--space-md); /* Padding alrededor */
+  background-color: var(--color-bg-light); /* Fondo para tapar línea */
+  z-index: 2; /* Encima de la línea */
+  display: flex;
+  flex-direction: column; /* Número arriba, texto abajo */
+  align-items: center;
+}
+
+/* Círculo para el número/icono */
+.progressStep::before {
+  content: counter(step); /* Usar contador CSS */
+  counter-increment: step;
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  border: 2px solid var(--color-border);
+  color: var(--color-text-muted);
+  font-weight: bold;
+  line-height: 26px; /* Ajustar para centrar número */
+  text-align: center;
+  margin-bottom: var(--space-sm);
+  transition: var(--transition-base);
+}
+
+/* Estilo para paso completado */
+.progressStep.completed {
+  color: var(--color-text-medium); 
+}
+.progressStep.completed::before {
+  border-color: var(--color-success);
+  background-color: var(--color-success);
+  color: white;
+  /* Podría usar un icono check aquí */
+   content: '✓'; 
+   font-size: 1.2rem;
+   line-height: 28px; /* Ajustar para check */
+}
+
+
+/* Estilo para paso activo */
+.progressStep.active {
+  color: var(--color-primary-dark);
+  font-weight: 700; /* Bold */
+}
+.progressStep.active::before {
+   border-color: var(--color-primary);
+   background-color: var(--color-primary);
+   color: white;
+}

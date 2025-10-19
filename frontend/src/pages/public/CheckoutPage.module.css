@@ -1,83 +1,142 @@
 /* src/pages/public/CheckoutPage.module.css */
-
 .checkoutContainer {
-  padding: 20px 0; /* Espacio vertical */
+  padding: var(--space-lg) var(--content-padding); /* Padding general */
+  max-width: var(--max-width); 
+  margin: 0 auto; 
 }
 
 .title {
   text-align: center;
-  color: var(--color-primary);
-  margin-bottom: 30px;
+  color: var(--color-primary-dark); 
+  margin-bottom: var(--space-xl); 
+  font-size: clamp(2rem, 6vw, 2.8rem); 
 }
 
 .stepsLayout {
   display: grid;
-  grid-template-columns: 1fr; /* Mobile first: una columna */
-  gap: 30px;
+  grid-template-columns: 1fr; /* Una columna en móvil */
+  gap: var(--space-xl);
 }
 
 .steps {
-  /* Estilos para la sección de formularios */
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
+  background-color: var(--color-bg-card); 
+  padding: var(--space-lg); 
+  border-radius: var(--border-radius-lg); 
   border: 1px solid var(--color-border);
+  box-shadow: var(--box-shadow-sm); 
+  /* Asegura que ocupe toda la celda */
+  width: 100%; 
 }
 
 .steps h2 {
   margin-top: 0;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-md);
   border-bottom: 1px solid var(--color-border);
-  font-size: 1.3rem;
-  color: #333;
+  font-size: clamp(1.4rem, 4.5vw, 1.8rem); /* Tamaño responsivo */
+  color: var(--color-primary); 
 }
 
 .summary {
-  /* Estilos para el resumen del pedido */
-  background-color: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
+  background-color: var(--color-bg-sidebar); 
+  padding: var(--space-lg);
+  border-radius: var(--border-radius-lg);
   border: 1px solid var(--color-border);
-  height: fit-content; /* Se ajusta al contenido */
-  position: sticky; /* Se mantiene visible al hacer scroll (en desktop) */
-  top: 20px;
+  height: fit-content; 
+  /* No sticky en móvil */
+  box-shadow: var(--box-shadow-sm);
 }
 
 .summary h2 {
   margin-top: 0;
-  margin-bottom: 15px;
-  padding-bottom: 10px;
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-md);
   border-bottom: 1px solid var(--color-border);
-  font-size: 1.3rem;
-  color: #333;
+  font-size: clamp(1.4rem, 4.5vw, 1.8rem);
+  color: var(--color-primary);
 }
 
 .confirmButton {
   width: 100%;
-  padding: 12px;
-  background-color: var(--color-primary);
-  color: var(--color-text-light);
+  padding: var(--space-md) var(--space-lg);
+  background: linear-gradient(to right, var(--color-secondary), #EAC15F); 
+  color: var(--color-primary-dark); 
   border: none;
-  border-radius: 4px;
+  border-radius: var(--border-radius-md);
   font-size: 1.1rem;
-  font-weight: bold;
+  font-weight: 700; 
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: var(--space-lg);
+  transition: var(--transition-base), transform 0.1s ease;
+  box-shadow: 0 4px 10px rgba(200, 155, 64, 0.3); 
+  text-transform: uppercase; 
+  letter-spacing: 0.5px; 
 }
-.confirmButton:hover {
-  opacity: 0.9;
-}
-.confirmButton:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
+/* Estilos hover/active/disabled (igual que CartSummary) */
+.confirmButton:hover { opacity: 0.95; box-shadow: 0 6px 15px rgba(200, 155, 64, 0.4); transform: translateY(-2px); }
+.confirmButton:active { transform: translateY(0px); box-shadow: 0 2px 5px rgba(200, 155, 64, 0.3); }
+.confirmButton:disabled { background: #E0E0E0; color: var(--color-text-muted); cursor: not-allowed; box-shadow: none; transform: none; }
+
+/* Botones de navegación entre pasos */
+.stepNavigation { 
+  display: flex;
+  flex-direction: column-reverse; /* Botón 'Siguiente' arriba en móvil */
+  gap: var(--space-md);
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border); 
 }
 
+.nextStepButton,
+.prevStepButton {
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--border-radius-md);
+  font-size: 1rem;
+  font-weight: 600; 
+  cursor: pointer;
+  transition: var(--transition-base);
+  width: 100%; /* Ocupan todo el ancho en móvil */
+  text-align: center;
+}
 
-/* Desktop: Layout de 2 columnas */
+.nextStepButton {
+  background-color: var(--color-primary);
+  color: white;
+  order: 1; /* Asegura que esté visualmente después */
+}
+.nextStepButton:hover { background-color: var(--color-primary-dark); }
+
+.prevStepButton {
+  background-color: transparent; 
+  color: var(--color-text-medium);
+  border: 1px solid var(--color-border-strong); 
+  order: 2; /* Asegura que esté visualmente antes */
+}
+.prevStepButton:hover { background-color: var(--color-bg-sidebar); border-color: var(--color-text-medium); }
+
+
+/* Desktop */
 @media (min-width: 992px) {
-  .stepsLayout {
-    /* Columna izquierda más ancha para formularios, derecha para resumen */
-    grid-template-columns: 2fr 1fr; 
+  .checkoutContainer {
+     padding: var(--space-xxl) var(--content-padding); /* Mayor padding */
   }
+  .stepsLayout {
+    /* Layout 2 columnas */
+    grid-template-columns: 1fr 420px; /* Ancho fijo un poco mayor para resumen */
+    gap: var(--space-xxl);
+  }
+   .summary {
+     /* Hacer sticky en desktop */
+     position: sticky; 
+     top: calc(var(--navbar-height-desktop) + var(--space-lg));
+   }
+   /* Alinear botones horizontalmente en desktop */
+   .stepNavigation {
+     flex-direction: row; 
+     justify-content: space-between;
+   }
+   .nextStepButton,
+   .prevStepButton {
+     width: auto; /* Ancho automático */
+   }
 }

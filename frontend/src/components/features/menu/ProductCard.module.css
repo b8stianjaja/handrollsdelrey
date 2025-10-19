@@ -1,55 +1,113 @@
 /* src/components/features/menu/ProductCard.module.css */
 .card {
-  background-color: #fff;
+  background-color: var(--color-bg-card);
   border: 1px solid var(--color-border);
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  border-radius: var(--border-radius-lg); 
+  box-shadow: var(--box-shadow-md); 
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  transition: var(--transition-base); 
 }
-.image {
+.card:hover {
+  transform: translateY(-8px); /* Elevación más pronunciada */
+  box-shadow: var(--box-shadow-lg); 
+}
+
+.imageContainer { 
+  position: relative;
   width: 100%;
-  height: 180px;
-  object-fit: cover;
+  padding-top: 75%; /* Aspect ratio 4:3 */
+  overflow: hidden;
+  background-color: var(--color-bg-sidebar); /* Fondo mientras carga imagen */
 }
+
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Zoom más suave */
+}
+.card:hover .image {
+  transform: scale(1.08); 
+}
+
 .content {
-  padding: 16px;
+  padding: var(--space-lg); 
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Asegura que el footer esté abajo */
+  flex-grow: 1; 
+  /* Espacio entre nombre, descripción y footer */
+  gap: var(--space-sm); 
 }
 .name {
-  font-size: 1.2rem;
-  margin: 0 0 8px 0;
+  font-size: 1.3rem; 
+  margin: 0; /* Quitar margen inferior por defecto */
+  color: var(--color-text-dark); 
+  line-height: 1.3;
+  font-weight: 600; /* Semi-bold */
 }
 .description {
-  font-size: 0.9rem;
-  color: #555;
+  font-size: 0.9rem; 
+  color: var(--color-text-medium); 
   flex-grow: 1;
-  margin: 0 0 16px 0;
+  margin: 0; 
+  line-height: 1.6; 
 }
 .footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-top: 1px solid var(--color-border);
-  padding-top: 12px;
+  padding-top: var(--space-sm); /* Espacio sobre el footer */
+  margin-top: auto; 
 }
 .price {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: var(--color-primary);
+  font-size: 1.5rem; /* Precio prominente */
+  font-weight: 700; 
+  color: var(--color-primary); 
+  font-family: var(--font-display); 
 }
 .addButton {
-  background-color: var(--color-primary);
+  background-color: var(--color-accent); 
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-weight: bold;
+  padding: var(--space-sm) var(--space-lg); 
+  border-radius: var(--border-radius-md); 
+  font-weight: 600; 
   cursor: pointer;
+  transition: var(--transition-base), transform 0.1s ease;
+  font-size: 0.9rem; /* Tamaño ajustado */
+  display: flex; 
+  align-items: center;
+  gap: var(--space-xs);
+  line-height: 1; /* Para alinear texto e icono */
 }
 .addButton:hover {
-  opacity: 0.9;
+  background-color: var(--color-accent-dark); 
+  transform: scale(1.03); 
+  box-shadow: 0 4px 8px rgba(217, 83, 79, 0.2); /* Sombra roja sutil */
+}
+.addButton:active {
+  transform: scale(0.98); /* Efecto clic */
+}
+
+/* Estilo para feedback visual */
+.addButton.added {
+  background-color: var(--color-success);
+  transform: scale(1.03);
+}
+.addButton.added::before { /* Añade un checkmark (requiere librería o SVG) */
+  content: '✓'; /* Placeholder */
+  margin-right: var(--space-xs);
+  font-weight: bold;
+}
+.addButton.added:hover {
+   background-color: #4A9C4A; 
+   box-shadow: 0 4px 8px rgba(92, 184, 92, 0.2);
+}
+.addButton:disabled { /* Estilo cuando está mostrando feedback */
+  cursor: default;
 }

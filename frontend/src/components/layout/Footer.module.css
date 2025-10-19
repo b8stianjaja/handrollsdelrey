@@ -1,9 +1,14 @@
 /* src/components/layout/Footer.module.css */
 .footer {
-  padding: 20px;
+  padding: var(--space-xl) var(--space-lg); /* Espaciado consistente */
   text-align: center;
   background-color: var(--color-bg-dark);
-  color: var(--color-text-light);
+  color: var(--color-text-muted); /* Texto muted */
   font-size: 0.9rem;
-  margin-top: auto; /* Empuja el footer al final del flex-column (#root) */
+  margin-top: auto; 
+  border-top: 1px solid #444; /* Borde superior sutil */
+}
+
+.footer p {
+  margin: 0; /* Quitar margen por defecto */
 }

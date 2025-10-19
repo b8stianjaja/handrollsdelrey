@@ -1,19 +1,61 @@
 /* src/styles/variables.css */
-:root {
-  /* Colores (Ejemplos - ajustar a la marca "Del Rey") */
-  --color-primary: #8B0000;
-  --color-secondary: #FFD700;
-  --color-bg-light: #FDFBF5;
-  --color-bg-dark: #2A2A2A;
-  --color-text-light: #FFFFFF;
-  --color-text-dark: #333333;
-  --color-border: #E0E0E0;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap');
 
-  /* Tipografía */
-  --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  
-  /* Layout */
-  --max-width: 1200px;
-  --navbar-height: 70px;
-  --sidebar-width: 350px;
+:root {
+  /* Fuentes */
+  --font-main: 'Poppins', sans-serif; 
+  --font-headings: 'Merriweather', serif; 
+  --font-display: 'Poppins', sans-serif; 
+
+  /* Paleta de Colores (Mantenemos la anterior refinada) */
+  --color-primary: #A0522D; 
+  --color-primary-dark: #804226; 
+  --color-primary-light: #D2A690; 
+  --color-secondary: #E4C07F; 
+  --color-accent: #D9534F; 
+  --color-accent-dark: #C9302C; 
+  --color-bg-light: #FDFCF9; 
+  --color-bg-card: #FFFFFF; 
+  --color-bg-sidebar: #F9F9F9; /* Ligeramente diferente para contraste */
+  --color-bg-dark: #2C2C2C; 
+  --color-text-dark: #333333; 
+  --color-text-medium: #555555; 
+  --color-text-light: #FFFFFF;
+  --color-text-muted: #888888; 
+  --color-border: #ECECEC; 
+  --color-border-strong: #DDDDDD; 
+  --color-success: #5CB85C; 
+  --color-error: #D9534F; 
+
+  /* Layout & UI - Base Mobile, escalable */
+  --space-unit: 8px; /* Unidad base para espaciado */
+  --space-xxs: calc(var(--space-unit) * 0.5); /* 4px */
+  --space-xs: var(--space-unit); /* 8px */
+  --space-sm: calc(var(--space-unit) * 1.5); /* 12px */
+  --space-md: calc(var(--space-unit) * 2); /* 16px */
+  --space-lg: calc(var(--space-unit) * 3); /* 24px */
+  --space-xl: calc(var(--space-unit) * 4); /* 32px */
+  --space-xxl: calc(var(--space-unit) * 6); /* 48px */
+  --space-xxxl: calc(var(--space-unit) * 8); /* 64px */
+
+  /* Ancho máximo adaptable */
+  --max-width: 1280px; 
+  /* Padding lateral adaptable */
+  --content-padding: clamp(var(--space-md), 5vw, var(--space-xxl)); 
+
+  --navbar-height-mobile: 65px; 
+  --navbar-height-desktop: 75px; 
+  --sidebar-width-desktop: 380px; 
+
+  --border-radius-sm: 4px; 
+  --border-radius-md: 8px; 
+  --border-radius-lg: 12px; /* Redondeo más sutil */
+
+  --box-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
+  --box-shadow-md: 0 5px 15px rgba(0, 0, 0, 0.07);
+  --box-shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+
+  --transition-fast: all 0.15s ease-out;
+  --transition-base: all 0.25s ease-out; 
+  --transition-slow: all 0.4s ease-out;
 }

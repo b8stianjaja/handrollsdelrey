@@ -1,29 +1,139 @@
 /* src/components/features/cart/CartDisplay.module.css */
+
+/* --- Estilos Mobile (Bottom Sheet Modal) --- */
+
+/* Overlay oscuro de fondo */
+.cartOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1100; /* Encima de todo excepto quizás otros modales */
+  opacity: 0;
+  visibility: hidden; /* Oculto por defecto */
+  transition: opacity 0.3s ease-out, visibility 0s linear 0.3s; /* Transición fade */
+  display: flex; /* Para centrar el modal si fuera necesario */
+  flex-direction: column; /* Apila el modal abajo */
+  justify-content: flex-end; /* Alinea el modal abajo */
+}
+.cartOverlay.open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-out, visibility 0s linear 0s;
+}
+
+/* Contenido del Carrito (Modal) */
 .cartDisplay {
-  background-color: #FFFFFF;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  padding: 20px;
-  height: fit-content; /* Se ajusta al contenido */
-  position: sticky; /* Se mantiene visible al hacer scroll (en desktop) */
-  top: 20px;
+  background-color: var(--color-bg-card); /* Fondo blanco */
+  /* Redondeo solo arriba */
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0; 
+  /* Padding interno */
+  padding: var(--space-lg); 
+  /* Altura máxima para que no ocupe toda la pantalla */
+  max-height: 85vh; 
+  /* Posicionamiento inicial fuera de pantalla */
+  transform: translateY(100%); 
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); /* Transición slide */
+  display: flex;
+  flex-direction: column; /* Organiza contenido verticalmente */
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.1); /* Sombra superior */
+  width: 100%; /* Ocupa todo el ancho */
+}
+.cartDisplay.open {
+  transform: translateY(0%); /* Desliza hacia arriba */
+}
+
+/* Encabezado del modal */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+  flex-shrink: 0; /* Evita que se encoja */
 }
 
 .title {
-  margin-top: 0;
-  text-align: center;
-  color: var(--color-primary);
+  margin: 0; 
+  color: var(--color-text-dark); 
+  font-size: 1.5rem; 
+  font-weight: 600; 
+  border-bottom: none; /* Quitar borde duplicado */
+  padding-bottom: 0;
 }
 
+.closeButton {
+  font-size: 2rem;
+  color: var(--color-text-muted);
+  line-height: 1;
+  transition: var(--transition-fast);
+}
+.closeButton:hover {
+  color: var(--color-text-dark);
+}
+
+/* Contenedor de items con scroll interno */
 .cartItems {
-  min-height: 100px;
-  max-height: 400px;
-  overflow-y: auto;
-  margin-bottom: 16px;
+  overflow-y: auto; /* Scroll si el contenido excede */
+  flex-grow: 1; /* Ocupa el espacio disponible */
+  margin-bottom: var(--space-lg);
+  padding-right: var(--space-xs); /* Espacio pequeño para scrollbar */
+  margin-right: calc(-1 * var(--space-xs)); /* Compensar padding */
 }
 
 .emptyMessage {
   text-align: center;
-  color: #777;
-  padding: 20px 0;
+  color: var(--color-text-muted); 
+  padding: var(--space-xl) 0; 
+  font-weight: 500; 
+}
+
+/* --- Media Query para Desktop (Revertir a Sidebar) --- */
+@media (min-width: 1024px) {
+  /* Ocultar overlay en desktop */
+  .cartOverlay {
+    position: static; /* No fijo */
+    background-color: transparent;
+    opacity: 1;
+    visibility: visible;
+    transition: none;
+    padding: 0;
+    justify-content: flex-start; /* Resetear alineación */
+    display: block; /* Volver a block (o lo que necesite el grid padre) */
+  }
+
+  /* Restaurar estilos de sidebar */
+  .cartDisplay {
+    background-color: var(--color-bg-sidebar); 
+    border-radius: var(--border-radius-lg); 
+    padding: var(--space-xl); 
+    max-height: none; /* Quitar límite de altura del modal */
+    transform: none; /* Quitar transformación del modal */
+    transition: none;
+    box-shadow: var(--box-shadow-sm);
+    width: auto; /* Ancho automático (controlado por grid padre) */
+    /* Sticky y max-height ya están en MenuPage.module.css */
+  }
+
+  /* Ocultar botón de cierre en desktop */
+  .closeButton {
+    display: none;
+  }
+  
+  .header {
+     /* Podríamos quitar el header si no se necesita en desktop */
+     /* O simplemente ajustar estilos */
+     padding-bottom: var(--space-md);
+     margin-bottom: var(--space-lg);
+  }
+
+  .title {
+      font-size: 1.8rem;
+      text-align: center; /* Centrar de nuevo */
+  }
+
+  .cartItems {
+     /* Max-height y overflow ya se definen en MenuPage.module.css para el sidebar */
+     margin-bottom: var(--space-lg);
+  }
 }
