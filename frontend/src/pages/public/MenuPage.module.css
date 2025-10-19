@@ -6,10 +6,10 @@
 .menuPageLayout {
   display: grid;
   grid-template-columns: 1fr; /* Una columna por defecto */
-  gap: var(--space-xl);
   max-width: var(--max-width);
   margin: 0 auto;
   padding: 0 var(--content-padding); /* Padding lateral adaptable */
+  gap: var(--space-xl);
 }
 
 .mainContent {
@@ -39,9 +39,7 @@
     max-height: calc(100vh - var(--navbar-height-desktop) - var(--space-lg) * 2);
     /* ¡CLAVE! Ocultar cualquier desbordamiento DEL CONTENEDOR sidebar */
     overflow: hidden;
-    /* Necesitamos darle altura explícita para que el hijo (CartDisplay) pueda usar height: 100% */
-    /* Usamos la misma que max-height como valor inicial, pero podría ser auto si el contenido siempre es menor */
-    /* Probemos con max-height para asegurar la restricción */
+    /* Aseguramos la altura explícita */
     height: calc(100vh - var(--navbar-height-desktop) - var(--space-lg) * 2);
 
     /* Estilos visuales del contenedor */

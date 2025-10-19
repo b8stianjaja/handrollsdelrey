@@ -1,5 +1,5 @@
 /* src/styles/variables.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Merriweather:400;700&display=swap');
 
 :root {
   /* Fuentes */
@@ -45,8 +45,8 @@
   /* Alturas y Anchos Fijos */
   --navbar-height-mobile: 65px;
   --navbar-height-desktop: 75px;
-  --sidebar-width-desktop: 380px; /* Consider if this needs adjustment */
-
+  --sidebar-width-desktop: 420px; /* Ancho optimizado para la sidebar */
+  
   /* Bordes y Sombras */
   --border-radius-sm: 4px;
   --border-radius-md: 8px;
