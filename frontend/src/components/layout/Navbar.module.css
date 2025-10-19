@@ -1,19 +1,19 @@
-/* src/components/layout/Navbar.module.css - RECONSTRUIDO */
+/* src/components/layout/Navbar.module.css - CLEANED */
 
-/* --- Estilos Base Navbar --- */
+/* --- Base Styles --- */
 .navbar {
   height: var(--navbar-height-mobile);
-  background-color: var(--color-bg-dark); /* Color base */
+  background-color: var(--color-bg-dark);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
-  justify-content: center;
+  justify-content: center; /* Center container */
   align-items: center;
   box-shadow: var(--box-shadow-sm);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 999; /* Lower than logo's z-index */
   border-bottom: 1px solid var(--color-border-strong);
 }
 
@@ -22,47 +22,19 @@
   max-width: var(--max-width);
   padding: 0 var(--content-padding);
   display: flex;
-  justify-content: space-between; /* Default: Logo Izquierda, Botón/Nav Derecha */
+  /* Adjust justification based on layout needs */
+  justify-content: flex-end; /* Example: Push nav/button to the right */
   align-items: center;
   height: 100%;
-  position: relative; /* Necesario para el centrado absoluto del logo en desktop */
-}
-
-/* --- Logo Link y Imagen (Estado Final CSS) --- */
-.logoLink {
-  display: flex; /* Asegura alineación vertical de la imagen */
-  align-items: center;
-  height: 100%; /* Ocupa la altura de la navbar */
-  padding: var(--space-xs) 0; /* Padding vertical para la imagen */
-  z-index: 1001;
-  text-decoration: none;
-  /* Posición por defecto (Móvil): Relativa, se alinea al inicio del flex container */
   position: relative;
-  /* NO AÑADIR TRANSITIONS AQUÍ para evitar conflictos con GSAP */
-}
-.logoLink:hover {
-  opacity: 0.9; /* Efecto hover simple */
 }
 
-.logoImage {
-  display: block; /* Evita espacio extra debajo */
-  max-height: 100%; /* Se ajusta al padding del link */
-  width: auto;
-  max-width: 120px; /* Tamaño máximo móvil */
-  /* NO AÑADIR TRANSITIONS AQUÍ */
-}
+/* --- LOGO STYLES REMOVED --- */
 
-/* CLASE PARA OCULTAR INICIALMENTE (Controlado por GSAP) */
-.initialHidden {
-   opacity: 0;
-   visibility: hidden;
-}
-
-
-/* --- Navegación Desktop --- */
+/* --- Desktop Navigation --- */
 .navDesktop {
-  display: none; /* Oculto en móvil */
-  margin-left: auto; /* Empuja a la derecha en desktop */
+  display: none; /* Hidden on mobile */
+  margin-left: auto; /* Push to right if container uses space-between/flex-start */
 }
 .navLinks {
   list-style: none;
@@ -70,6 +42,7 @@
   align-items: center;
   padding: 0;
   margin: 0;
+  gap: var(--space-sm);
 }
 .navLinks a {
   color: var(--color-text-medium);
@@ -78,26 +51,28 @@
   font-size: 1rem;
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--border-radius-sm);
-  transition: color 0.2s ease-out, box-shadow 0.2s ease-out; /* Transición SÓLO para hover/active */
+  transition: color 0.2s ease-out, box-shadow 0.2s ease-out;
 }
 .navLinks a:hover {
   color: var(--color-primary);
   box-shadow: var(--box-shadow-primary-glow);
 }
-.navLinks a.active { /* Asumiendo NavLink de react-router */
+.navLinks a.active {
   color: var(--color-primary);
   font-weight: 700;
   box-shadow: var(--box-shadow-primary-glow);
 }
 
-/* --- Botón Hamburger (Móvil) --- */
+/* --- Mobile Hamburger Button --- */
 .mobileMenuButton {
-  display: block; /* Visible en móvil */
+  display: block; /* Visible on mobile */
   padding: var(--space-sm);
-  z-index: 1001;
+  z-index: 1002; /* Above navbar background */
   cursor: pointer;
   background: none;
   border: none;
+  /* Adjust margin if needed based on final layout */
+  /* margin-left: auto; */
 }
 .hamburgerIcon,
 .hamburgerIcon::before,
@@ -108,28 +83,26 @@
 }
 .hamburgerIcon::before { transform: translateY(-8px); }
 .hamburgerIcon::after { transform: translateY(5px); }
-/* Estilo 'X' cuando menú está abierto */
 .mobileMenuButton[aria-expanded="true"] .hamburgerIcon { background-color: transparent; }
 .mobileMenuButton[aria-expanded="true"] .hamburgerIcon::before { transform: translateY(0px) rotate(45deg); }
 .mobileMenuButton[aria-expanded="true"] .hamburgerIcon::after { transform: translateY(-3px) rotate(-45deg); }
 
 
-/* --- Menú Overlay Móvil --- */
+/* --- Mobile Menu Overlay --- */
 .navMobileOverlay {
-  position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.98);
-  backdrop-filter: blur(5px); z-index: 999; display: flex; flex-direction: column;
+  position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(5px); z-index: 1100; /* Above animated logo */
+  display: flex; flex-direction: column;
   align-items: center; justify-content: center; padding: var(--space-xxl);
-  /* Animación CSS simple para el overlay */
   opacity: 0; visibility: hidden; transition: opacity 0.3s ease-out, visibility 0s 0.3s;
 }
-.navMobileOverlay.open { /* Añade una clase 'open' cuando isMobileMenuOpen es true */
+.navMobileOverlay.open {
   opacity: 1; visibility: visible; transition-delay: 0s;
 }
-
 .mobileMenuCloseButton {
   position: absolute; top: calc(var(--space-lg) - var(--space-xs)); right: var(--content-padding);
   font-size: 2.5rem; color: var(--color-text-medium); transition: color 0.2s, transform 0.2s;
-  z-index: 1001; background: none; border: none; cursor: pointer;
+  z-index: 1101; background: none; border: none; cursor: pointer;
 }
 .mobileMenuCloseButton:hover { color: var(--color-primary); transform: rotate(90deg); }
 .navMobile { width: 100%; }
@@ -137,35 +110,11 @@
 .navLinksMobile a { color: var(--color-text-dark); text-decoration: none; font-weight: 600; font-size: 1.5rem; transition: color 0.2s, box-shadow 0.2s; padding: var(--space-sm) var(--space-lg); }
 .navLinksMobile a:hover { color: var(--color-primary); box-shadow: var(--box-shadow-primary-glow); }
 
-
-/* --- Media Query para Desktop --- */
+/* --- Media Query for Desktop --- */
 @media (min-width: 768px) {
-  .navbar {
-    height: var(--navbar-height-desktop);
-  }
-  .logoImage {
-    max-height: calc(var(--navbar-height-desktop) - var(--space-sm) * 2);
-    max-width: 180px;
-  }
-  /* POSICIÓN FINAL DESKTOP: Centrado absoluto */
-  .logoLink {
-    position: absolute;
-    left: 50%;
-    /* Centrado horizontal exacto (CSS controla esto) */
-    transform: translateX(-50%);
-    top: 0; bottom: 0; margin: auto 0; /* Centrado vertical */
-    padding: 0; height: auto; /* Ajustes para centrado vertical con imagen */
-  }
-   .logoImage {
-     max-height: calc(var(--navbar-height-desktop) - var(--space-md) * 2); /* Ajustar según sea necesario */
-   }
-  .navDesktop {
-    display: flex; /* Mostrar nav */
-  }
-  .mobileMenuButton {
-    display: none;
-  }
-  .navMobileOverlay {
-    display: none;
-  }
+  .navbar { height: var(--navbar-height-desktop); }
+  .container { justify-content: center; /* Center the desktop nav */ }
+  .navDesktop { display: flex; }
+  .mobileMenuButton { display: none; }
+  .navMobileOverlay { display: none; }
 }
