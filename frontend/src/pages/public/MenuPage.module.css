@@ -1,6 +1,5 @@
 /* src/pages/public/MenuPage.module.css */
 .menuPageContainer {
-  /* Contenedor externo para padding superior/inferior */
   padding: var(--space-lg) 0; 
 }
 
@@ -13,37 +12,35 @@
   padding: 0 var(--content-padding); /* Padding lateral adaptable */
 }
 
-/* Estilos específicos para la sección principal (menú) */
 .mainContent {
-  /* No necesita estilos especiales por ahora */
+  /* Ocupa todo el ancho en móvil */
+  width: 100%;
 }
 
-/* Estilos específicos para la sidebar (carrito) */
+/* --- CORRECCIÓN RADICAL --- */
+/* 1. Ocultar el contenedor .sidebar por defecto (móvil) */
 .sidebar {
-  /* En móvil no es sticky */
-   background-color: var(--color-bg-sidebar); /* Añadir fondo */
-   border-radius: var(--border-radius-lg);
-   padding: var(--space-lg);
-   box-shadow: var(--box-shadow-sm);
-   /* Limitar altura en móvil para evitar empujar footer demasiado */
-   max-height: 70vh; 
-   overflow-y: auto; 
+  display: none;
 }
 
-/* Breakpoint para Desktop */
+/* --- Media Query para Desktop (a 1024px) --- */
 @media (min-width: 1024px) {
   .menuPageContainer {
     padding: var(--space-xxl) 0; 
   }
   .menuPageLayout {
-    grid-template-columns: 1fr var(--sidebar-width-desktop); /* Dos columnas */
+    /* 2. Activar grid de 2 columnas */
+    grid-template-columns: 1fr var(--sidebar-width-desktop); 
     gap: var(--space-xxl); 
   }
+  
+  /* 3. Mostrar .sidebar y hacerlo 'sticky' */
   .sidebar {
-     position: sticky; 
-     top: calc(var(--navbar-height-desktop) + var(--space-lg)); 
-     height: fit-content; 
-     max-height: calc(100vh - var(--navbar-height-desktop) - var(--space-lg) * 2); 
-     padding: var(--space-xl); /* Mayor padding en desktop */
+    display: block; /* Mostrar el contenedor */
+    position: sticky; 
+    top: calc(var(--navbar-height-desktop) + var(--space-lg)); 
+    height: fit-content; 
+    max-height: calc(100vh - var(--navbar-height-desktop) - var(--space-lg) * 2); 
+    /* El scroll se manejará en CartDisplay.module.css */
   }
 }

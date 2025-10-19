@@ -3,28 +3,28 @@ import React, { useState, useMemo, useEffect } from 'react';
 import MainLayout from '../../components/layout/MainLayout';
 import CategoryNavigation from '../../components/features/menu/CategoryNavigation';
 import ProductGrid from '../../components/features/menu/ProductGrid';
-// 1. Importar el botón flotante
+// 1. Importar los componentes del carrito
 import FloatingCartButton from '../../components/features/cart/FloatingCartButton'; 
-import CartDisplay from '../../components/features/cart/CartDisplay';
+import CartDisplay from '../../components/features/cart/CartDisplay'; // Solo se importa UNA VEZ
 import menuService from '../../services/menuService'; 
 import ProductOptionsModal from '../../components/features/menu/ProductOptionsModal'; 
 import styles from './MenuPage.module.css';
 
 const MenuPage = () => {
-  // Estados para datos del menú y carga
+  // Estados para datos del menú (sin cambios)
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true); 
   const [error, setError] = useState(null); 
 
-  // Estado para categoría y modal de opciones (sin cambios)
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null); 
+  // Estado para modal de opciones (sin cambios)
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null); 
 
-  // **NUEVO:** Estado para controlar visibilidad del modal del carrito (Bottom Sheet)
+  // **NUEVO:** Estado ÚNICO para el modal/sidebar del carrito
   const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Carga inicial de datos (sin cambios)
+  // Carga de datos (sin cambios)
   useEffect(() => {
     const fetchMenu = async () => {
       try {
@@ -57,16 +57,16 @@ const MenuPage = () => {
   const handleShowOptions = (product) => setSelectedProduct(product);
   const handleCloseOptions = () => setSelectedProduct(null);
 
-  // **NUEVO:** Manejadores para el modal del carrito
-  const openCartModal = () => setIsCartOpen(true);
-  const closeCartModal = () => setIsCartOpen(false);
+  // Manejadores para el carrito
+  const openCart = () => setIsCartOpen(true);
+  const closeCart = () => setIsCartOpen(false);
 
   return (
     <MainLayout>
-      <div className={styles.menuPageContainer}> {/* Contenedor para padding */}
-        <div className={styles.menuPageLayout}> {/* Layout Grid */}
+      <div className={styles.menuPageContainer}>
+        <div className={styles.menuPageLayout}>
           
-          {/* Contenido Principal (siempre visible) */}
+          {/* --- Contenido Principal (Menú) --- */}
           <div className={styles.mainContent}>
             {!isLoading && !error && categories.length > 0 && (
               <CategoryNavigation
@@ -75,8 +75,10 @@ const MenuPage = () => {
                 onSelectCategory={setSelectedCategoryId}
               />
             )}
+            
             {isLoading && <p>Cargando menú...</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
+            
             {!isLoading && !error && products.length > 0 && (
               <ProductGrid 
                 products={filteredProducts} 
@@ -84,33 +86,33 @@ const MenuPage = () => {
               />
             )}
             {!isLoading && !error && filteredProducts.length === 0 && products.length > 0 && (
-              <p>No hay productos en esta categoría.</p>
+             <p>No hay productos en esta categoría.</p>
             )}
           </div>
           
-          {/* Sidebar (SOLO visible en Desktop gracias a CSS) */}
-          {/* Pasamos isOpen=true para que no intente ser modal en desktop */}
+          {/* --- Sidebar (Contenedor para Desktop) --- */}
+          {/* 2. Este div ahora SÓLO sirve como el contenedor 
+                 del grid en desktop. Está vacío en móvil. */}
           <div className={styles.sidebar}>
-            <CartDisplay isOpen={true} onClose={() => {}} /> 
+            {/* 3. Renderizamos CartDisplay UNA SOLA VEZ aquí.
+                   Su CSS determinará si es un modal (móvil) o estático (desktop) */}
+            <CartDisplay isOpen={isCartOpen} onClose={closeCart} />
           </div>
 
         </div> {/* Fin .menuPageLayout */}
       </div> {/* Fin .menuPageContainer */}
 
-      {/* Modal de Opciones (sin cambios en renderizado) */}
+      {/* --- Elementos Flotantes / Modales --- */}
+
+      {/* Modal de Opciones (sin cambios) */}
       <ProductOptionsModal
         product={selectedProduct}
         onClose={handleCloseOptions}
       />
 
-      {/* **NUEVO:** Botón Flotante (se renderiza fuera del layout principal) */}
-      {/* Se mostrará u ocultará basado en CSS y si hay items */}
-      <FloatingCartButton onClick={openCartModal} />
-
-      {/* **NUEVO:** Carrito Modal (Bottom Sheet - renderizado condicional fuera del layout) */}
-      {/* Se renderiza aquí pero su CSS lo posiciona. Solo visible en móvil */}
-      {/* Le pasamos isOpen y onClose para que funcione como modal */}
-      <CartDisplay isOpen={isCartOpen} onClose={closeCartModal} /> 
+      {/* 4. Botón Flotante para Móvil */}
+      {/* (Su propio CSS lo oculta en desktop) */}
+      <FloatingCartButton onClick={openCart} />
 
     </MainLayout>
   );

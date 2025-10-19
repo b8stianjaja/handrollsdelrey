@@ -1,19 +1,19 @@
 /* src/components/features/cart/CartDisplay.module.css */
 
-/* --- Estilos Mobile (Bottom Sheet Modal) --- */
+/* --- Base (Mobile): Estilos de "Bottom Sheet Modal" --- */
 
-/* Overlay oscuro de fondo */
+/* Overlay oscuro (solo visible en móvil) */
 .cartOverlay {
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.6);
-  z-index: 1100; /* Encima de todo excepto quizás otros modales */
+  z-index: 1100;
   opacity: 0;
-  visibility: hidden; /* Oculto por defecto */
-  transition: opacity 0.3s ease-out, visibility 0s linear 0.3s; /* Transición fade */
-  display: flex; /* Para centrar el modal si fuera necesario */
-  flex-direction: column; /* Apila el modal abajo */
-  justify-content: flex-end; /* Alinea el modal abajo */
+  visibility: hidden;
+  transition: opacity 0.3s ease-out, visibility 0s linear 0.3s;
+  display: flex; 
+  flex-direction: column;
+  justify-content: flex-end; 
 }
 .cartOverlay.open {
   opacity: 1;
@@ -23,34 +23,29 @@
 
 /* Contenido del Carrito (Modal) */
 .cartDisplay {
-  background-color: var(--color-bg-card); /* Fondo blanco */
-  /* Redondeo solo arriba */
+  background-color: var(--color-bg-card); 
   border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0; 
-  /* Padding interno */
   padding: var(--space-lg); 
-  /* Altura máxima para que no ocupe toda la pantalla */
   max-height: 85vh; 
-  /* Posicionamiento inicial fuera de pantalla */
   transform: translateY(100%); 
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); /* Transición slide */
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
-  flex-direction: column; /* Organiza contenido verticalmente */
-  box-shadow: 0 -5px 20px rgba(0,0,0,0.1); /* Sombra superior */
-  width: 100%; /* Ocupa todo el ancho */
+  flex-direction: column; 
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.1); 
+  width: 100%;
 }
 .cartDisplay.open {
-  transform: translateY(0%); /* Desliza hacia arriba */
+  transform: translateY(0%); 
 }
 
-/* Encabezado del modal */
 .header {
-  display: flex;
+  display: flex; /* Visible en móvil */
   justify-content: space-between;
   align-items: center;
   margin-bottom: var(--space-md);
   padding-bottom: var(--space-md);
   border-bottom: 1px solid var(--color-border);
-  flex-shrink: 0; /* Evita que se encoja */
+  flex-shrink: 0; 
 }
 
 .title {
@@ -58,11 +53,13 @@
   color: var(--color-text-dark); 
   font-size: 1.5rem; 
   font-weight: 600; 
-  border-bottom: none; /* Quitar borde duplicado */
+  border-bottom: none;
   padding-bottom: 0;
+  text-align: left; /* Alinear a la izquierda en modal */
 }
 
 .closeButton {
+  display: block; /* Visible en móvil */
   font-size: 2rem;
   color: var(--color-text-muted);
   line-height: 1;
@@ -72,13 +69,12 @@
   color: var(--color-text-dark);
 }
 
-/* Contenedor de items con scroll interno */
 .cartItems {
-  overflow-y: auto; /* Scroll si el contenido excede */
-  flex-grow: 1; /* Ocupa el espacio disponible */
+  overflow-y: auto; /* Scroll interno en modal */
+  flex-grow: 1; 
   margin-bottom: var(--space-lg);
-  padding-right: var(--space-xs); /* Espacio pequeño para scrollbar */
-  margin-right: calc(-1 * var(--space-xs)); /* Compensar padding */
+  padding-right: var(--space-xs); 
+  margin-right: calc(-1 * var(--space-xs)); 
 }
 
 .emptyMessage {
@@ -88,52 +84,59 @@
   font-weight: 500; 
 }
 
-/* --- Media Query para Desktop (Revertir a Sidebar) --- */
+/* --- Media Query para Desktop (Transformar en Sidebar Estática) --- */
 @media (min-width: 1024px) {
-  /* Ocultar overlay en desktop */
+  
+  /* 1. Ocultar el Overlay */
   .cartOverlay {
-    position: static; /* No fijo */
+    position: static; 
     background-color: transparent;
     opacity: 1;
     visibility: visible;
     transition: none;
     padding: 0;
-    justify-content: flex-start; /* Resetear alineación */
-    display: block; /* Volver a block (o lo que necesite el grid padre) */
+    display: block; 
+    backdrop-filter: none; /* Quitar blur */
   }
 
-  /* Restaurar estilos de sidebar */
+  /* 2. Convertir el .cartDisplay en la Sidebar */
   .cartDisplay {
     background-color: var(--color-bg-sidebar); 
     border-radius: var(--border-radius-lg); 
     padding: var(--space-xl); 
-    max-height: none; /* Quitar límite de altura del modal */
-    transform: none; /* Quitar transformación del modal */
+    max-height: 100%; /* Ocupa el 100% del contenedor .sidebar */
+    transform: none; /* Quitar transformación */
     transition: none;
     box-shadow: var(--box-shadow-sm);
-    width: auto; /* Ancho automático (controlado por grid padre) */
-    /* Sticky y max-height ya están en MenuPage.module.css */
+    width: 100%; 
+    /* El .sidebar (padre) controla el sticky y max-height general */
   }
 
-  /* Ocultar botón de cierre en desktop */
+  /* 3. Ocultar el botón de cierre */
   .closeButton {
     display: none;
   }
   
+  /* 4. Ajustar header y título para desktop */
   .header {
-     /* Podríamos quitar el header si no se necesita en desktop */
-     /* O simplemente ajustar estilos */
      padding-bottom: var(--space-md);
      margin-bottom: var(--space-lg);
+     /* Quitar el 'space-between' para centrar el título */
+     justify-content: center; 
   }
-
   .title {
       font-size: 1.8rem;
-      text-align: center; /* Centrar de nuevo */
+      text-align: center; /* Centrar en desktop */
   }
 
+  /* 5. Ajustar contenedor de items para scroll */
   .cartItems {
-     /* Max-height y overflow ya se definen en MenuPage.module.css para el sidebar */
+     /* El max-height y overflow ya están en el .sidebar de MenuPage */
+     /* Hacemos que crezca y ocupe espacio */
+     max-height: none;
+     overflow-y: visible; /* El scroll lo maneja el padre */
      margin-bottom: var(--space-lg);
+     padding-right: 0;
+     margin-right: 0;
   }
 }
