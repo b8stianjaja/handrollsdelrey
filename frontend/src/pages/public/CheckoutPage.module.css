@@ -1,0 +1,83 @@
+/* src/pages/public/CheckoutPage.module.css */
+
+.checkoutContainer {
+  padding: 20px 0; /* Espacio vertical */
+}
+
+.title {
+  text-align: center;
+  color: var(--color-primary);
+  margin-bottom: 30px;
+}
+
+.stepsLayout {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile first: una columna */
+  gap: 30px;
+}
+
+.steps {
+  /* Estilos para la sección de formularios */
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.steps h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.summary {
+  /* Estilos para el resumen del pedido */
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  height: fit-content; /* Se ajusta al contenido */
+  position: sticky; /* Se mantiene visible al hacer scroll (en desktop) */
+  top: 20px;
+}
+
+.summary h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.confirmButton {
+  width: 100%;
+  padding: 12px;
+  background-color: var(--color-primary);
+  color: var(--color-text-light);
+  border: none;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 20px;
+}
+.confirmButton:hover {
+  opacity: 0.9;
+}
+.confirmButton:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+
+/* Desktop: Layout de 2 columnas */
+@media (min-width: 992px) {
+  .stepsLayout {
+    /* Columna izquierda más ancha para formularios, derecha para resumen */
+    grid-template-columns: 2fr 1fr; 
+  }
+}

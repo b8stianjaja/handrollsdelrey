@@ -1,0 +1,9 @@
+/* src/components/layout/Footer.module.css */
+.footer {
+  padding: 20px;
+  text-align: center;
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-light);
+  font-size: 0.9rem;
+  margin-top: auto; /* Empuja el footer al final del flex-column (#root) */
+}

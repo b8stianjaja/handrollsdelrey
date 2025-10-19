@@ -1,0 +1,121 @@
+/* src/components/features/cart/CartItem.module.css */
+/* Estilos para una fila individual del carrito */
+.cartItem {
+  display: grid; /* Usamos Grid para controlar las columnas */
+  /* Columnas: Imagen | Detalles (nombre, opciones) | Controles Cantidad | Precio Total Item | Botón Remover */
+  /* auto: toma el ancho de la imagen */
+  /* 1fr: toma el espacio restante */
+  /* auto: toman el ancho de su contenido */
+  grid-template-columns: auto 1fr auto auto auto; 
+  align-items: center; /* Centra verticalmente el contenido de las celdas */
+  gap: 10px; /* Espacio entre columnas */
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Columna 1: Imagen miniatura */
+.image {
+  width: 50px;
+  height: 50px;
+  object-fit: cover; /* Evita distorsión */
+  border-radius: 4px;
+}
+
+/* Columna 2: Contenedor para Nombre, Opciones y Precio Unitario */
+.details {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden; /* Necesario para que text-overflow funcione */
+  min-width: 0; /* Soluciona problemas de overflow en flex/grid */
+}
+
+.name {
+  font-weight: bold;
+  font-size: 0.95rem;
+  /* Truncar si el nombre es muy largo */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.options {
+  font-size: 0.85rem;
+  color: #555;
+  /* Truncar si el resumen de opciones es muy largo */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Estilo para el precio unitario (nuevo) */
+.unitPrice {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 2px;
+}
+
+/* Columna 3: Contenedor para botones +/- y cantidad (nuevo) */
+.quantityControl {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Espacio entre botones y número */
+  justify-content: center; /* Centra los controles horizontalmente */
+}
+
+/* Botones +/- (nuevo) */
+.quantityButton {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  /* Tamaño fijo para consistencia */
+  width: 25px; 
+  height: 25px;
+  font-size: 1rem;
+  font-weight: bold;
+  line-height: 1; /* Alineación vertical del texto */
+  cursor: pointer;
+  display: flex; /* Centra el texto +/- dentro del botón */
+  justify-content: center;
+  align-items: center;
+  padding: 0; /* Quitamos padding por defecto */
+  color: #333; /* Color del texto +/- */
+}
+.quantityButton:hover {
+  background-color: #ddd;
+}
+.quantityButton:active {
+  background-color: #ccc; /* Feedback visual al hacer clic */
+}
+
+/* Display numérico de la cantidad (nuevo) */
+.quantity {
+  font-weight: 500;
+  min-width: 20px; /* Asegura un espacio mínimo para el número */
+  text-align: center;
+  font-size: 1rem; /* Mismo tamaño que botones */
+  padding: 0 4px; /* Espacio lateral */
+}
+
+/* Columna 4: Contenedor para el precio total de esta fila (nuevo) */
+.itemTotal {
+  text-align: right;
+  font-weight: bold;
+  font-size: 0.95rem; /* Ligeramente más pequeño que el total general */
+  white-space: nowrap; /* Evita que el precio se parta en dos líneas */
+  padding-left: 10px; /* Espacio respecto a controles de cantidad */
+}
+
+/* Columna 5: Botón remover (sin cambios funcionales, solo ajuste grid) */
+.removeButton {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #aaa;
+  cursor: pointer;
+  padding: 0 5px;
+  justify-self: end; /* Alinea el botón a la derecha dentro de su celda grid */
+  line-height: 1; /* Mejor alineación vertical */
+}
+.removeButton:hover {
+  color: var(--color-primary);
+}

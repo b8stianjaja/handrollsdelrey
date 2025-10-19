@@ -1,0 +1,7 @@
+/* src/components/features/menu/ProductGrid.module.css */
+.grid {
+  display: grid;
+  /* Columnas responsivas: mínimo 280px, crecen para llenar espacio */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}

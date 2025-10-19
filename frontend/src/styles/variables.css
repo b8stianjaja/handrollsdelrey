@@ -1,0 +1,19 @@
+/* src/styles/variables.css */
+:root {
+  /* Colores (Ejemplos - ajustar a la marca "Del Rey") */
+  --color-primary: #8B0000;
+  --color-secondary: #FFD700;
+  --color-bg-light: #FDFBF5;
+  --color-bg-dark: #2A2A2A;
+  --color-text-light: #FFFFFF;
+  --color-text-dark: #333333;
+  --color-border: #E0E0E0;
+
+  /* Tipografía */
+  --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  
+  /* Layout */
+  --max-width: 1200px;
+  --navbar-height: 70px;
+  --sidebar-width: 350px;
+}

@@ -1,0 +1,22 @@
+/* src/pages/public/MenuPage.module.css */
+.menuPageLayout {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobile-first: una columna */
+  gap: 24px;
+}
+
+.mainContent {
+  /* Ocupa todo el espacio en mobile */
+}
+
+.sidebar {
+  /* En mobile, el carrito aparece debajo del menú */
+}
+
+/* Desktop: Layout de 2 columnas (contenido + sidebar) */
+@media (min-width: 992px) {
+  .menuPageLayout {
+    /* Usamos la variable CSS para el ancho del sidebar */
+    grid-template-columns: 1fr var(--sidebar-width);
+  }
+}
