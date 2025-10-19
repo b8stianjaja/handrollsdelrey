@@ -1,21 +1,27 @@
 /* src/components/layout/Navbar.module.css */
 .navbar {
-  height: var(--navbar-height-mobile); /* Altura móvil por defecto */
-  background-color: var(--color-bg-card); 
+  height: var(--navbar-height-mobile); 
+  /* CONFIGURACIÓN DE LA IMAGEN DE FONDO */
+  background: var(--color-bg-dark); 
+  /* La imagen es inyectada desde Navbar.jsx */
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat; 
+  
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: var(--box-shadow-sm); 
   position: sticky; 
   top: 0;
-  z-index: 1000; /* Alto z-index */
-  border-bottom: 1px solid var(--color-border); 
+  z-index: 1000; 
+  border-bottom: 1px solid var(--color-border-strong); 
 }
 
 .container {
   width: 100%;
   max-width: var(--max-width);
-  padding: 0 var(--content-padding); /* Padding adaptable */
+  padding: 0 var(--content-padding); 
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -29,7 +35,7 @@
   transition: var(--transition-base);
   height: 100%; 
   padding: var(--space-xs) 0; 
-  z-index: 1001; /* Asegura que el logo esté sobre el overlay móvil */
+  z-index: 1001; 
 }
 .logoLink:hover {
   opacity: 0.9; 
@@ -37,48 +43,48 @@
 
 .logoImage {
   display: block; 
-  /* Altura máxima relativa a navbar móvil */
   max-height: calc(var(--navbar-height-mobile) - var(--space-xs) * 2 - 5px); 
   width: auto; 
-  max-width: 120px; /* Ancho máximo en móvil */
+  max-width: 120px; 
 }
 
 /* --- Navegación Desktop (Oculta en Móvil) --- */
 .navDesktop {
-  display: none; /* Oculto por defecto (mobile-first) */
+  display: none; 
 }
 
-.navLinks { /* Estilos base compartidos (aunque navLinksDesktop es el principal) */
+.navLinks { 
   list-style: none;
   display: flex;
   align-items: center;
 }
 
 .navLinks a {
-  color: var(--color-text-medium); 
+  color: var(--color-text-medium); /* Gris claro para los enlaces inactivos */
   text-decoration: none;
   font-weight: 600; 
   font-size: 1rem; 
   transition: var(--transition-base);
-  padding: var(--space-sm) var(--space-md); /* Aumentar área de clic */
+  padding: var(--space-sm) var(--space-md); 
   position: relative; 
-  border-radius: var(--border-radius-sm); /* Ligero redondeo */
+  border-radius: var(--border-radius-sm); 
 }
 .navLinks a:hover {
-  color: var(--color-primary); 
-  background-color: var(--color-bg-sidebar); /* Fondo sutil en hover */
+  color: var(--color-primary); /* Hover en Dorado */
+  box-shadow: var(--box-shadow-primary-glow); 
 }
 /* Activo (requiere NavLink de react-router-dom) */
 .navLinks a.active { 
-  color: var(--color-primary-dark);
+  color: var(--color-primary); /* Dorado para el activo */
   font-weight: 700;
+  box-shadow: var(--box-shadow-primary-glow); 
 }
 
 /* --- Botón Hamburger (Solo Móvil) --- */
 .mobileMenuButton {
-  display: block; /* Visible por defecto */
+  display: block; 
   padding: var(--space-sm);
-  z-index: 1001; /* Sobre el overlay */
+  z-index: 1001; 
 }
 
 .hamburgerIcon,
@@ -86,7 +92,7 @@
 .hamburgerIcon::after {
   content: '';
   display: block;
-  background-color: var(--color-text-dark);
+  background-color: var(--color-text-dark); /* Gris Claro */
   height: 3px;
   width: 25px;
   border-radius: 3px;
@@ -96,17 +102,17 @@
   transform: translateY(-8px);
 }
 .hamburgerIcon::after {
-   transform: translateY(5px); /* Ajuste visual */
+   transform: translateY(5px); 
 }
 /* Estilo 'X' cuando menú está abierto (añadir clase .open al button) */
 .mobileMenuButton[aria-expanded="true"] .hamburgerIcon {
-   background-color: transparent; /* Barra central desaparece */
+   background-color: transparent; 
 }
 .mobileMenuButton[aria-expanded="true"] .hamburgerIcon::before {
    transform: translateY(0px) rotate(45deg);
 }
 .mobileMenuButton[aria-expanded="true"] .hamburgerIcon::after {
-    transform: translateY(-3px) rotate(-45deg); /* Ajuste visual */
+    transform: translateY(-3px) rotate(-45deg); 
 }
 
 
@@ -114,9 +120,9 @@
 .navMobileOverlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(255, 255, 255, 0.98); /* Fondo casi opaco */
+  background-color: rgba(0, 0, 0, 0.98); /* Negro casi opaco */
   backdrop-filter: blur(5px);
-  z-index: 999; /* Debajo de logo y botón X */
+  z-index: 999; 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -128,15 +134,15 @@
 
 .mobileMenuCloseButton {
   position: absolute;
-  top: calc(var(--space-lg) - var(--space-xs)); /* Alineado con padding de container */
+  top: calc(var(--space-lg) - var(--space-xs)); 
   right: var(--content-padding); 
   font-size: 2.5rem;
-  color: var(--color-text-medium);
+  color: var(--color-text-medium); /* Gris claro */
   transition: var(--transition-base);
   z-index: 1001;
 }
 .mobileMenuCloseButton:hover {
-  color: var(--color-text-dark);
+  color: var(--color-primary); 
   transform: rotate(90deg);
 }
 
@@ -153,34 +159,35 @@
 }
 
 .navLinksMobile a {
-  color: var(--color-text-dark);
+  color: var(--color-text-dark); /* Gris claro */
   text-decoration: none;
   font-weight: 600;
-  font-size: 1.5rem; /* Links grandes en móvil */
+  font-size: 1.5rem; 
   transition: var(--transition-base);
   padding: var(--space-sm) var(--space-lg);
 }
 .navLinksMobile a:hover {
-  color: var(--color-primary);
+  color: var(--color-primary); 
+  box-shadow: var(--box-shadow-primary-glow); 
 }
 
 
 /* --- Media Query para Desktop --- */
-@media (min-width: 768px) { /* Breakpoint Tablet/Desktop */
+@media (min-width: 768px) { 
   .navbar {
-     height: var(--navbar-height-desktop); /* Altura desktop */
+     height: var(--navbar-height-desktop); 
   }
   .logoImage {
-    max-height: calc(var(--navbar-height-desktop) - var(--space-sm) * 2); /* Altura relativa a navbar desktop */
-    max-width: 180px; /* Ancho máximo mayor */
+    max-height: calc(var(--navbar-height-desktop) - var(--space-sm) * 2); 
+    max-width: 180px; 
   }
   .navDesktop {
-    display: block; /* Mostrar nav desktop */
+    display: block; 
   }
   .mobileMenuButton {
-    display: none; /* Ocultar botón hamburger */
+    display: none; 
   }
   .navMobileOverlay {
-    display: none; /* Ocultar overlay móvil */
+    display: none; 
   }
 }

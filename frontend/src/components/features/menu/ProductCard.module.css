@@ -13,6 +13,19 @@
   transform: translateY(-8px); /* Elevación más pronunciada */
   box-shadow: var(--box-shadow-lg); 
 }
+/* ... (Se mantiene el zoom de la imagen en hover) ... */
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Zoom más suave */
+}
+.card:hover .image {
+  transform: scale(1.08); 
+}
 
 .imageContainer { 
   position: relative;
@@ -72,26 +85,27 @@
 }
 .addButton {
   background-color: var(--color-accent); 
-  color: white;
+  color: var(--color-text-light); /* Blanco puro para contraste sobre acento */
   border: none;
   padding: var(--space-sm) var(--space-lg); 
   border-radius: var(--border-radius-md); 
   font-weight: 600; 
   cursor: pointer;
   transition: var(--transition-base), transform 0.1s ease;
-  font-size: 0.9rem; /* Tamaño ajustado */
+  font-size: 0.9rem; 
   display: flex; 
   align-items: center;
   gap: var(--space-xs);
-  line-height: 1; /* Para alinear texto e icono */
+  line-height: 1; 
 }
 .addButton:hover {
   background-color: var(--color-accent-dark); 
-  transform: scale(1.03); 
-  box-shadow: 0 4px 8px rgba(217, 83, 79, 0.2); /* Sombra roja sutil */
+  transform: scale(1.02); /* Elevación sutil al hacer hover */
+  box-shadow: 0 4px 8px rgba(255, 153, 102, 0.3); /* Sombra de acento sutil */
 }
 .addButton:active {
-  transform: scale(0.98); /* Efecto clic */
+  transform: scale(0.98); /* FIX: Efecto de presión sutil */
+  box-shadow: none;
 }
 
 /* Estilo para feedback visual */
@@ -105,7 +119,7 @@
   font-weight: bold;
 }
 .addButton.added:hover {
-   background-color: #4A9C4A; 
+   background-color: var(--color-success); /* Bloquea el cambio de color en feedback */
    box-shadow: 0 4px 8px rgba(92, 184, 92, 0.2);
 }
 .addButton:disabled { /* Estilo cuando está mostrando feedback */

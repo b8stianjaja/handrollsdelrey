@@ -3,15 +3,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: calc(100vh - var(--navbar-height) - 80px); /* Ajustar según altura del footer */
+  min-height: calc(100vh - var(--navbar-height-desktop) - 80px); 
   padding: 20px;
 }
 
 .loginForm {
-  background-color: #fff;
+  background-color: var(--color-bg-card); /* FIX: Usa capa de tarjeta */
   padding: 30px 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-lg); 
+  border: 1px solid var(--color-border); 
   width: 100%;
   max-width: 400px;
   text-align: center;
@@ -32,33 +33,38 @@
   display: block;
   margin-bottom: 5px;
   font-weight: 500;
-  color: #555;
+  color: var(--color-text-medium); /* Gris medio */
 }
 
 .inputGroup input {
   width: 100%;
   padding: 10px;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-strong); 
   border-radius: 4px;
   font-size: 1rem;
+  color: var(--color-text-dark); /* Texto principal suave */
+  background-color: var(--color-bg-sidebar); /* Fondo de input ligeramente diferente */
 }
 
 .loginButton {
   width: 100%;
   padding: 12px;
   background-color: var(--color-primary);
-  color: var(--color-text-light);
+  color: var(--color-bg-dark); /* FIX: Negro puro para texto sobre dorado */
   border: none;
   border-radius: 4px;
   font-size: 1.1rem;
   font-weight: bold;
   cursor: pointer;
   margin-top: 10px;
+  transition: var(--transition-base);
 }
 .loginButton:hover {
-  opacity: 0.9;
+  background-color: var(--color-primary-dark);
+  opacity: 1; 
 }
 .loginButton:disabled {
-  background-color: #ccc;
+  background-color: var(--color-border-strong); 
+  color: var(--color-text-muted);
   cursor: not-allowed;
 }

@@ -1,7 +1,7 @@
 /* src/components/features/menu/CategoryNavigation.module.css */
 .categoryNav {
   margin-bottom: var(--space-xl); 
-  border-bottom: 2px solid var(--color-border); /* Línea base */
+  border-bottom: 2px solid var(--color-border-strong); /* Borde más fuerte y visible */
 }
 .categoryList {
   display: flex;
@@ -18,25 +18,24 @@
 }
 
 .categoryButton {
-  padding: var(--space-md) var(--space-xs); /* Padding ajustado */
+  padding: var(--space-md) var(--space-xs); 
   background-color: transparent;
   border: none;
-  /* Borde inferior que se animará */
   border-bottom: 3px solid transparent; 
   font-size: 1.1rem; 
-  font-weight: 600; /* Semi-bold */
+  font-weight: 600; 
   cursor: pointer;
-  color: var(--color-text-medium); 
+  color: var(--color-text-medium); /* Gris medio */
   transition: var(--transition-base);
   white-space: nowrap; 
-  margin-bottom: -2px; /* Alinea borde con la línea base */
+  margin-bottom: -2px; 
   position: relative;
 }
 .categoryButton:hover {
-  color: var(--color-primary);
+  color: var(--color-primary); /* Dorado */
 }
 .categoryButton.active {
-  color: var(--color-primary-dark); 
-  border-bottom-color: var(--color-primary-dark);
-  font-weight: 700; /* Bold */
+  color: var(--color-primary); /* FIX: Dorado Principal */
+  border-bottom-color: var(--color-primary); /* FIX: Borde inferior Dorado */
+  font-weight: 700; 
 }

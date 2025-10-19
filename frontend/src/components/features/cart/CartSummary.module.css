@@ -48,26 +48,33 @@
 .checkoutButton {
   width: 100%;
   padding: var(--space-md);
+  /* Usar Dorado para el gradiente */
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  color: var(--color-text-light);
+  color: var(--color-bg-dark); /* Texto negro puro para alto contraste sobre Dorado */
   border: none;
   border-radius: var(--border-radius-md);
   font-size: 1.1rem;
   font-weight: 600;
   cursor: pointer;
   margin-top: var(--space-lg);
-  transition: var(--transition-base), transform 0.1s ease;
-  box-shadow: 0 4px 12px rgba(160, 82, 45, 0.3);
+  /* FIX: Añadir un pequeño transform en transición para el efecto click */
+  transition: var(--transition-base), transform 0.1s ease; 
+  /* Usar el glow dorado */
+  box-shadow: var(--box-shadow-primary-glow); 
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
 .checkoutButton:hover {
-  opacity: 0.9;
-  box-shadow: 0 6px 16px rgba(160, 82, 45, 0.4);
-  transform: translateY(-2px);
+  opacity: 1; /* Mantener opacidad, usar el brillo */
+  box-shadow: var(--box-shadow-primary-strong); /* FIX: Brillo más fuerte */
+  transform: translateY(-2px); /* Elevación */
+}
+.checkoutButton:active {
+  transform: translateY(0px) scale(0.99); /* FIX: Efecto de presión */
+  box-shadow: none; 
 }
 .checkoutButton:disabled {
-  background: #E0E0E0;
+  background: var(--color-border-strong);
   color: var(--color-text-muted);
   cursor: not-allowed;
   box-shadow: none;

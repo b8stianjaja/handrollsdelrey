@@ -1,8 +1,10 @@
 // src/components/layout/Navbar.jsx
-import React, { useState } from 'react'; // Necesitamos estado para menú móvil
+import React, { useState } from 'react'; 
 import styles from './Navbar.module.css';
 import { Link } from 'react-router-dom'; 
-import logoImage from '../../assets/images/HdRLogo.png'; // Asegúrate de tener tu logo aquí
+import logoImage from '../../assets/images/HdRLogo.png'; 
+// CORRECCIÓN: Usamos el nombre del nuevo archivo GIF
+import navbarBgImage from '../../assets/images/hdvrnavgif2.gif'; 
 
 const Navbar = () => {
   // Estado para controlar la visibilidad del menú móvil
@@ -13,7 +15,13 @@ const Navbar = () => {
   };
 
   return (
-    <header className={styles.navbar}>
+    // La imagen de fondo se inyecta vía style
+    <header 
+      className={styles.navbar}
+      style={{
+        backgroundImage: `url(${navbarBgImage})`
+      }}
+    >
       <div className={styles.container}>
         <Link to="/" className={styles.logoLink} onClick={() => setIsMobileMenuOpen(false)}> 
           <img 

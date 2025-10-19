@@ -13,19 +13,19 @@
   border-radius: var(--border-radius-md);
   cursor: pointer;
   transition: var(--transition-base);
-  background-color: var(--color-bg-card);
+  background-color: var(--color-bg-card); /* Capa de tarjeta */
 }
 
 /* Estilo para opción no seleccionada */
 .paymentOption:hover {
-  border-color: var(--color-primary-light);
+  border-color: var(--color-primary-light); /* Borde Dorado sutil en hover */
 }
 
 /* Estilo para opción seleccionada */
 .paymentOption.selected {
-  border-color: var(--color-primary);
-  background-color: var(--color-bg-sidebar);
-  box-shadow: 0 0 0 2px rgba(160, 82, 45, 0.2);
+  border-color: var(--color-primary); /* Borde Dorado fuerte al seleccionar */
+  background-color: var(--color-bg-sidebar); /* Fondo de Sidebar al seleccionar */
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2); /* Sombra sutil del Dorado */
 }
 
 .radio {
