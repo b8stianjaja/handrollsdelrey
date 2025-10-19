@@ -7,37 +7,37 @@
   --font-headings: 'Merriweather', serif;
   --font-display: 'Poppins', sans-serif; 
 
-  /* * PALETA DE COLORES - TEMA OSCURO DE ALTA CALIDAD Y ARMÓNICO * */
+  /* * PALETA DE COLORES - TEMA OSCURO (BLACK/GOLD/RED) * */
   
-  /* Dorado (Color Principal de la Marca) */
-  --color-primary: #D4AF37; /* Dorado/Oro CLÁSICO */
-  --color-primary-dark: #B08B27; 
-  --color-primary-light: #E6C25F; 
+  /* Dorado (Color Principal de la Marca) - Rich Gold */
+  --color-primary: #E0A939; /* Dorado rico y visible */
+  --color-primary-dark: #B0832C; /* Dorado oscuro (hover) */
+  --color-primary-light: #F3D894; /* Dorado claro (glow) */
   
-  /* Acentos de Producto */
-  --color-secondary: #FF9966;
-  --color-accent: #FF9966; 
-  --color-accent-dark: #E68A57; 
+  /* Acentos de Producto - ROJO CHILI VIBRANTE (PARA MÁS VIDA) */
+  --color-secondary: #E53935; /* Rojo/Chili vibrante */
+  --color-accent: #E53935; /* Rojo/Chili vibrante para CTA principal */
+  --color-accent-dark: #C62828; /* Rojo oscuro (hover) */
 
-  /* Fondos (FIX: Jerarquía de Capas Sutiles) */
-  --color-bg-light: #0A0A0A; /* FIX: Fondo de la página principal (Base más profunda y suave) */
-  --color-bg-dark: #000000; /* Negro puro: Navbar, Footer, Overlays (Alto contraste) */
-  --color-bg-card: #121212; /* FIX: Tarjetas y Componentes (Segunda capa) */
-  --color-bg-sidebar: #1C1C1C; /* FIX: Sidebar y Resúmenes (Tercera capa, la más clara para diferenciar) */
+  /* Fondos (DEEP CARBON/NEUTRAL DARK) - Jerarquía sin azul */
+  --color-bg-light: #121212; /* FIX: Fondo de la página principal (Carbon Base Profunda) */
+  --color-bg-dark: #000000; /* Negro puro: Navbar, Footer, Overlays (Máximo Contraste) */
+  --color-bg-card: #1E1E1E; /* FIX: Tarjetas y Componentes (Segunda capa - sutilmente más claro) */
+  --color-bg-sidebar: #2C2C2C; /* FIX: Sidebar, Input, Elementos Elevados (Tercera capa - la más clara para diferenciar) */
   
-  /* Textos (FIX CRÍTICO: Suavizar Contraste) */
-  --color-text-dark: #D4D4D4; /* FIX: Texto principal (Gris claro para reducir fatiga) */
-  --color-text-medium: #999999; /* FIX: Gris medio, ideal para descripciones/enlaces inactivos */
-  --color-text-light: #FFFFFF; /* Blanco puro (Solo para botones primarios sobre color) */
+  /* Textos (ALTO CONTRASTE y LIGEREZA) */
+  --color-text-dark: #F5F5F5; /* FIX: Texto principal (Gris muy claro para reducir fatiga) */
+  --color-text-medium: #A0A0A0; /* FIX: Gris medio neutro, ideal para descripciones/inactivos */
+  --color-text-light: #FFFFFF; /* Blanco puro (Para texto sobre primary/accent) */
   --color-text-muted: #666666; /* Gris tenue */
 
   /* UI */
-  --color-border: #2A2A2A; /* Borde oscuro y sutil */
+  --color-border: #333333; /* Borde oscuro y sutil (Ajustado) */
   --color-border-strong: #404040; /* Borde más fuerte */
 
-  /* Colores de Estado */
-  --color-success: #3C763D; 
-  --color-error: #DC3545; 
+  /* Colores de Estado (Coherente con los acentos) */
+  --color-success: #4CAF50; 
+  --color-error: #EF4444; 
 
   /* Layout & UI (Sombras y Transiciones) */
   --space-unit: 8px;
@@ -66,9 +66,9 @@
   --box-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
   --box-shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6);
 
-  /* Sombra de 'Glow' Dorado */
-  --box-shadow-primary-glow: 0 0 6px rgba(212, 175, 55, 0.7); 
-  --box-shadow-primary-strong: 0 0 10px rgba(212, 175, 55, 0.8); 
+  /* Sombra de 'Glow' Dorado (Ajustado al nuevo Dorado) */
+  --box-shadow-primary-glow: 0 0 6px rgba(224, 169, 57, 0.7); 
+  --box-shadow-primary-strong: 0 0 10px rgba(224, 169, 57, 0.8); 
 
   --transition-fast: all 0.15s ease-out;
   --transition-base: all 0.25s ease-out;

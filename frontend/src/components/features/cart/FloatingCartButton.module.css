@@ -19,7 +19,9 @@
   
   cursor: pointer;
   transition: var(--transition-base), transform 0.1s ease;
-  animation: slideInUp 0.5s ease-out forwards; /* Animación de entrada */
+  /* FIX: Animación de entrada + animación de pulso para darle vida */
+  animation: slideInUp 0.5s ease-out forwards, 
+             pulse 2s infinite 0.5s; 
 }
 
 @keyframes slideInUp {
@@ -27,13 +29,21 @@
   to { transform: translate(-50%, 0px); opacity: 1; }
 }
 
+/* FIX: Nueva animación de pulso usando el color primario para el glow */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(224, 169, 57, 0.6); } /* Nuevo Dorado, 60% opacidad */
+  70% { box-shadow: 0 0 0 10px rgba(224, 169, 57, 0); } /* Expande el glow */
+  100% { box-shadow: 0 0 0 0 rgba(224, 169, 57, 0); }
+}
+
 
 .floatingButton:hover {
-  transform: translate(-50%, -3px); /* Levitar ligeramente */
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+  transform: translate(-50%, -5px); /* FIX: Levitar un poco más */
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25); /* FIX: Sombra más pronunciada en hover */
+  animation: slideInUp 0.5s ease-out forwards, none; /* FIX: Pausar el pulso al hacer hover */
 }
 .floatingButton:active {
-  transform: translate(-50%, 0px) scale(0.98); /* Efecto clic */
+  transform: translate(-50%, 0px) scale(0.95); /* FIX: Efecto clic más fuerte */
 }
 
 .iconWrapper {

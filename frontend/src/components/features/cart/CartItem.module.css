@@ -1,4 +1,4 @@
-/* src/components/features/cart/CartItem.module.css - SOLUCIÓN FINAL V8: GRID MÓVIL Y ESCRITORIO */
+/* src/components/features/cart/CartItem.module.css - FINAL HARMONIZADO CON INTERACCIONES VIVAS */
 
 .cartItem {
   display: grid; /* Usamos GRID para control estricto de columnas */
@@ -85,8 +85,16 @@
   transition: var(--transition-base);
 }
 .quantityButton:hover {
+  /* FIX: Mayor efecto de elevación en hover */
   background-color: var(--color-primary-light);
   color: var(--color-primary-dark);
+  transform: scale(1.05); 
+}
+.quantityButton:active {
+  /* FIX: Fuerte efecto de presión para inmersión */
+  transform: scale(0.9); 
+  background-color: var(--color-primary-dark);
+  color: white;
 }
 
 .quantity {
@@ -130,7 +138,13 @@
   transition: var(--transition-fast);
 }
 .removeButton:hover {
-  color: var(--color-error); transform: scale(1.1);
+  color: var(--color-error); 
+  transform: scale(1.1);
+}
+.removeButton:active {
+  /* FIX: Fuerte efecto de presión */
+  transform: scale(0.9); 
+  opacity: 0.8;
 }
 
 /* --- Desktop Adjustments --- */

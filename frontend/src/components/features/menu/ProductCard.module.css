@@ -101,10 +101,11 @@
 .addButton:hover {
   background-color: var(--color-accent-dark); 
   transform: scale(1.02); /* Elevación sutil al hacer hover */
-  box-shadow: 0 4px 8px rgba(255, 153, 102, 0.3); /* Sombra de acento sutil */
+  /* Sombra actualizada a la nueva paleta (Rojo) */
+  box-shadow: 0 4px 8px rgba(229, 57, 53, 0.3); 
 }
 .addButton:active {
-  transform: scale(0.98); /* FIX: Efecto de presión sutil */
+  transform: scale(0.95); /* FIX: Efecto de presión más notable para mayor inmersión */
   box-shadow: none;
 }
 
