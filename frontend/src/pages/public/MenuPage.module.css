@@ -1,46 +1,53 @@
 /* src/pages/public/MenuPage.module.css */
 .menuPageContainer {
-  padding: var(--space-lg) 0; 
+  padding: var(--space-lg) 0;
 }
 
 .menuPageLayout {
   display: grid;
   grid-template-columns: 1fr; /* Una columna por defecto */
   gap: var(--space-xl);
-  max-width: var(--max-width); 
-  margin: 0 auto; 
+  max-width: var(--max-width);
+  margin: 0 auto;
   padding: 0 var(--content-padding); /* Padding lateral adaptable */
 }
 
 .mainContent {
-  /* Ocupa todo el ancho en móvil */
   width: 100%;
 }
 
-/* --- CORRECCIÓN RADICAL --- */
-/* 1. Ocultar el contenedor .sidebar por defecto (móvil) */
 .sidebar {
-  display: none;
+  display: none; /* Oculto en móvil */
 }
 
 /* --- Media Query para Desktop (a 1024px) --- */
 @media (min-width: 1024px) {
   .menuPageContainer {
-    padding: var(--space-xxl) 0; 
+    padding: var(--space-xxl) 0;
   }
   .menuPageLayout {
-    /* 2. Activar grid de 2 columnas */
-    grid-template-columns: 1fr var(--sidebar-width-desktop); 
-    gap: var(--space-xxl); 
+    grid-template-columns: 1fr var(--sidebar-width-desktop); /* Activar grid de 2 columnas */
+    gap: var(--space-xxl);
+    align-items: start; /* Alinea los items al inicio verticalmente */
   }
-  
-  /* 3. Mostrar .sidebar y hacerlo 'sticky' */
+
   .sidebar {
     display: block; /* Mostrar el contenedor */
-    position: sticky; 
-    top: calc(var(--navbar-height-desktop) + var(--space-lg)); 
-    height: fit-content; 
-    max-height: calc(100vh - var(--navbar-height-desktop) - var(--space-lg) * 2); 
-    /* El scroll se manejará en CartDisplay.module.css */
+    position: sticky; /* Fijo al hacer scroll */
+    top: calc(var(--navbar-height-desktop) + var(--space-lg)); /* Posición debajo del navbar */
+    /* ¡CLAVE! Altura máxima calculada */
+    max-height: calc(100vh - var(--navbar-height-desktop) - var(--space-lg) * 2);
+    /* ¡CLAVE! Ocultar cualquier desbordamiento DEL CONTENEDOR sidebar */
+    overflow: hidden;
+    /* Necesitamos darle altura explícita para que el hijo (CartDisplay) pueda usar height: 100% */
+    /* Usamos la misma que max-height como valor inicial, pero podría ser auto si el contenido siempre es menor */
+    /* Probemos con max-height para asegurar la restricción */
+    height: calc(100vh - var(--navbar-height-desktop) - var(--space-lg) * 2);
+
+    /* Estilos visuales del contenedor */
+    background-color: var(--color-bg-sidebar);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--box-shadow-sm);
   }
 }

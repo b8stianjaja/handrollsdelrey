@@ -34,13 +34,15 @@ const ProductCard = ({ product, onShowOptions }) => {
         <p className={styles.description}>{product.description}</p>
         <div className={styles.footer}>
           <span className={styles.price}>${product.basePrice.toLocaleString('es-CL')}</span>
-          <button 
-            className={`${styles.addButton} ${isAdded ? styles.added : ''}`} 
-            onClick={handleAddClick}
-            disabled={isAdded && !hasOptions} // Solo deshabilita si es simple y ya añadido
-          >
-            {isAdded && !hasOptions ? 'Añadido ✓' : (hasOptions ? 'Personalizar' : 'Agregar')} 
-          </button>
+            <button
+              className={`${styles.addButton} ${isAdded && !hasOptions ? styles.added : ''}`} // Aplicar 'added' solo a productos simples
+              onClick={handleAddClick}
+          // No deshabilitar si tiene opciones, incluso si isAdded es true temporalmente por otro item
+              disabled={isAdded && !hasOptions} 
+             >
+          {/* Simplificar texto: Muestra siempre 'Personalizar' o 'Agregar' */}
+          {hasOptions ? 'Personalizar' : (isAdded ? 'Añadido ✓' : 'Agregar')} 
+        </button>
         </div>
       </div>
     </div>
