@@ -4,4 +4,7 @@
   /* Columnas responsivas: mínimo 280px, crecen para llenar espacio */
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 20px;
+  
+  /* IMPORTANTE: Eliminar transiciones CSS para que GSAP tome el control total */
+  transition: none; 
 }

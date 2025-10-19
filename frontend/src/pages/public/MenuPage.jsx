@@ -1,5 +1,5 @@
 // src/pages/public/MenuPage.jsx
-import React, { useState, useMemo, useEffect } from 'react'; 
+import React, { useState, useMemo, useEffect, useRef } from 'react'; // <-- Importar useRef
 import MainLayout from '../../components/layout/MainLayout';
 import CategoryNavigation from '../../components/features/menu/CategoryNavigation';
 import ProductGrid from '../../components/features/menu/ProductGrid';
@@ -19,10 +19,14 @@ const MenuPage = () => {
 
   // Estado para modal de opciones (sin cambios)
   const [selectedProduct, setSelectedProduct] = useState(null);
+  // Mantener el estado de la categoría, clave para la animación
   const [selectedCategoryId, setSelectedCategoryId] = useState(null); 
 
   // **NUEVO:** Estado ÚNICO para el modal/sidebar del carrito
   const [isCartOpen, setIsCartOpen] = useState(false);
+  
+  // **CLAVE GSAP:** Referencia al contenedor de la cuadrícula de productos
+  const gridContainerRef = useRef(null);
 
   // Carga de datos (sin cambios)
   useEffect(() => {
@@ -83,6 +87,9 @@ const MenuPage = () => {
               <ProductGrid 
                 products={filteredProducts} 
                 onShowOptions={handleShowOptions} 
+                // **CLAVE GSAP:** Pasamos la referencia y el ID actual como dependencias de animación
+                gridRef={gridContainerRef}
+                currentCategoryId={selectedCategoryId} 
               />
             )}
             {!isLoading && !error && filteredProducts.length === 0 && products.length > 0 && (
@@ -91,11 +98,7 @@ const MenuPage = () => {
           </div>
           
           {/* --- Sidebar (Contenedor para Desktop) --- */}
-          {/* 2. Este div ahora SÓLO sirve como el contenedor 
-                 del grid en desktop. Está vacío en móvil. */}
           <div className={styles.sidebar}>
-            {/* 3. Renderizamos CartDisplay UNA SOLA VEZ aquí.
-                   Su CSS determinará si es un modal (móvil) o estático (desktop) */}
             <CartDisplay isOpen={isCartOpen} onClose={closeCart} />
           </div>
 
@@ -111,7 +114,6 @@ const MenuPage = () => {
       />
 
       {/* 4. Botón Flotante para Móvil */}
-      {/* (Su propio CSS lo oculta en desktop) */}
       <FloatingCartButton onClick={openCart} />
 
     </MainLayout>

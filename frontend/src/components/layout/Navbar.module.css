@@ -1,193 +1,171 @@
-/* src/components/layout/Navbar.module.css */
+/* src/components/layout/Navbar.module.css - RECONSTRUIDO */
+
+/* --- Estilos Base Navbar --- */
 .navbar {
-  height: var(--navbar-height-mobile); 
-  /* CONFIGURACIÓN DE LA IMAGEN DE FONDO */
-  background: var(--color-bg-dark); 
-  /* La imagen es inyectada desde Navbar.jsx */
-  background-size: cover; 
-  background-position: center; 
-  background-repeat: no-repeat; 
-  
+  height: var(--navbar-height-mobile);
+  background-color: var(--color-bg-dark); /* Color base */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: var(--box-shadow-sm); 
-  position: sticky; 
+  box-shadow: var(--box-shadow-sm);
+  position: sticky;
   top: 0;
-  z-index: 1000; 
-  border-bottom: 1px solid var(--color-border-strong); 
+  z-index: 1000;
+  border-bottom: 1px solid var(--color-border-strong);
 }
 
 .container {
   width: 100%;
   max-width: var(--max-width);
-  padding: 0 var(--content-padding); 
+  padding: 0 var(--content-padding);
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* Default: Logo Izquierda, Botón/Nav Derecha */
   align-items: center;
-  height: 100%; 
+  height: 100%;
+  position: relative; /* Necesario para el centrado absoluto del logo en desktop */
 }
 
+/* --- Logo Link y Imagen (Estado Final CSS) --- */
 .logoLink {
-  display: flex; 
+  display: flex; /* Asegura alineación vertical de la imagen */
   align-items: center;
-  text-decoration: none; 
-  transition: var(--transition-base);
-  height: 100%; 
-  padding: var(--space-xs) 0; 
-  z-index: 1001; 
+  height: 100%; /* Ocupa la altura de la navbar */
+  padding: var(--space-xs) 0; /* Padding vertical para la imagen */
+  z-index: 1001;
+  text-decoration: none;
+  /* Posición por defecto (Móvil): Relativa, se alinea al inicio del flex container */
+  position: relative;
+  /* NO AÑADIR TRANSITIONS AQUÍ para evitar conflictos con GSAP */
 }
 .logoLink:hover {
-  opacity: 0.9; 
+  opacity: 0.9; /* Efecto hover simple */
 }
 
 .logoImage {
-  display: block; 
-  max-height: calc(var(--navbar-height-mobile) - var(--space-xs) * 2 - 5px); 
-  width: auto; 
-  max-width: 120px; 
+  display: block; /* Evita espacio extra debajo */
+  max-height: 100%; /* Se ajusta al padding del link */
+  width: auto;
+  max-width: 120px; /* Tamaño máximo móvil */
+  /* NO AÑADIR TRANSITIONS AQUÍ */
 }
 
-/* --- Navegación Desktop (Oculta en Móvil) --- */
+/* CLASE PARA OCULTAR INICIALMENTE (Controlado por GSAP) */
+.initialHidden {
+   opacity: 0;
+   visibility: hidden;
+}
+
+
+/* --- Navegación Desktop --- */
 .navDesktop {
-  display: none; 
+  display: none; /* Oculto en móvil */
+  margin-left: auto; /* Empuja a la derecha en desktop */
 }
-
-.navLinks { 
+.navLinks {
   list-style: none;
   display: flex;
   align-items: center;
+  padding: 0;
+  margin: 0;
 }
-
 .navLinks a {
-  color: var(--color-text-medium); /* Gris claro para los enlaces inactivos */
+  color: var(--color-text-medium);
   text-decoration: none;
-  font-weight: 600; 
-  font-size: 1rem; 
-  transition: var(--transition-base);
-  padding: var(--space-sm) var(--space-md); 
-  position: relative; 
-  border-radius: var(--border-radius-sm); 
+  font-weight: 600;
+  font-size: 1rem;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--border-radius-sm);
+  transition: color 0.2s ease-out, box-shadow 0.2s ease-out; /* Transición SÓLO para hover/active */
 }
 .navLinks a:hover {
-  color: var(--color-primary); /* Hover en Dorado */
-  box-shadow: var(--box-shadow-primary-glow); 
+  color: var(--color-primary);
+  box-shadow: var(--box-shadow-primary-glow);
 }
-/* Activo (requiere NavLink de react-router-dom) */
-.navLinks a.active { 
-  color: var(--color-primary); /* Dorado para el activo */
+.navLinks a.active { /* Asumiendo NavLink de react-router */
+  color: var(--color-primary);
   font-weight: 700;
-  box-shadow: var(--box-shadow-primary-glow); 
+  box-shadow: var(--box-shadow-primary-glow);
 }
 
-/* --- Botón Hamburger (Solo Móvil) --- */
+/* --- Botón Hamburger (Móvil) --- */
 .mobileMenuButton {
-  display: block; 
+  display: block; /* Visible en móvil */
   padding: var(--space-sm);
-  z-index: 1001; 
+  z-index: 1001;
+  cursor: pointer;
+  background: none;
+  border: none;
 }
-
 .hamburgerIcon,
 .hamburgerIcon::before,
 .hamburgerIcon::after {
-  content: '';
-  display: block;
-  background-color: var(--color-text-dark); /* Gris Claro */
-  height: 3px;
-  width: 25px;
-  border-radius: 3px;
-  transition: var(--transition-base);
+  content: ''; display: block; background-color: var(--color-text-dark);
+  height: 3px; width: 25px; border-radius: 3px;
+  transition: transform 0.2s ease-out, background-color 0.2s ease-out;
 }
-.hamburgerIcon::before {
-  transform: translateY(-8px);
-}
-.hamburgerIcon::after {
-   transform: translateY(5px); 
-}
-/* Estilo 'X' cuando menú está abierto (añadir clase .open al button) */
-.mobileMenuButton[aria-expanded="true"] .hamburgerIcon {
-   background-color: transparent; 
-}
-.mobileMenuButton[aria-expanded="true"] .hamburgerIcon::before {
-   transform: translateY(0px) rotate(45deg);
-}
-.mobileMenuButton[aria-expanded="true"] .hamburgerIcon::after {
-    transform: translateY(-3px) rotate(-45deg); 
-}
+.hamburgerIcon::before { transform: translateY(-8px); }
+.hamburgerIcon::after { transform: translateY(5px); }
+/* Estilo 'X' cuando menú está abierto */
+.mobileMenuButton[aria-expanded="true"] .hamburgerIcon { background-color: transparent; }
+.mobileMenuButton[aria-expanded="true"] .hamburgerIcon::before { transform: translateY(0px) rotate(45deg); }
+.mobileMenuButton[aria-expanded="true"] .hamburgerIcon::after { transform: translateY(-3px) rotate(-45deg); }
 
 
-/* --- Navegación Móvil (Overlay) --- */
+/* --- Menú Overlay Móvil --- */
 .navMobileOverlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.98); /* Negro casi opaco */
-  backdrop-filter: blur(5px);
-  z-index: 999; 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-xxl);
-  animation: fadeInOverlay 0.3s ease-out forwards;
+  position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.98);
+  backdrop-filter: blur(5px); z-index: 999; display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: var(--space-xxl);
+  /* Animación CSS simple para el overlay */
+  opacity: 0; visibility: hidden; transition: opacity 0.3s ease-out, visibility 0s 0.3s;
 }
-@keyframes fadeInOverlay { from { opacity: 0; } to { opacity: 1; } }
+.navMobileOverlay.open { /* Añade una clase 'open' cuando isMobileMenuOpen es true */
+  opacity: 1; visibility: visible; transition-delay: 0s;
+}
 
 .mobileMenuCloseButton {
-  position: absolute;
-  top: calc(var(--space-lg) - var(--space-xs)); 
-  right: var(--content-padding); 
-  font-size: 2.5rem;
-  color: var(--color-text-medium); /* Gris claro */
-  transition: var(--transition-base);
-  z-index: 1001;
+  position: absolute; top: calc(var(--space-lg) - var(--space-xs)); right: var(--content-padding);
+  font-size: 2.5rem; color: var(--color-text-medium); transition: color 0.2s, transform 0.2s;
+  z-index: 1001; background: none; border: none; cursor: pointer;
 }
-.mobileMenuCloseButton:hover {
-  color: var(--color-primary); 
-  transform: rotate(90deg);
-}
-
-.navMobile {
-  width: 100%;
-}
-
-.navLinksMobile {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-lg);
-}
-
-.navLinksMobile a {
-  color: var(--color-text-dark); /* Gris claro */
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1.5rem; 
-  transition: var(--transition-base);
-  padding: var(--space-sm) var(--space-lg);
-}
-.navLinksMobile a:hover {
-  color: var(--color-primary); 
-  box-shadow: var(--box-shadow-primary-glow); 
-}
+.mobileMenuCloseButton:hover { color: var(--color-primary); transform: rotate(90deg); }
+.navMobile { width: 100%; }
+.navLinksMobile { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; align-items: center; gap: var(--space-lg); }
+.navLinksMobile a { color: var(--color-text-dark); text-decoration: none; font-weight: 600; font-size: 1.5rem; transition: color 0.2s, box-shadow 0.2s; padding: var(--space-sm) var(--space-lg); }
+.navLinksMobile a:hover { color: var(--color-primary); box-shadow: var(--box-shadow-primary-glow); }
 
 
 /* --- Media Query para Desktop --- */
-@media (min-width: 768px) { 
+@media (min-width: 768px) {
   .navbar {
-     height: var(--navbar-height-desktop); 
+    height: var(--navbar-height-desktop);
   }
   .logoImage {
-    max-height: calc(var(--navbar-height-desktop) - var(--space-sm) * 2); 
-    max-width: 180px; 
+    max-height: calc(var(--navbar-height-desktop) - var(--space-sm) * 2);
+    max-width: 180px;
   }
+  /* POSICIÓN FINAL DESKTOP: Centrado absoluto */
+  .logoLink {
+    position: absolute;
+    left: 50%;
+    /* Centrado horizontal exacto (CSS controla esto) */
+    transform: translateX(-50%);
+    top: 0; bottom: 0; margin: auto 0; /* Centrado vertical */
+    padding: 0; height: auto; /* Ajustes para centrado vertical con imagen */
+  }
+   .logoImage {
+     max-height: calc(var(--navbar-height-desktop) - var(--space-md) * 2); /* Ajustar según sea necesario */
+   }
   .navDesktop {
-    display: block; 
+    display: flex; /* Mostrar nav */
   }
   .mobileMenuButton {
-    display: none; 
+    display: none;
   }
   .navMobileOverlay {
-    display: none; 
+    display: none;
   }
 }
