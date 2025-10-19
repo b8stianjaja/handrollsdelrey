@@ -1,159 +1,134 @@
-/* src/components/features/cart/CartDisplay.module.css */
+/* src/components/features/cart/CartDisplay.module.css - FINAL HARMONIZADO */
 
-/* --- Base (Mobile): Estilos de "Bottom Sheet Modal" --- */
-
+/* --- Mobile First: Bottom Sheet Modal --- */
 .cartOverlay {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.6); /* Fondo oscuro */
-  z-index: 1100; /* Sobre otros elementos */
+  background-color: rgba(0, 0, 0, 0.65);
+  z-index: 1100;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; 
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s ease-out, visibility 0s linear 0.3s;
-  display: flex;
-  align-items: flex-end; /* Alinea modal abajo */
 }
-/* Estilos cuando está abierto */
+
 .cartOverlay.open {
   opacity: 1;
   visibility: visible;
-  transition: opacity 0.3s ease-out, visibility 0s linear 0s;
+  transition-delay: 0s;
 }
 
 .cartDisplay {
   background-color: var(--color-bg-card);
-  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
-  max-height: 85vh; /* Altura máxima en móvil */
   width: 100%;
-  transform: translateY(100%); /* Estado inicial (oculto abajo) */
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1); /* Animación suave */
-  display: flex; /* Flex column para estructura interna */
-  flex-direction: column;
-  box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
-  overflow: hidden; /* Contiene el contenido */
+  max-width: 640px;
+  margin: 0 auto;
+  max-height: 85vh;
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  display: flex;
+  flex-direction: column; 
+  overflow: hidden; 
+  box-shadow: 0 -5px 25px rgba(0,0,0,0.15);
+  transform: translateY(100%);
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
-/* Estilos cuando está abierto */
-.cartDisplay.open {
-  transform: translateY(0%); /* Estado visible (deslizado hacia arriba) */
+
+.cartOverlay.open .cartDisplay {
+  transform: translateY(0%);
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: var(--space-lg);
-  padding-bottom: var(--space-md);
+  padding: var(--space-lg) var(--space-xl);
   border-bottom: 1px solid var(--color-border);
-  flex-shrink: 0; /* No se encoge */
+  flex-shrink: 0;
 }
 
 .title {
   margin: 0;
   color: var(--color-text-dark);
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: 600;
+  font-family: var(--font-headings);
 }
 
 .closeButton {
-  display: block; /* Visible en móvil */
-  font-size: 2rem;
-  color: var(--color-text-muted);
-  line-height: 1;
-  transition: var(--transition-fast);
-  padding: var(--space-xs);
-  background: none; /* Asegurar que no tenga fondo */
-  border: none; /* Asegurar que no tenga borde */
+  background: none; border: none; font-size: 2.2rem; color: var(--color-text-muted);
+  line-height: 1; padding: var(--space-xs); cursor: pointer; transition: var(--transition-fast);
 }
 .closeButton:hover {
   color: var(--color-text-dark);
 }
 
-/* Contenedor Scrollable para los items */
+
+/* === SCROLLABLE ITEM LIST === */
 .cartItemsScrollable {
-  overflow-y: auto; /* Scroll vertical SOLO AQUÍ */
-  flex-grow: 1; /* Ocupa el espacio disponible */
-  padding: var(--space-md) var(--space-lg); /* Padding interno */
-  /* Estilos de scrollbar (opcionales) */
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-primary-light) transparent;
+  flex-grow: 1;
+  overflow-y: auto;
+  overflow-x: hidden; /* Deshabilita scroll horizontal */
+  padding: var(--space-lg) 0; /* Padding superior/inferior, el padding lateral lo da el item */
+
+  /* --- Ocultar scrollbar --- */
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
 }
-.cartItemsScrollable::-webkit-scrollbar { width: 6px; }
-.cartItemsScrollable::-webkit-scrollbar-track { background: transparent; }
-.cartItemsScrollable::-webkit-scrollbar-thumb { background-color: var(--color-primary-light); border-radius: 10px; }
-.cartItemsScrollable::-webkit-scrollbar-thumb:hover { background-color: var(--color-primary); }
+/* Webkit (Chrome, Safari) */
+.cartItemsScrollable::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+  background: transparent;
+}
+
 
 .emptyMessage {
   text-align: center;
   color: var(--color-text-muted);
-  padding: var(--space-xl) 0;
+  padding: var(--space-xxl) 0;
   font-weight: 500;
+  font-style: italic;
 }
 
-/* El summary (importado) se posiciona al final por flex-direction: column */
-/* Le damos flex-shrink: 0 para que no se comprima */
-/* Seleccionamos el último div hijo directo del .cartDisplay */
+/* === FOOTER SUMMARY AREA === */
 .cartDisplay > div:last-child { /* Selecciona CartSummary */
   flex-shrink: 0;
 }
 
 
-/* --- Media Query para Desktop --- */
+/* --- Desktop: Static Sidebar --- */
 @media (min-width: 1024px) {
-
-  .cartOverlay { /* Ya no es un overlay, sino el contenedor estático */
-    position: static;
-    background-color: transparent; /* No necesita fondo */
-    opacity: 1;
-    visibility: visible;
-    transition: none;
-    padding: 0;
-    display: block;
-    backdrop-filter: none;
-    height: 100%; /* Toma la altura del .sidebar */
-    width: 100%; /* Toma el ancho del .sidebar */
+  /* Overlay / Container */
+  .cartOverlay {
+    position: static; background-color: transparent; opacity: 1; visibility: visible;
+    transition: none; padding: 0; display: block; height: 100%; width: 100%;
   }
 
-  .cartDisplay { /* El contenido real DENTRO del .sidebar */
-    background-color: transparent; /* Hereda de .sidebar */
-    border-radius: 0; /* El .sidebar ya tiene redondeo */
-    height: 100%; /* ¡CLAVE! Ocupa toda la altura disponible */
-    max-height: 100%;
-    transform: none;
-    transition: none;
-    box-shadow: none;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden; /* ¡CLAVE! Asegura que el scroll SÓLO ocurra en .cartItemsScrollable */
+  /* CartDisplay */
+  .cartDisplay {
+    background-color: transparent; border-radius: 0; height: 100%; max-height: 100%;
+    transform: none; transition: none; box-shadow: none; width: 100%;
   }
 
-  .closeButton {
-    display: none; /* Ocultar botón de cierre */
-  }
+  .closeButton { display: none; }
 
   .header {
-     padding: var(--space-xl);
-     padding-bottom: var(--space-md);
-     justify-content: center;
-     border-bottom: 1px solid var(--color-border);
-     flex-shrink: 0;
-     /* No necesita fondo ni borde redondeado aquí, lo tiene el .sidebar */
-  }
-  .title {
-      font-size: 1.8rem;
+     padding: var(--space-xl); justify-content: center; border-bottom: 1px solid var(--color-border);
+     background-color: var(--color-bg-card);
+     border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
   }
 
-  /* Contenedor scrollable en desktop */
   .cartItemsScrollable {
-    padding: var(--space-md) var(--space-xl); /* Padding desktop */
-    scrollbar-color: var(--color-primary-light) var(--color-bg-sidebar);
-    /* flex-grow: 1 y overflow-y: auto ya están definidos y son correctos */
+    padding: var(--space-lg) 0; /* Padding superior/inferior */
+    background-color: var(--color-bg-card);
   }
 
-  /* El summary se estiliza en su propio archivo, aseguramos que no se encoja */
-  .cartDisplay > div:last-child { /* Selecciona CartSummary */
-      flex-shrink: 0;
-      /* No necesita fondo ni redondeo aquí, lo tiene el .sidebar */
-      /* El borde superior ya lo define CartSummary.module.css */
+  /* Footer summary area */
+  .cartDisplay > div:last-child {
+      background-color: var(--color-bg-sidebar);
+      border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
   }
 }

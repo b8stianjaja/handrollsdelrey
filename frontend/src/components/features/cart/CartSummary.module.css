@@ -1,19 +1,20 @@
-/* src/components/features/cart/CartSummary.module.css */
+/* src/components/features/cart/CartSummary.module.css - ARMONIZACIÓN DE ALINEACIÓN */
 .summary {
-  padding: var(--space-lg); /* Padding para móvil */
-  margin-top: var(--space-lg); /* Margen superior en móvil */
+  padding: var(--space-lg) var(--space-xl); 
+  margin-top: 0; 
   border-top: 1px solid var(--color-border-strong);
   overflow: hidden;
-  flex-shrink: 0; /* Evita que el summary se encoja */
+  flex-shrink: 0; 
+  background-color: var(--color-bg-sidebar);
 }
 
 .row {
   display: flex;
-  align-items: baseline; /* Alinea texto normal y precio normal */
+  justify-content: space-between; 
+  align-items: baseline; 
   margin-bottom: var(--space-sm);
   font-size: 1rem;
   color: var(--color-text-medium);
-  gap: var(--space-md);
 }
 
 .row span:first-child {
@@ -25,15 +26,11 @@
   font-weight: 600;
   color: var(--color-text-dark);
   white-space: nowrap;
-  flex-shrink: 0;
   text-align: right;
-  margin-left: auto;
 }
 
 /* Fila del Total */
 .total {
-  /* Hereda display: flex y gap de .row */
-  align-items: center; /* Centra verticalmente */
   font-weight: 700;
   font-size: 1.2rem;
   margin-top: var(--space-md);
@@ -69,10 +66,6 @@
   box-shadow: 0 6px 16px rgba(160, 82, 45, 0.4);
   transform: translateY(-2px);
 }
-.checkoutButton:active {
-  transform: translateY(0px);
-  box-shadow: 0 2px 6px rgba(160, 82, 45, 0.3);
-}
 .checkoutButton:disabled {
   background: #E0E0E0;
   color: var(--color-text-muted);
@@ -81,12 +74,11 @@
   transform: none;
 }
 
-/* --- Media Query para Desktop --- */
+/* --- Desktop Adjustments --- */
 @media (min-width: 1024px) {
   .summary {
-     padding: var(--space-xl); /* Padding consistente con header desktop */
-     margin-top: 0; /* Quitar margen superior */
-     border-top: 1px solid var(--color-border-strong); /* Mantener separador fuerte */
+     padding: var(--space-xl); 
+     margin-top: 0; 
   }
   .row {
      font-size: 1rem;
