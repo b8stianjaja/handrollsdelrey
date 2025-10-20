@@ -65,13 +65,14 @@ const MenuPage = () => {
   const openCart = () => setIsCartOpen(true);
   const closeCart = () => setIsCartOpen(false);
 
-  return (
+return (
     <MainLayout>
       <div className={styles.menuPageContainer}>
         <div className={styles.menuPageLayout}>
-          
-          {/* --- Contenido Principal (Menú) --- */}
+
+          {/* --- Main Content (Menu) --- */}
           <div className={styles.mainContent}>
+            {/* ... (CategoryNavigation, ProductGrid, etc.) ... */}
             {!isLoading && !error && categories.length > 0 && (
               <CategoryNavigation
                 categories={categories}
@@ -79,41 +80,42 @@ const MenuPage = () => {
                 onSelectCategory={setSelectedCategoryId}
               />
             )}
-            
+
             {isLoading && <p>Cargando menú...</p>}
             {error && <p style={{ color: 'red' }}>{error}</p>}
-            
+
             {!isLoading && !error && products.length > 0 && (
-              <ProductGrid 
-                products={filteredProducts} 
-                onShowOptions={handleShowOptions} 
-                // **CLAVE GSAP:** Pasamos la referencia y el ID actual como dependencias de animación
+              <ProductGrid
+                products={filteredProducts}
+                onShowOptions={handleShowOptions}
                 gridRef={gridContainerRef}
-                currentCategoryId={selectedCategoryId} 
+                currentCategoryId={selectedCategoryId}
               />
             )}
             {!isLoading && !error && filteredProducts.length === 0 && products.length > 0 && (
              <p>No hay productos en esta categoría.</p>
             )}
           </div>
-          
-          {/* --- Sidebar (Contenedor para Desktop) --- */}
-          <div className={styles.sidebar}>
-            <CartDisplay isOpen={isCartOpen} onClose={closeCart} />
+
+          {/* --- Sidebar Wrapper (Desktop Grid Item) --- */}
+          {/* ADDED WRAPPER DIV */}
+          <div className={styles.sidebarWrapper}>
+             {/* The original sidebar content now goes inside */}
+             <div className={styles.sidebar}>
+                 <CartDisplay isOpen={isCartOpen} onClose={closeCart} />
+             </div>
           </div>
+          {/* END WRAPPER DIV */}
+
 
         </div> {/* Fin .menuPageLayout */}
       </div> {/* Fin .menuPageContainer */}
 
-      {/* --- Elementos Flotantes / Modales --- */}
-
-      {/* Modal de Opciones (sin cambios) */}
+      {/* --- Floating Elements / Modals --- */}
       <ProductOptionsModal
         product={selectedProduct}
         onClose={handleCloseOptions}
       />
-
-      {/* 4. Botón Flotante para Móvil */}
       <FloatingCartButton onClick={openCart} />
 
     </MainLayout>

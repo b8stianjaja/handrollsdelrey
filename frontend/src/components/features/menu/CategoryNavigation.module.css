@@ -1,56 +1,26 @@
 /* src/components/features/menu/CategoryNavigation.module.css */
+/* (Use the code from the previous response - it's correctly handling mobile width and animation) */
 .categoryNav {
-  margin-bottom: var(--space-xl); 
-  border-bottom: 2px solid var(--color-border-strong); /* Borde más fuerte y visible */
+  width: 100%;
+  margin-bottom: var(--space-xl);
+  border-bottom: 2px solid var(--color-border-strong);
+  max-width: 100%;
+  overflow: hidden;
 }
 .categoryList {
-  display: flex;
-  gap: var(--space-lg); /* Espacio entre tabs */
-  list-style: none;
-  padding: 0; 
-  margin: 0;
-  overflow-x: auto; 
-  position: relative; /* CLAVE: Contenedor para el indicador absoluto */
-  /* Ocultar scrollbar */
-  scrollbar-width: none; 
+  display: flex; list-style: none; padding: 0; margin: 0;
+  overflow-x: auto; position: relative; scrollbar-width: none; -ms-overflow-style: none;
 }
-.categoryList::-webkit-scrollbar {
-  display: none; 
-}
-
-/* --- Indicador Animado (NUEVO) --- */
+.categoryList::-webkit-scrollbar { display: none; width: 0; height: 0; background: transparent; }
 .activeIndicator {
-  position: absolute;
-  bottom: -2px; /* Alineado con el borde inferior del nav */
-  left: 0;
-  height: 3px;
-  background-color: var(--color-primary); /* Color Dorado */
-  border-radius: 1.5px;
-  opacity: 0; /* GSAP lo mostrará al iniciar la animación */
-  transform-origin: left; /* Para el efecto de 'scaleX' de GSAP */
-  z-index: 10;
+  position: absolute; bottom: -2px; left: 0; height: 3px; background-color: var(--color-primary);
+  border-radius: 1.5px; opacity: 0; transform-origin: left; z-index: 10;
 }
-
 .categoryButton {
-  padding: var(--space-md) var(--space-xs); 
-  background-color: transparent;
-  border: none;
-  border-bottom: 3px solid transparent; /* MANTENER EL ESPACIO (para que los botones tengan la altura correcta) */
-  font-size: 1.1rem; 
-  font-weight: 600; 
-  cursor: pointer;
-  color: var(--color-text-medium); /* Gris medio */
-  transition: var(--transition-base);
-  white-space: nowrap; 
-  margin-bottom: -2px; /* Ajuste para que el botón esté sobre el borde del nav */
-  position: relative;
+  padding: var(--space-md) var(--space-lg); background-color: transparent; border: none;
+  border-bottom: 3px solid transparent; font-size: 1.05rem; /* Slightly smaller */ font-weight: 500; /* Normal weight */
+  cursor: pointer; color: var(--color-text-medium); transition: var(--transition-base);
+  white-space: nowrap; margin-bottom: -2px; position: relative; flex-shrink: 0;
 }
-.categoryButton:hover {
-  color: var(--color-primary); /* Dorado */
-}
-/* REGLAS :active AJUSTADAS: Solo cambian el color del texto */
-.categoryButton.active {
-  color: var(--color-primary); /* Dorado Principal */
-  border-bottom-color: transparent; /* Asegurar que no hay borde CSS */
-  font-weight: 700; 
-}
+.categoryButton:hover { color: var(--color-primary); }
+.categoryButton.active { color: var(--color-primary); border-bottom-color: transparent; font-weight: 600; /* Semi-bold active */ }

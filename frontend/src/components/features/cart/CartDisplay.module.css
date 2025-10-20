@@ -1,134 +1,65 @@
-/* src/components/features/cart/CartDisplay.module.css - FINAL HARMONIZADO */
+/* src/components/features/cart/CartDisplay.module.css */
 
 /* --- Mobile First: Bottom Sheet Modal --- */
 .cartOverlay {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.65);
-  z-index: 1100;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end; 
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease-out, visibility 0s linear 0.3s;
+  position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.7); z-index: 1100;
+  display: flex; justify-content: center; align-items: flex-end; opacity: 0;
+  visibility: hidden; transition: opacity 0.3s ease-out, visibility 0s linear 0.3s;
+  backdrop-filter: blur(3px);
 }
-
-.cartOverlay.open {
-  opacity: 1;
-  visibility: visible;
-  transition-delay: 0s;
-}
-
+.cartOverlay.open { opacity: 1; visibility: visible; transition-delay: 0s; }
 .cartDisplay {
-  background-color: var(--color-bg-card);
-  width: 100%;
-  max-width: 640px;
-  margin: 0 auto;
-  max-height: 85vh;
-  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
-  display: flex;
-  flex-direction: column; 
-  overflow: hidden; 
-  box-shadow: 0 -5px 25px rgba(0,0,0,0.15);
-  transform: translateY(100%);
-  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--color-bg-card); width: 100%; max-width: 640px; margin: 0 auto;
+  max-height: 85vh; border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  display: flex; flex-direction: column; box-shadow: 0 -5px 25px rgba(0,0,0,0.2);
+  transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
-
-.cartOverlay.open .cartDisplay {
-  transform: translateY(0%);
-}
-
+.cartOverlay.open .cartDisplay { transform: translateY(0%); }
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--space-lg) var(--space-xl);
-  border-bottom: 1px solid var(--color-border);
+  display: flex; justify-content: space-between; align-items: center;
+  padding: var(--space-md) var(--space-lg); border-bottom: 1px solid var(--color-border);
   flex-shrink: 0;
 }
-
-.title {
-  margin: 0;
-  color: var(--color-text-dark);
-  font-size: 1.6rem;
-  font-weight: 600;
-  font-family: var(--font-headings);
-}
-
-.closeButton {
-  background: none; border: none; font-size: 2.2rem; color: var(--color-text-muted);
-  line-height: 1; padding: var(--space-xs); cursor: pointer; transition: var(--transition-fast);
-}
-.closeButton:hover {
-  color: var(--color-text-dark);
-}
-
+.title { margin: 0; color: var(--color-text-dark); font-size: 1.4rem; font-weight: 600; font-family: var(--font-headings); }
+.closeButton { background: none; border: none; font-size: 2rem; color: var(--color-text-muted); line-height: 1; padding: var(--space-xs); cursor: pointer; transition: var(--transition-fast); }
+.closeButton:hover { color: var(--color-text-dark); }
 
 /* === SCROLLABLE ITEM LIST === */
 .cartItemsScrollable {
-  flex-grow: 1;
-  overflow-y: auto;
-  overflow-x: hidden; /* Deshabilita scroll horizontal */
-  padding: var(--space-lg) 0; /* Padding superior/inferior, el padding lateral lo da el item */
-
-  /* --- Ocultar scrollbar --- */
-  scrollbar-width: none; 
-  -ms-overflow-style: none; 
+  flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding: 0; min-height: 0;
+  scrollbar-width: none; -ms-overflow-style: none;
 }
-/* Webkit (Chrome, Safari) */
-.cartItemsScrollable::-webkit-scrollbar {
-  display: none;
-  width: 0;
-  height: 0;
-  background: transparent;
-}
-
-
-.emptyMessage {
-  text-align: center;
-  color: var(--color-text-muted);
-  padding: var(--space-xxl) 0;
-  font-weight: 500;
-  font-style: italic;
-}
+.cartItemsScrollable::-webkit-scrollbar { display: none; width: 0; height: 0; background: transparent; }
+.emptyMessage { text-align: center; color: var(--color-text-muted); padding: var(--space-xxl) var(--space-lg); font-weight: 500; font-style: italic; }
 
 /* === FOOTER SUMMARY AREA === */
-.cartDisplay > div:last-child { /* Selecciona CartSummary */
-  flex-shrink: 0;
-}
-
+.cartDisplay > div:last-child { flex-shrink: 0; }
 
 /* --- Desktop: Static Sidebar --- */
 @media (min-width: 1024px) {
-  /* Overlay / Container */
   .cartOverlay {
     position: static; background-color: transparent; opacity: 1; visibility: visible;
-    transition: none; padding: 0; display: block; height: 100%; width: 100%;
+    transition: none; padding: 0; display: block; height: 100%; width: 100%; backdrop-filter: none;
   }
-
-  /* CartDisplay */
-  .cartDisplay {
+  .cartDisplay { /* Fills the .sidebar element */
     background-color: transparent; border-radius: 0; height: 100%; max-height: 100%;
     transform: none; transition: none; box-shadow: none; width: 100%;
+    display: flex; flex-direction: column; overflow: hidden; /* Keep this */
   }
-
   .closeButton { display: none; }
-
   .header {
-     padding: var(--space-xl); justify-content: center; border-bottom: 1px solid var(--color-border);
-     background-color: var(--color-bg-card);
-     border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+     padding: var(--space-lg); justify-content: center; border-bottom: 1px solid var(--color-border);
+     background-color: var(--color-bg-card); border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+     flex-shrink: 0;
   }
-
+  .title { font-size: 1.6rem; }
   .cartItemsScrollable {
-    padding: var(--space-lg) 0; /* Padding superior/inferior */
-    background-color: var(--color-bg-card);
+    padding: 0; background-color: var(--color-bg-card);
+    flex-grow: 1; min-height: 0; overflow-y: auto;
   }
-
-  /* Footer summary area */
-  .cartDisplay > div:last-child {
-      background-color: var(--color-bg-sidebar);
-      border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+  .cartDisplay > div:last-child { /* Selects CartSummary */
+      background-color: var(--color-bg-sidebar); border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+      flex-shrink: 0;
   }
 }

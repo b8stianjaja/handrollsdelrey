@@ -1,109 +1,65 @@
 /* src/components/features/menu/ProductCard.module.css */
 .card {
-  background-color: var(--color-bg-card);
-  border: 1px solid var(--color-border);
-  border-radius: var(--border-radius-lg); 
-  box-shadow: var(--box-shadow-md); 
+  background-color: var(--color-bg-card); /* Card background */
+  /* Remove border if shadow is sufficient */
+  /* border: 1px solid var(--color-border); */
+  border-radius: var(--border-radius-lg); /* Consistent large radius */
+  box-shadow: var(--box-shadow-sm); /* Use subtle shadow */
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: var(--transition-base); 
-}
-/* REGLAS :hover ELIMINADAS (AHORA CONTROLADAS POR GSAP) */
-
-.imageContainer { 
-  position: relative;
-  width: 100%;
-  padding-top: 75%; /* Aspect ratio 4:3 */
-  overflow: hidden;
-  background-color: var(--color-bg-sidebar); 
+  transition: var(--transition-base); /* Keep base transition for GSAP */
 }
 
+.imageContainer {
+  position: relative; width: 100%; padding-top: 75%; /* 4:3 Aspect ratio */
+  overflow: hidden; background-color: var(--color-bg-sidebar); /* Placeholder bg */
+}
 .image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
   object-fit: cover;
-  /* TRANSITION/TRANSFORM ELIMINADO (Ahora controlado por GSAP) */
 }
-
 
 .content {
-  padding: var(--space-lg); 
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1; 
-  /* Espacio entre nombre, descripción y footer */
-  gap: var(--space-sm); 
+  padding: var(--space-md); /* Consistent padding */
+  display: flex; flex-direction: column; flex-grow: 1;
+  gap: var(--space-xs); /* Smaller gap between text elements */
 }
 .name {
-  font-size: 1.3rem; 
-  margin: 0; 
-  color: var(--color-text-dark); 
-  line-height: 1.3;
-  font-weight: 600; 
+  font-size: 1.15rem; /* Adjusted size */ margin: 0; color: var(--color-text-dark);
+  line-height: 1.3; font-weight: 600;
 }
 .description {
-  font-size: 0.9rem; 
-  color: var(--color-text-medium); 
-  flex-grow: 1;
-  margin: 0; 
-  line-height: 1.6; 
+  font-size: 0.85rem; /* Adjusted size */ color: var(--color-text-medium);
+  flex-grow: 1; margin: 0; line-height: 1.5; /* Adjusted line height */
 }
 .footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: var(--space-sm); 
-  margin-top: auto; 
+  display: flex; justify-content: space-between; align-items: center;
+  padding-top: var(--space-sm); /* Space above footer */
+  margin-top: auto; /* Push to bottom */
 }
 .price {
-  font-size: 1.5rem; 
-  font-weight: 700; 
-  color: var(--color-primary); 
-  font-family: var(--font-display); 
+  font-size: 1.3rem; /* Adjusted size */ font-weight: 700; color: var(--color-primary);
+  font-family: var(--font-display);
 }
 .addButton {
-  background-color: var(--color-accent); 
-  color: var(--color-text-light); 
-  border: none;
-  padding: var(--space-sm) var(--space-lg); 
-  border-radius: var(--border-radius-md); 
-  font-weight: 600; 
-  cursor: pointer;
-  transition: var(--transition-base), transform 0.1s ease;
-  font-size: 0.9rem; 
-  display: flex; 
-  align-items: center;
-  gap: var(--space-xs);
-  line-height: 1; 
+  background-color: var(--color-accent); color: var(--color-text-light); border: none;
+  padding: var(--space-sm) var(--space-md); /* Consistent padding */
+  border-radius: var(--border-radius-md); /* Consistent radius */
+  font-weight: 600; cursor: pointer; transition: var(--transition-base), transform 0.1s ease;
+  font-size: 0.9rem; display: flex; align-items: center; gap: var(--space-xs); line-height: 1;
+  box-shadow: 0 2px 4px rgba(229, 57, 53, 0.2); /* Subtle shadow */
 }
 .addButton:hover {
-  background-color: var(--color-accent-dark); 
-  transform: scale(1.02); 
-  box-shadow: 0 4px 8px rgba(229, 57, 53, 0.3); 
+  background-color: var(--color-accent-dark); transform: translateY(-1px); /* Subtle lift */
+  box-shadow: 0 4px 8px rgba(229, 57, 53, 0.3);
 }
-.addButton:active {
-  transform: scale(0.95); 
-  box-shadow: none;
-}
+.addButton:active { transform: scale(0.98); box-shadow: none; } /* Subtle press */
 
-/* Estilo para feedback visual */
+/* Added state styling */
 .addButton.added {
-  background-color: var(--color-success);
-  transform: scale(1.03);
+  background-color: var(--color-success); transform: scale(1);
 }
-.addButton.added::before { 
-  content: '✓'; 
-  margin-right: var(--space-xs);
-  font-weight: bold;
-}
-.addButton.added:hover {
-   background-color: var(--color-success); 
-   box-shadow: 0 4px 8px rgba(92, 184, 92, 0.2);
-}
-.addButton:disabled { 
-  cursor: default;
-}
+.addButton.added::before { content: '✓'; margin-right: var(--space-xs); font-weight: bold; }
+.addButton.added:hover { background-color: var(--color-success); box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2); transform: translateY(0); }
+.addButton:disabled { cursor: default; background-color: var(--color-border-strong); color: var(--color-text-muted); box-shadow: none; }

@@ -1,103 +1,57 @@
-/* src/components/features/cart/CartSummary.module.css - ARMONIZACIÓN DE ALINEACIÓN */
+/* src/components/features/cart/CartSummary.module.css */
 .summary {
-  padding: var(--space-lg) var(--space-xl); 
-  margin-top: 0; 
-  border-top: 1px solid var(--color-border-strong);
+  padding: var(--space-lg); /* Harmonized padding */
+  margin-top: 0;
+  border-top: 1px solid var(--color-border); /* Use softer border */
   overflow: hidden;
-  flex-shrink: 0; 
-  background-color: var(--color-bg-sidebar);
+  flex-shrink: 0;
+  background-color: var(--color-bg-sidebar); /* Ensure background */
 }
 
 .row {
-  display: flex;
-  justify-content: space-between; 
-  align-items: baseline; 
-  margin-bottom: var(--space-sm);
-  font-size: 1rem;
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: var(--space-sm); font-size: 0.95rem; /* Slightly smaller */
   color: var(--color-text-medium);
 }
+.row span:first-child { white-space: nowrap; flex-shrink: 0; padding-right: var(--space-md); }
+.row span:last-child { font-weight: 600; color: var(--color-text-dark); white-space: nowrap; text-align: right; }
 
-.row span:first-child {
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.row span:last-child {
-  font-weight: 600;
-  color: var(--color-text-dark);
-  white-space: nowrap;
-  text-align: right;
-}
-
-/* Fila del Total */
 .total {
-  font-weight: 700;
-  font-size: 1.2rem;
-  margin-top: var(--space-md);
-  padding-top: var(--space-md);
+  font-weight: 700; font-size: 1.1rem; /* Adjusted size */
+  margin-top: var(--space-md); padding-top: var(--space-md);
   border-top: 1px dashed var(--color-border-strong);
   color: var(--color-text-dark);
 }
-
 .total span:last-child {
-   color: var(--color-primary-dark);
-   font-size: 1.3rem;
+   color: var(--color-primary); /* Use primary color */
+   font-size: 1.2rem; /* Adjusted size */
 }
 
-/* Botón checkout */
 .checkoutButton {
-  width: 100%;
-  padding: var(--space-md);
-  /* Usar Dorado para el gradiente */
+  width: 100%; padding: var(--space-md);
   background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  color: var(--color-bg-dark); /* Texto negro puro para alto contraste sobre Dorado */
-  border: none;
-  border-radius: var(--border-radius-md);
-  font-size: 1.1rem;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: var(--space-lg);
-  /* FIX: Añadir un pequeño transform en transición para el efecto click */
-  transition: var(--transition-base), transform 0.1s ease; 
-  /* Usar el glow dorado */
-  box-shadow: var(--box-shadow-primary-glow); 
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
+  color: var(--color-bg-dark); /* Ensure high contrast */
+  border: none; border-radius: var(--border-radius-md);
+  font-size: 1.05rem; /* Adjusted size */
+  font-weight: 600; cursor: pointer; margin-top: var(--space-lg);
+  transition: var(--transition-base), transform 0.1s ease;
+  box-shadow: var(--box-shadow-primary-glow);
+  text-transform: uppercase; letter-spacing: 0.8px;
 }
 .checkoutButton:hover {
-  opacity: 1; /* Mantener opacidad, usar el brillo */
-  box-shadow: var(--box-shadow-primary-strong); /* FIX: Brillo más fuerte */
-  transform: translateY(-2px); /* Elevación */
+  opacity: 1; box-shadow: var(--box-shadow-primary-strong); transform: translateY(-2px);
 }
-.checkoutButton:active {
-  transform: translateY(0px) scale(0.99); /* FIX: Efecto de presión */
-  box-shadow: none; 
-}
+.checkoutButton:active { transform: translateY(0px) scale(0.99); box-shadow: none; }
 .checkoutButton:disabled {
-  background: var(--color-border-strong);
-  color: var(--color-text-muted);
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
+  background: var(--color-border-strong); color: var(--color-text-muted);
+  cursor: not-allowed; box-shadow: none; transform: none;
 }
 
 /* --- Desktop Adjustments --- */
 @media (min-width: 1024px) {
-  .summary {
-     padding: var(--space-xl); 
-     margin-top: 0; 
-  }
-  .row {
-     font-size: 1rem;
-  }
-  .total {
-     font-size: 1.4rem;
-  }
-   .total span:last-child {
-     font-size: 1.5rem;
-   }
-  .checkoutButton {
-    font-size: 1.1rem;
-    padding: var(--space-md) var(--space-xl);
-  }
+  .summary { padding: var(--space-lg); } /* Keep consistent padding */
+  .row { font-size: 1rem; }
+  .total { font-size: 1.25rem; }
+  .total span:last-child { font-size: 1.35rem; }
+  .checkoutButton { font-size: 1.1rem; padding: var(--space-md) var(--space-lg); }
 }

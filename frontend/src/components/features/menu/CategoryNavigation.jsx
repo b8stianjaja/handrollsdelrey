@@ -1,73 +1,70 @@
 // src/components/features/menu/CategoryNavigation.jsx
-import React, { useRef, useEffect } from 'react'; // Importar useRef y useEffect
+import React, { useRef, useEffect } from 'react';
 import styles from './CategoryNavigation.module.css';
-import { gsap } from 'gsap'; // Importar GSAP
+import { gsap } from 'gsap';
 
 const CategoryNavigation = ({ categories, selectedCategoryId, onSelectCategory }) => {
-  // 1. Referencias para el contenedor (UL) y el indicador animado (SPAN)
   const listRef = useRef(null);
   const indicatorRef = useRef(null);
-  
-  // 2. Efecto para animar el indicador al cambiar de categoría
+
   useEffect(() => {
     const indicator = indicatorRef.current;
-    const list = listRef.current;
-    
+    const list = listRef.current; // The UL element
+
     if (!indicator || !list || !selectedCategoryId) {
-      // Ocultar si no hay categoría seleccionada o el elemento no está listo
       gsap.to(indicator, { opacity: 0, duration: 0.3 });
       return;
     }
-    
-    // Encuentra el botón activo usando el atributo data-id
+
     const activeElement = list.querySelector(`[data-id="${selectedCategoryId}"]`);
 
     if (activeElement) {
       const listRect = list.getBoundingClientRect();
       const activeRect = activeElement.getBoundingClientRect();
-      
-      // Calcular la posición X y el ancho relativo al contenedor 'list'
-      const x = activeRect.left - listRect.left; 
+
+      // --- CALCULATION FIX ---
+      // x = (Position of Button relative to viewport) - (Position of List relative to viewport) + (How much List has scrolled)
+      const x = activeRect.left - listRect.left + list.scrollLeft;
+      // --- END FIX ---
+
       const width = activeRect.width;
-      
-      // 3. Animación GSAP
+
+      // GSAP Animation (Unchanged logic, uses corrected 'x')
       gsap.to(indicator, {
-        x: x, // Mover la posición X
-        width: width, // Ajustar el ancho
-        opacity: 1, // Mostrar indicador
-        duration: 0.4, 
-        ease: "power3.inOut", // Curva de animación suave
-        // Animación de pulso opcional para dar un efecto de "frescura" al llegar
-        scaleX: 1.05, 
+        x: x, // Use the corrected 'x' value
+        width: width,
+        opacity: 1,
+        duration: 0.4,
+        ease: "power3.inOut",
+        scaleX: 1.05,
         onComplete: () => gsap.to(indicator, { scaleX: 1, duration: 0.2 }),
       });
-      
-      // 4. Asegurar el scroll de la pestaña activa (UX mejorada)
+
+      // Scroll Into View (Unchanged)
       activeElement.scrollIntoView({
           behavior: 'smooth',
-          block: 'nearest', 
-          inline: 'center' 
+          block: 'nearest',
+          inline: 'center'
       });
-      
+
     } else {
         gsap.to(indicator, { opacity: 0, duration: 0.3 });
     }
 
-  }, [selectedCategoryId]); 
+  // Add listRef to dependencies if needed, though scrollLeft change doesn't usually trigger re-renders
+  }, [selectedCategoryId]); // Dependency array unchanged
 
 
   return (
     <nav className={styles.categoryNav}>
       <ul className={styles.categoryList} ref={listRef}>
-        {/* Indicador animado: Se coloca primero para asegurar que está en la capa inferior */}
         <span className={styles.activeIndicator} ref={indicatorRef}></span>
-        
         {categories.map(category => (
           <li key={category.id}>
             <button
               className={`${styles.categoryButton} ${category.id === selectedCategoryId ? styles.active : ''}`}
               onClick={() => onSelectCategory(category.id)}
-              data-id={category.id} // CLAVE: Usamos data-id para GSAP
+              data-id={category.id}
             >
               {category.name}
             </button>

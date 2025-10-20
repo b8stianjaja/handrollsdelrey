@@ -1,14 +1,14 @@
 /* src/components/layout/Footer.module.css */
 .footer {
-  padding: var(--space-xl) var(--space-lg); /* Espaciado consistente */
+  padding: var(--space-lg) var(--content-padding); /* Consistent padding */
   text-align: center;
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-muted); /* Texto muted */
-  font-size: 0.9rem;
-  margin-top: auto; 
-  border-top: 1px solid #444; /* Borde superior sutil */
+  background-color: var(--color-bg-dark); /* Match navbar */
+  color: var(--color-text-muted); /* Muted text */
+  font-size: 0.85rem; /* Slightly smaller */
+  margin-top: auto; /* Pushes to bottom */
+  border-top: 1px solid var(--color-border); /* Softer border */
 }
 
 .footer p {
-  margin: 0; /* Quitar margen por defecto */
+  margin: 0; /* Remove default paragraph margin */
 }
