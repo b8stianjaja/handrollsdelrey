@@ -1,4 +1,4 @@
-/* src/components/layout/Navbar.module.css - CLEANED */
+/* src/components/layout/Navbar.module.css */
 
 /* --- Base Styles --- */
 .navbar {
@@ -8,12 +8,12 @@
   background-position: center;
   background-repeat: no-repeat;
   display: flex;
-  justify-content: center; /* Center container */
+  justify-content: center;
   align-items: center;
   box-shadow: var(--box-shadow-sm);
   position: sticky;
   top: 0;
-  z-index: 999; /* Lower than logo's z-index */
+  z-index: 999;
   border-bottom: 1px solid var(--color-border-strong);
 }
 
@@ -22,20 +22,56 @@
   max-width: var(--max-width);
   padding: 0 var(--content-padding);
   display: flex;
-  /* Adjust justification based on layout needs */
-  justify-content: flex-end; /* Example: Push nav/button to the right */
+  justify-content: space-between;
   align-items: center;
   height: 100%;
   position: relative;
 }
 
-/* --- LOGO STYLES REMOVED --- */
+/* --- Logo Placeholder & Logo --- */
+.logoPlaceholder {
+  height: calc(var(--navbar-height-mobile) * 0.8);
+  width: calc(var(--navbar-height-mobile) * 0.8);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* NEW RULE: Ensures the Link tag fills the placeholder */
+.logoPlaceholder a {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+/* This is the old rule, it's fine */
+.logoPlaceholder img {
+  display: block;
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  opacity: 1;
+  will-change: transform, scale;
+}
+
+/* NEW RULE: For the "real" logo hidden in the navbar */
+.realLogo {
+  visibility: hidden;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
 
 /* --- Desktop Navigation --- */
 .navDesktop {
-  display: none; /* Hidden on mobile */
-  margin-left: auto; /* Push to right if container uses space-between/flex-start */
+  display: none;
 }
+
 .navLinks {
   list-style: none;
   display: flex;
@@ -44,6 +80,7 @@
   margin: 0;
   gap: var(--space-sm);
 }
+
 .navLinks a {
   color: var(--color-text-medium);
   text-decoration: none;
@@ -53,10 +90,12 @@
   border-radius: var(--border-radius-sm);
   transition: color 0.2s ease-out, box-shadow 0.2s ease-out;
 }
+
 .navLinks a:hover {
   color: var(--color-primary);
   box-shadow: var(--box-shadow-primary-glow);
 }
+
 .navLinks a.active {
   color: var(--color-primary);
   font-weight: 700;
@@ -65,56 +104,182 @@
 
 /* --- Mobile Hamburger Button --- */
 .mobileMenuButton {
-  display: block; /* Visible on mobile */
+  display: block;
   padding: var(--space-sm);
-  z-index: 1002; /* Above navbar background */
+  z-index: 1002;
   cursor: pointer;
   background: none;
   border: none;
-  /* Adjust margin if needed based on final layout */
-  /* margin-left: auto; */
 }
+
 .hamburgerIcon,
 .hamburgerIcon::before,
 .hamburgerIcon::after {
-  content: ''; display: block; background-color: var(--color-text-dark);
-  height: 3px; width: 25px; border-radius: 3px;
+  content: '';
+  display: block;
+  background-color: var(--color-text-dark);
+  height: 3px;
+  width: 25px;
+  border-radius: 3px;
   transition: transform 0.2s ease-out, background-color 0.2s ease-out;
 }
-.hamburgerIcon::before { transform: translateY(-8px); }
-.hamburgerIcon::after { transform: translateY(5px); }
-.mobileMenuButton[aria-expanded="true"] .hamburgerIcon { background-color: transparent; }
-.mobileMenuButton[aria-expanded="true"] .hamburgerIcon::before { transform: translateY(0px) rotate(45deg); }
-.mobileMenuButton[aria-expanded="true"] .hamburgerIcon::after { transform: translateY(-3px) rotate(-45deg); }
 
+.hamburgerIcon::before {
+  transform: translateY(-8px);
+}
+
+.hamburgerIcon::after {
+  transform: translateY(5px);
+}
+
+.mobileMenuButton[aria-expanded='true'] .hamburgerIcon {
+  background-color: transparent;
+}
+
+.mobileMenuButton[aria-expanded='true'] .hamburgerIcon::before {
+  transform: translateY(0px) rotate(45deg);
+  background-color: var(--color-primary);
+}
+
+.mobileMenuButton[aria-expanded='true'] .hamburgerIcon::after {
+  transform: translateY(-3px) rotate(-45deg);
+  background-color: var(--color-primary);
+}
 
 /* --- Mobile Menu Overlay --- */
 .navMobileOverlay {
-  position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.95);
-  backdrop-filter: blur(5px); z-index: 1100; /* Above animated logo */
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center; padding: var(--space-xxl);
-  opacity: 0; visibility: hidden; transition: opacity 0.3s ease-out, visibility 0s 0.3s;
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(5px);
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xxl);
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
+
 .navMobileOverlay.open {
-  opacity: 1; visibility: visible; transition-delay: 0s;
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
 }
+
 .mobileMenuCloseButton {
-  position: absolute; top: calc(var(--space-lg) - var(--space-xs)); right: var(--content-padding);
-  font-size: 2.5rem; color: var(--color-text-medium); transition: color 0.2s, transform 0.2s;
-  z-index: 1101; background: none; border: none; cursor: pointer;
+  position: absolute;
+  top: calc(var(--space-lg) - var(--space-xs));
+  right: var(--content-padding);
+  font-size: 2.5rem;
+  color: var(--color-text-medium);
+  transition: color 0.2s, transform 0.2s;
+  z-index: 1101;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
-.mobileMenuCloseButton:hover { color: var(--color-primary); transform: rotate(90deg); }
-.navMobile { width: 100%; }
-.navLinksMobile { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; align-items: center; gap: var(--space-lg); }
-.navLinksMobile a { color: var(--color-text-dark); text-decoration: none; font-weight: 600; font-size: 1.5rem; transition: color 0.2s, box-shadow 0.2s; padding: var(--space-sm) var(--space-lg); }
-.navLinksMobile a:hover { color: var(--color-primary); box-shadow: var(--box-shadow-primary-glow); }
+
+.mobileMenuCloseButton:hover {
+  color: var(--color-primary);
+  transform: rotate(90deg);
+}
+
+.navMobile {
+  width: 100%;
+}
+
+.navLinksMobile {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+}
+
+.navLinksMobile a {
+  color: var(--color-text-dark);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.5rem;
+  transition: color 0.2s, box-shadow 0.2s;
+  padding: var(--space-sm) var(--space-lg);
+}
+
+.navLinksMobile a:hover {
+  color: var(--color-primary);
+  box-shadow: var(--box-shadow-primary-glow);
+}
+
+/* --- Intro Animation Styles --- */
+
+/* UPDATED: Solid background color */
+.animationOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgb(25, 25, 25); /* Changed from rgba */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  opacity: 1;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+/* UPDATED: Added 'filter' to will-change for performance */
+.animatedLogo {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: min(300px, 70vw);
+  height: auto;
+  z-index: 2001;
+  opacity: 1; /* GSAP controls this now, but we set a default */
+  will-change: transform, scale, opacity, filter; /* Added 'filter' */
+}
+
+/* --- Visually Hidden (for accessibility) --- */
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
 
 /* --- Media Query for Desktop --- */
 @media (min-width: 768px) {
-  .navbar { height: var(--navbar-height-desktop); }
-  .container { justify-content: center; /* Center the desktop nav */ }
-  .navDesktop { display: flex; }
-  .mobileMenuButton { display: none; }
-  .navMobileOverlay { display: none; }
+  .navbar {
+    height: var(--navbar-height-desktop);
+  }
+
+  .container {
+    justify-content: space-between;
+  }
+
+  .logoPlaceholder {
+    height: calc(var(--navbar-height-desktop) * 0.75);
+    width: calc(var(--navbar-height-desktop) * 0.75);
+  }
+
+  .navDesktop {
+    display: flex;
+  }
+
+  .mobileMenuButton {
+    display: none;
+  }
+
+  .navMobileOverlay {
+    display: none;
+  }
 }
