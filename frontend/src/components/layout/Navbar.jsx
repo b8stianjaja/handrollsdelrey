@@ -1,120 +1,182 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useRef, useLayoutEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import styles from './Navbar.module.css';
-// Keep background and logo imports
 import navbarBgImage from '../../assets/images/hdvrnavgif2.gif';
 import logoImage from '../../assets/images/HdRLogo.png';
 
 const Navbar = () => {
-  // --- State and Refs (Keep as is for animation and mobile menu) ---
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(true);
+  const [animationComplete, setAnimationComplete] = useState(false);
+  const navbarRef = useRef(null);
+  const logoRef = useRef(null);
   const overlayRef = useRef(null);
-  const animatedLogoRef = useRef(null);
-  const realLogoRef = useRef(null);
-  const hasAnimated = useRef(false);
-
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-
-  // --- Animation Logic (calculateDeltas, useLayoutEffect for intro animation - Keep as is) ---
-  const calculateDeltas = (placeholder, animatedLogo) => {
-     if (!placeholder || !animatedLogo) return null;
-     const placeholderRect = placeholder.getBoundingClientRect();
-     const logoRect = animatedLogo.getBoundingClientRect();
-     if (placeholderRect.width === 0 || logoRect.width === 0) { return null; }
-     const targetXCenter = placeholderRect.left + placeholderRect.width / 2;
-     const targetYCenter = placeholderRect.top + placeholderRect.height / 2;
-     const currentXCenter = logoRect.left + logoRect.width / 2;
-     const currentYCenter = logoRect.top + logoRect.height / 2;
-     return { deltaX: targetXCenter - currentXCenter, deltaY: targetYCenter - currentYCenter, targetScale: placeholderRect.width / logoRect.width };
-  };
+  const logoContainerRef = useRef(null);
+  const lightEffectRef = useRef(null);
 
   useLayoutEffect(() => {
-      if (hasAnimated.current || !isAnimating) return;
-      hasAnimated.current = true;
-      const overlay = overlayRef.current;
-      const animatedLogo = animatedLogoRef.current;
-      const realLogo = realLogoRef.current;
-      if (!overlay || !animatedLogo || !realLogo) { setIsAnimating(false); return; }
-      const skipAnimation = () => { /* ... */ gsap.set(overlay, { display: 'none' }); gsap.set(animatedLogo, { display: 'none' }); gsap.set(realLogo, { visibility: 'visible', opacity: 1 }); setIsAnimating(false); };
-      const performHandoff = () => { /* ... */ gsap.set(animatedLogo, { opacity: 0 }); gsap.set(realLogo, { visibility: 'visible', opacity: 1 }); gsap.set(overlay, { display: 'none' }); setIsAnimating(false); };
-      const logoImg = new Image();
-      logoImg.src = logoImage;
-      logoImg.onload = () => {
-        gsap.set(animatedLogo, { opacity: 0, scale: 0.7, rotation: 15, filter: 'blur(5px)' });
-        gsap.set(overlay, { opacity: 1 });
-        gsap.set(realLogo, { visibility: 'hidden', opacity: 0 });
-        const rafId = requestAnimationFrame(() => {
-          const deltas = calculateDeltas(realLogo, animatedLogo);
-          if (!deltas) { skipAnimation(); return; }
-          const tl = gsap.timeline({ onComplete: performHandoff });
-          tl.to( animatedLogo, { opacity: 1, scale: 1, rotation: 0, filter: 'blur(0px)', duration: 0.6, ease: 'power2.out', }, 0 );
-          tl.to( animatedLogo, { x: deltas.deltaX, y: deltas.deltaY, scale: deltas.targetScale, duration: 1.3, ease: 'power3.inOut', }, 0.4 );
-          tl.to( overlay, { opacity: 0, duration: 1.0, ease: 'power2.out', }, 0.5 );
-        });
-        // Cleanup function for animation frame
-        return () => cancelAnimationFrame(rafId);
-      };
-      logoImg.onerror = () => { skipAnimation(); };
-      // Cleanup function for GSAP tweens
-      return () => { gsap.killTweensOf([animatedLogo, overlay, realLogo]); };
-  }, [isAnimating]);
+    const navbar = navbarRef.current;
+    const logo = logoRef.current;
+    const overlay = overlayRef.current;
+    const logoContainer = logoContainerRef.current;
+    const lightEffect = lightEffectRef.current;
 
-  // --- Mobile Menu Toggle Logic (useLayoutEffect - Keep as is) ---
-  useLayoutEffect(() => {
-      const mobileOverlay = document.querySelector(`.${styles.navMobileOverlay}`);
-      if (!mobileOverlay) return;
-      if (isMobileMenuOpen) {
-        gsap.to(mobileOverlay, { x: 0, opacity: 1, duration: 0.3, ease: 'power2.out' });
-      } else {
-        gsap.to(mobileOverlay, { x: '100%', opacity: 0, duration: 0.3, ease: 'power2.in' });
+    if (!navbar || !logo || !overlay || !logoContainer || !lightEffect) return;
+
+    // Set initial states
+    gsap.set(overlay, {
+      opacity: 1,
+      display: 'block'
+    });
+
+    gsap.set(lightEffect, {
+      opacity: 0
+    });
+
+    gsap.set(logo, {
+      position: 'fixed',
+      top: '50%',
+      left: '50%',
+      x: '-50%',
+      y: '-50%',
+      scale: 0,
+      rotation: -15,
+      opacity: 1,
+      zIndex: 2001,
+      display: 'block',
+      transformOrigin: 'center center'
+    });
+
+    gsap.set(logoContainer, {
+      opacity: 0
+    });
+
+    const rafId = requestAnimationFrame(() => {
+      const tl = gsap.timeline({
+        onComplete: () => {
+          gsap.set(logo, { 
+            display: 'none',
+            opacity: 0 
+          });
+          navbar.style.backgroundImage = `url(${navbarBgImage})`;
+          setAnimationComplete(true);
+          
+          // Animate light effect in after main animation completes
+          gsap.to(lightEffect, {
+            opacity: 1,
+            duration: 1.5,
+            ease: "power2.out",
+            delay: 0.3
+          });
+        }
+      });
+
+      // Your existing animation timeline remains the same
+      tl.to(logo, {
+        scale: 1.1,
+        rotation: 5,
+        duration: 1.8,
+        ease: "elastic.out(1.1, 0.4)"
+      })
+      .to(logo, {
+        scale: 1.05,
+        rotation: -3,
+        y: '-51%',
+        duration: 0.6,
+        ease: "sine.inOut"
+      }, "-=0.8")
+      .to(logo, {
+        scale: 1,
+        rotation: 2,
+        y: '-50%',
+        duration: 0.8,
+        ease: "power2.out"
+      }, "-=0.4")
+      .to(logo, {
+        scale: 0.95,
+        rotation: 1,
+        y: '-49%',
+        duration: 0.7,
+        ease: "power1.inOut"
+      }, "-=0.2")
+      .to(logo, {
+        opacity: 0,
+        scale: 0.9,
+        rotation: 0,
+        duration: 0.9,
+        ease: "power2.out"
+      }, "-=0.3")
+      .to(overlay, {
+        opacity: 0,
+        duration: 1.1,
+        ease: "power2.out"
+      }, "-=0.7")
+      .to(logoContainer, {
+        opacity: 1,
+        duration: 0.8,
+        ease: "power2.out"
+      }, "-=0.5");
+    });
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      if (logoRef.current) {
+        gsap.killTweensOf(logoRef.current);
       }
-  }, [isMobileMenuOpen]);
+      if (lightEffectRef.current) {
+        gsap.killTweensOf(lightEffectRef.current);
+      }
+    };
+  }, []);
 
-  // --- JSX ---
   return (
     <>
-      {/* Intro Animation Elements (Keep as is) */}
-      {isAnimating && (
-        <>
-          <div ref={overlayRef} className={styles.animationOverlay}></div>
-          <img ref={animatedLogoRef} src={logoImage} alt="Handrolls Del Rey Animation" className={styles.animatedLogo} />
-        </>
-      )}
+      {/* Gray Background Overlay - Will fade out */}
+      <div ref={overlayRef} className={styles.animationOverlay} />
+      
+      {/* Centered Logo - Will stay centered and fade out */}
+      <img
+        ref={logoRef}
+        src={logoImage}
+        alt="Handrolls Del Rey"
+        className={styles.animatedLogo}
+        onError={(e) => {
+          console.error('Logo failed to load');
+          e.target.style.backgroundColor = '#4CAF50';
+          e.target.style.color = 'white';
+          e.target.style.display = 'flex';
+          e.target.style.alignItems = 'center';
+          e.target.style.justifyContent = 'center';
+          e.target.style.fontSize = '20px';
+          e.target.style.fontWeight = 'bold';
+          e.target.innerHTML = 'HdR Logo';
+        }}
+      />
 
-      {/* Navbar Structure */}
-      <header
-        className={styles.navbar}
-        style={!isAnimating ? { backgroundImage: `url(${navbarBgImage})` } : {}}
-      >
+      {/* Main Navbar */}
+      <header ref={navbarRef} className={styles.navbar}>
+        {/* Realistic Light Effect */}
+        <div ref={lightEffectRef} className={styles.lightEffect}>
+          <div className={styles.lightBeam} />
+          <div className={styles.lightGlow} />
+        </div>
+        
         <div className={styles.container}>
-          {/* Logo Placeholder - This is the primary content now */}
-          <div className={styles.logoPlaceholder}>
+          {/* Navbar Logo - Hidden initially, shown after animation */}
+          <div ref={logoContainerRef} className={styles.logoContainer}>
             <Link to="/">
-              <img ref={realLogoRef} src={logoImage} alt="Handrolls Del Rey" className={styles.realLogo} />
+              <img
+                src={logoImage}
+                alt="Handrolls Del Rey"
+                className={styles.navbarLogo}
+              />
             </Link>
           </div>
-
-          {/* Mobile Menu Button (Only visible on mobile) */}
-          <button
-            className={styles.mobileMenuButton}
-            onClick={toggleMobileMenu}
-            aria-label="Toggle navigation menu"
-            aria-expanded={isMobileMenuOpen}
-          >
-            <span className={styles.hamburgerIcon}><span className={styles.visuallyHidden}>Menu</span></span>
-          </button>
-
-          {/* Mobile Menu Overlay */}
-          <div className={`${styles.navMobileOverlay} ${isMobileMenuOpen ? styles.open : ''}`}>
-            <button className={styles.mobileMenuCloseButton} onClick={toggleMobileMenu} aria-label="Close navigation menu">&times;</button>
-            {/* Placeholder Content for Mobile Menu */}
-             <div className={styles.mobileMenuContent}>
-                {/* <p>Navegación Móvil (Contenido Futuro)</p> */}
-                <Link to="/" onClick={toggleMobileMenu} className={styles.mobileMenuHomeLink}>Volver al Menú</Link>
-             </div>
-          </div>
+          
+          <nav className={styles.nav}>
+            <button className={styles.mobileMenuButton}>
+              <span className={styles.hamburgerIcon}></span>
+            </button>
+          </nav>
         </div>
       </header>
     </>
