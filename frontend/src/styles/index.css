@@ -11,18 +11,25 @@
 html {
   scroll-behavior: smooth;
   font-size: 100%;
+  /* Apply gradient AND fallback color to HTML */
+  background-color: var(--color-bg-dark); /* Fallback color */
+  background-image: var(--background-gradient); /* Gradient */
+  background-attachment: fixed; /* Keep gradient fixed */
+  height: 100%; /* Ensure HTML covers full height */
 }
 
 body {
   font-family: var(--font-main);
-  background: var(--background-gradient);
-  background-attachment: fixed;
-  color: var(--color-text-dark); /* Use the slightly softer white */
+  /* Background properties are on html */
+  color: var(--color-text-dark); /* */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
   overflow-x: hidden;
-  min-height: 100vh;
+  min-height: 100%; /* Make body fill HTML height */
+  margin: 0; /* Ensure no default margin */
+  display: flex; /* Added for flex context */
+  flex-direction: column; /* Added for flex context */
 }
 
 /* Base Typography */
@@ -118,10 +125,12 @@ textarea {
 
 /* Root container setup */
 #root {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  min-height: 100vh; /* Ensure it covers viewport height */
+  display: flex; /* Use flexbox... */
+  flex-direction: column; /* ...to stack children vertically */
+  width: 100%; /* Ensure it takes full width */
 }
+
 
 /* Consistent Scrollbar Styling */
 ::-webkit-scrollbar { width: 10px; height: 10px; }
