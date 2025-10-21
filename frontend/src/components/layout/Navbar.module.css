@@ -11,12 +11,11 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  /* A very subtle, near-black radial for depth. */
-  /* This ensures the logo's new glow is the main event. */
-  background: radial-gradient(circle at center,
-    #1c1c1c 0%, 
-    #0b0b0b 80%
-  );
+  /* PERFORMANCE BOOST: 
+     Changed from a radial-gradient to a solid color. 
+     This is much faster for the browser to render.
+  */
+  background-color: #0b0b0b;
   z-index: 2000;
   opacity: 1;
   pointer-events: none;
@@ -27,7 +26,6 @@
   position: fixed;
   top: 50%;
   left: 50%;
-  /* Kept your original transform value */
   transform: translate(0%, -0%); 
   height: 500px;
   width: auto;
@@ -38,13 +36,18 @@
   display: block;
   pointer-events: none;
 
-  /* THE NEW SMOOTHER EFFECT: 
-    Increased blur radius for a softer, more diffused aura.
-    The inner glow is now 25px (from 15px).
-    The outer aura is now 70px (from 45px).
+  /* PERFORMANCE BOOST 1: 
+     Tell the browser to hardware-accelerate this element 
+     for filter and opacity animations.
   */
-  filter: drop-shadow(0 0 40px #daa52066) 
-          drop-shadow(0 0 10px #8B6B00);
+  will-change: filter, opacity;
+
+  /* PERFORMANCE BOOST 2: 
+     Simplified the two shadows into one.
+     This single, 45px blur with 50% opacity 
+     is FAR less laggy than stacking two.
+  */
+  filter: drop-shadow(0 0 45px #daa52080);
 }
 
 /* Navbar */
