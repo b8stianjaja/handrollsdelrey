@@ -1,65 +1,144 @@
-/* src/components/features/menu/ProductCard.module.css */
+/* frontend/src/components/features/menu/ProductCard.module.css */
+.cardWrapper {
+  opacity: 0; /* Initial state for GSAP */
+  transform: translateY(15px); /* Initial state for GSAP */
+  display: flex;
+  flex-direction: column;
+}
+
 .card {
-  background-color: var(--color-bg-card); /* Card background */
-  /* Remove border if shadow is sufficient */
-  /* border: 1px solid var(--color-border); */
-  border-radius: var(--border-radius-lg); /* Consistent large radius */
-  box-shadow: var(--box-shadow-sm); /* Use subtle shadow */
+  background-color: var(--color-bg-card);
+  border-radius: var(--border-radius-lg); /* Use updated large radius */
+  box-shadow: var(--box-shadow-md); /* Use medium shadow */
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: var(--transition-base); /* Keep base transition for GSAP */
+  transition: none; /* GSAP handles transitions */
+  height: 100%;
+  border: 1px solid var(--color-border); /* Add subtle border back */
 }
 
 .imageContainer {
-  position: relative; width: 100%; padding-top: 75%; /* 4:3 Aspect ratio */
-  overflow: hidden; background-color: var(--color-bg-sidebar); /* Placeholder bg */
-}
-.image {
-  position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-  object-fit: cover;
+  position: relative;
+  width: 100%;
+  padding-top: 75%; /* 4:3 Aspect ratio */
+  overflow: hidden;
+  background-color: var(--color-bg-sidebar);
 }
 
+.image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease-out; /* Smooth image zoom */
+}
+
+/* Hover effect now defined in CSS for simplicity, GSAP handles entry/exit */
+.card:hover {
+  transform: translateY(-6px); /* Lift effect */
+  box-shadow: var(--box-shadow-lg); /* Larger shadow on hover */
+  border-color: var(--color-border-strong);
+}
+
+.card:hover .image {
+  transform: scale(1.05); /* Zoom image on hover */
+}
+
+
 .content {
-  padding: var(--space-md); /* Consistent padding */
-  display: flex; flex-direction: column; flex-grow: 1;
-  gap: var(--space-xs); /* Smaller gap between text elements */
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: var(--space-xs);
 }
+
 .name {
-  font-size: 1.15rem; /* Adjusted size */ margin: 0; color: var(--color-text-dark);
-  line-height: 1.3; font-weight: 600;
+  font-size: 1.2rem; /* Slightly larger */
+  margin: 0 0 var(--space-xxs) 0; /* Reduce bottom margin */
+  color: var(--color-text-dark);
+  line-height: 1.3;
+  font-weight: 600;
+  font-family: var(--font-main); /* Use main font for consistency */
 }
+
 .description {
-  font-size: 0.85rem; /* Adjusted size */ color: var(--color-text-medium);
-  flex-grow: 1; margin: 0; line-height: 1.5; /* Adjusted line height */
+  font-size: 0.9rem; /* Slightly larger */
+  color: var(--color-text-medium);
+  flex-grow: 1;
+  margin: 0;
+  line-height: 1.5;
 }
+
 .footer {
-  display: flex; justify-content: space-between; align-items: center;
-  padding-top: var(--space-sm); /* Space above footer */
-  margin-top: auto; /* Push to bottom */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--space-md); /* Increased space */
+  margin-top: auto;
+  border-top: 1px solid var(--color-border); /* Add subtle separator */
 }
+
 .price {
-  font-size: 1.3rem; /* Adjusted size */ font-weight: 700; color: var(--color-primary);
+  font-size: 1.4rem; /* Larger price */
+  font-weight: 700;
+  color: var(--color-primary);
   font-family: var(--font-display);
 }
+
 .addButton {
-  background-color: var(--color-accent); color: var(--color-text-light); border: none;
-  padding: var(--space-sm) var(--space-md); /* Consistent padding */
-  border-radius: var(--border-radius-md); /* Consistent radius */
-  font-weight: 600; cursor: pointer; transition: var(--transition-base), transform 0.1s ease;
-  font-size: 0.9rem; display: flex; align-items: center; gap: var(--space-xs); line-height: 1;
-  box-shadow: 0 2px 4px rgba(229, 57, 53, 0.2); /* Subtle shadow */
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark)); /* Accent gradient */
+  color: var(--color-text-on-accent); /* White text */
+  border: none;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--border-radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-base), transform 0.1s ease, box-shadow 0.2s ease; /* Smoother shadow transition */
+  font-size: 0.95rem; /* Slightly larger */
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  line-height: 1;
+  box-shadow: var(--box-shadow-accent-glow), var(--box-shadow-sm); /* Add accent glow */
+  text-transform: uppercase; /* Uppercase text */
+  letter-spacing: 0.5px;
 }
+
 .addButton:hover {
-  background-color: var(--color-accent-dark); transform: translateY(-1px); /* Subtle lift */
-  box-shadow: 0 4px 8px rgba(229, 57, 53, 0.3);
+  /* Slightly darken gradient or adjust as needed */
+  background: linear-gradient(135deg, var(--color-accent-dark), #B71C1C);
+  transform: translateY(-2px);
+  box-shadow: var(--box-shadow-accent-glow), var(--box-shadow-md); /* Increase drop shadow */
 }
-.addButton:active { transform: scale(0.98); box-shadow: none; } /* Subtle press */
+.addButton:active {
+  transform: scale(0.97); /* Slightly larger press effect */
+  box-shadow: none;
+}
 
 /* Added state styling */
 .addButton.added {
-  background-color: var(--color-success); transform: scale(1);
+  background: var(--color-success);
+  transform: scale(1);
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
 }
-.addButton.added::before { content: '✓'; margin-right: var(--space-xs); font-weight: bold; }
-.addButton.added:hover { background-color: var(--color-success); box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2); transform: translateY(0); }
-.addButton:disabled { cursor: default; background-color: var(--color-border-strong); color: var(--color-text-muted); box-shadow: none; }
+.addButton.added::before {
+  content: '✓';
+  margin-right: var(--space-xs);
+  font-weight: bold;
+}
+.addButton.added:hover {
+  background: var(--color-success); /* Keep success color */
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(76, 175, 80, 0.2);
+}
+.addButton:disabled {
+  cursor: default;
+  background: var(--color-border-strong);
+  color: var(--color-text-muted);
+  box-shadow: none;
+  transform: none;
+}

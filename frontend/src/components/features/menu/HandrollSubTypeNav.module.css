@@ -1,0 +1,47 @@
+/* frontend/src/components/features/menu/HandrollSubTypeNav.module.css */
+.subTypeNav {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-sm); /* Slightly smaller gap */
+  margin-top: calc(-1 * var(--space-md)); /* Pull up slightly */
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-md);
+  flex-wrap: wrap;
+  position: relative; /* Ensure it's above product grid animation if overlapping */
+  z-index: 5; /* Lower than category nav indicator */
+}
+
+.subTypeButton {
+  padding: var(--space-xs) var(--space-md); /* Smaller padding */
+  border: 1px solid var(--color-border); /* Slightly lighter border */
+  border-radius: var(--border-radius-pill); /* Pill shape */
+  background-color: transparent; /* Transparent base */
+  color: var(--color-text-medium);
+  font-weight: 500;
+  font-size: 0.9rem; /* Smaller text */
+  cursor: pointer;
+  transition: var(--transition-base);
+  white-space: nowrap;
+  box-shadow: var(--box-shadow-inset); /* Subtle inset shadow */
+}
+
+.subTypeButton:hover {
+  background-color: rgba(224, 169, 57, 0.1); /* Very subtle gold background */
+  border-color: var(--color-primary-dark);
+  color: var(--color-primary-light);
+  box-shadow: none; /* Remove inset shadow on hover */
+}
+
+.subTypeButton.active {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark)); /* Gradient background */
+  color: var(--color-text-on-primary); /* Use specific text color */
+  border-color: var(--color-primary-dark);
+  font-weight: 600;
+  box-shadow: var(--box-shadow-primary-glow), var(--box-shadow-sm); /* Glow + subtle drop shadow */
+  transform: translateY(-1px); /* Slight lift when active */
+}
+
+.subTypeButton:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
+}

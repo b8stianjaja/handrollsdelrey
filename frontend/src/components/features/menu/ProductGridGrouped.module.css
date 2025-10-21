@@ -1,0 +1,39 @@
+/* src/components/features/menu/ProductGridGrouped.module.css */
+
+.groupedContainer {
+  /* No specific styles needed for the outer container unless you want overall padding/margin */
+  width: 100%;
+}
+
+.subCategorySection {
+  margin-bottom: var(--space-xxl); /* Add space between subcategory sections */
+  /* Added for GSAP */
+  opacity: 0;
+  transform: translateY(15px);
+}
+.subCategorySection:last-child {
+    margin-bottom: 0; /* No bottom margin on the last section */
+}
+
+
+.subCategoryTitle {
+  font-size: clamp(1.6rem, 5vw, 2rem); /* Slightly smaller than main category titles */
+  color: var(--color-primary-light); /* Lighter gold for distinction */
+  margin-bottom: var(--space-lg);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--color-border-strong);
+  font-family: var(--font-headings);
+  font-weight: 600; /* Semi-bold */
+}
+
+.innerGrid {
+  /* Inherits grid styles from ProductGrid.module.css */
+  /* You could override gap or columns here if needed specifically for grouped items */
+  /* Example: gap: var(--space-md); */
+}
+
+/* Added for GSAP stagger - mostly functional, minimal style */
+.cardWrapper {
+  opacity: 0;
+  transform: translateY(15px);
+}

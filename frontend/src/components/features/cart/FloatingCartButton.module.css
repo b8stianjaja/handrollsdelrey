@@ -1,91 +1,98 @@
-/* src/components/features/cart/FloatingCartButton.module.css */
+/* frontend/src/components/features/cart/FloatingCartButton.module.css */
 .floatingButton {
   position: fixed;
-  bottom: var(--space-lg); /* Espacio desde abajo */
-  left: 50%; /* Centrado horizontalmente */
-  transform: translateX(-50%); /* Ajuste fino de centrado */
-  z-index: 900; /* Debajo de modales pero sobre contenido */
-  
+  bottom: var(--space-lg);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  padding: var(--space-sm) var(--space-lg);
-  
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-  color: var(--color-text-light);
+  gap: var(--space-md); /* Increased gap */
+  padding: var(--space-sm) var(--space-lg); /* Adjusted padding */
+
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: var(--color-text-on-primary); /* Use specific text color */
   border: none;
-  border-radius: 50px; /* Bordes muy redondeados */
-  box-shadow: var(--box-shadow-lg); /* Sombra pronunciada */
-  
+  border-radius: var(--border-radius-pill); /* Pill shape */
+  box-shadow: var(--box-shadow-lg); /* Use large shadow */
+
   cursor: pointer;
-  transition: var(--transition-base), transform 0.1s ease;
-  /* FIX: Animación de entrada + animación de pulso para darle vida */
-  animation: slideInUp 0.5s ease-out forwards, 
-             pulse 2s infinite 0.5s; 
+  transition: var(--transition-base), transform 0.15s ease-out; /* Smoother transform */
+  animation: slideInUp 0.5s 0.2s ease-out backwards, /* Added delay and backwards fill */
+             pulse 2.5s infinite 1s; /* Slower pulse, delayed start */
+  will-change: transform, box-shadow; /* Optimize animation */
 }
 
 @keyframes slideInUp {
-  from { transform: translate(-50%, 100px); opacity: 0; }
+  from { transform: translate(-50%, 120px); opacity: 0; } /* Start further down */
   to { transform: translate(-50%, 0px); opacity: 1; }
 }
 
-/* FIX: Nueva animación de pulso usando el color primario para el glow */
 @keyframes pulse {
-  0% { box-shadow: 0 0 0 0 rgba(224, 169, 57, 0.6); } /* Nuevo Dorado, 60% opacidad */
-  70% { box-shadow: 0 0 0 10px rgba(224, 169, 57, 0); } /* Expande el glow */
-  100% { box-shadow: 0 0 0 0 rgba(224, 169, 57, 0); }
+  0% { box-shadow: var(--box-shadow-lg), 0 0 0 0 rgba(224, 169, 57, 0.5); } /* Combine shadows */
+  70% { box-shadow: var(--box-shadow-lg), 0 0 0 12px rgba(224, 169, 57, 0); }
+  100% { box-shadow: var(--box-shadow-lg), 0 0 0 0 rgba(224, 169, 57, 0); }
 }
 
 
 .floatingButton:hover {
-  transform: translate(-50%, -5px); /* FIX: Levitar un poco más */
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.25); /* FIX: Sombra más pronunciada en hover */
-  animation: slideInUp 0.5s ease-out forwards, none; /* FIX: Pausar el pulso al hacer hover */
+  transform: translate(-50%, -6px); /* More lift */
+  box-shadow: var(--box-shadow-primary-strong), 0 10px 25px rgba(0, 0, 0, 0.3); /* Stronger glow and drop shadow */
+  animation-play-state: paused; /* Pause pulse on hover */
 }
 .floatingButton:active {
-  transform: translate(-50%, 0px) scale(0.95); /* FIX: Efecto clic más fuerte */
+  transform: translate(-50%, 0px) scale(0.96); /* Slightly more pronounced press */
+  animation-play-state: paused; /* Keep pulse paused */
 }
 
 .iconWrapper {
   position: relative;
-  display: flex; /* Necesario para el contador */
+  display: flex;
+  color: var(--color-text-on-primary); /* Ensure icon color */
 }
 
 .itemCount {
   position: absolute;
   top: -8px;
-  right: -10px;
-  background-color: var(--color-accent); /* Color acento */
-  color: white;
+  right: -12px; /* Adjust position */
+  background-color: var(--color-accent);
+  color: var(--color-text-on-accent);
   border-radius: 50%;
-  width: 22px;
-  height: 22px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  width: 24px;  /* Slightly larger */
+  height: 24px;
+  font-size: 0.85rem; /* Slightly larger */
+  font-weight: 700; /* Bold */
   display: flex;
   justify-content: center;
   align-items: center;
   line-height: 1;
-  border: 1px solid white; /* Borde para destacar */
+  border: 2px solid var(--color-bg-card); /* Border matching card bg for contrast */
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3); /* Add shadow to count */
 }
 
 .priceInfo {
   display: flex;
   flex-direction: column;
-  align-items: flex-start; /* Alinear texto a la izquierda */
-  font-size: 0.9rem;
-  line-height: 1.2;
+  align-items: flex-start;
+  font-size: 0.95rem; /* Slightly larger */
+  line-height: 1.3;
 }
 
 .priceInfo span:first-child {
   font-weight: 600; /* 'Ver Pedido' */
+  text-transform: uppercase; /* Uppercase */
+  font-size: 0.85rem; /* Smaller label */
+  letter-spacing: 0.5px;
+  opacity: 0.9;
 }
 
 .subtotal {
-  font-weight: 400; /* Precio normal */
+  font-weight: 700; /* Bold price */
+  font-size: 1.05rem; /* Larger price */
 }
 
-/* Ocultar en Desktop (donde se usará la sidebar) */
+/* Ocultar en Desktop */
 @media (min-width: 1024px) {
   .floatingButton {
     display: none;

@@ -1,16 +1,17 @@
-/* src/components/features/cart/CartItem.module.css - Harmonized */
+/* src/components/features/cart/CartItem.module.css - Fixed Structure */
 
 .cartItem {
   display: grid;
-  /* Mobile Columns: Image | Details | Quantity & Total stack */
-  grid-template-columns: 60px 1fr auto; /* Slightly smaller image */
+  /* Mobile Columns: Image | Details | Controls & Total (stacked) */
+  grid-template-columns: 60px 1fr auto;
   align-items: center;
-  gap: var(--space-sm) var(--space-md); /* Row gap, Column gap */
-  padding: var(--space-md) var(--space-lg); /* Consistent padding */
-  border-bottom: 1px solid var(--color-border); /* Softer border */
-  background-color: var(--color-bg-card); /* Ensure background */
+  gap: var(--space-sm) var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-bg-card);
 }
-/* No border on the last item within the scroll container */
+
+/* No border on the last item */
 .cartItemsScrollable > div:last-child .cartItem {
   border-bottom: none;
 }
@@ -18,47 +19,57 @@
 /* Area 1: Image */
 .image {
   grid-column: 1 / 2;
-  grid-row: 1 / 3; /* Span 2 rows */
+  grid-row: 1 / 3;
   width: 60px;
   height: 60px;
   object-fit: cover;
-  border-radius: var(--border-radius-sm); /* Smaller radius */
+  border-radius: var(--border-radius-sm);
 }
 
 /* Area 2: Details */
 .details {
   grid-column: 2 / 3;
-  grid-row: 1 / 3; /* Span 2 rows */
+  grid-row: 1 / 3;
   display: flex;
   flex-direction: column;
-  min-width: 0; /* Allow text wrapping */
+  min-width: 0;
   gap: var(--space-xxs);
-  align-self: center; /* Vertically center details */
-  padding-right: var(--space-sm); /* Add padding to prevent text touching controls */
+  align-self: center;
+  padding-right: var(--space-sm);
 }
 
 .name {
-  font-weight: 600; font-size: 0.95rem; color: var(--color-text-dark);
-  line-height: 1.3; white-space: normal;
-}
-.options {
-  font-size: 0.75rem; color: var(--color-text-medium);
-  line-height: 1.4; white-space: normal;
-}
-.unitPrice {
-  display: block; font-size: 0.8rem; color: var(--color-text-muted);
-  font-weight: 500; margin-top: var(--space-xs);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text-dark);
+  line-height: 1.3;
+  white-space: normal;
 }
 
-/* Area 3 Combined: Quantity Controls & Total (Mobile) */
+.options {
+  font-size: 0.75rem;
+  color: var(--color-text-medium);
+  line-height: 1.4;
+  white-space: normal;
+}
+
+.unitPrice {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+  margin-top: var(--space-xs);
+}
+
+/* Area 3: Combined Controls & Total for Mobile */
 .controlsAndTotal {
-    grid-column: 3 / 4;
-    grid-row: 1 / 3; /* Span 2 rows */
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end; /* Align right */
-    justify-content: center; /* Center vertically */
-    gap: var(--space-sm);
+  grid-column: 3 / 4;
+  grid-row: 1 / 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--space-sm);
 }
 
 .quantityControl {
@@ -66,72 +77,175 @@
   align-items: center;
   gap: var(--space-sm);
 }
+
 .quantityButton {
-  background-color: var(--color-bg-sidebar); border: 1px solid var(--color-border-strong);
-  border-radius: 50%; width: 26px; height: 26px; font-size: 1.2rem; line-height: 1;
-  color: var(--color-primary); display: flex; justify-content: center; align-items: center;
-  flex-shrink: 0; transition: var(--transition-base);
+  background-color: var(--color-bg-sidebar);
+  border: 1px solid var(--color-border-strong);
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  font-size: 1.2rem;
+  line-height: 1;
+  color: var(--color-primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  transition: var(--transition-base);
+  cursor: pointer;
 }
-.quantityButton:hover { background-color: var(--color-primary-light); color: var(--color-primary-dark); transform: scale(1.05); }
-.quantityButton:active { transform: scale(0.9); background-color: var(--color-primary-dark); color: white; }
+
+.quantityButton:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  transform: scale(1.05);
+}
+
+.quantityButton:active {
+  transform: scale(0.9);
+  background-color: var(--color-primary-dark);
+  color: white;
+}
 
 .quantity {
-  font-weight: 600; min-width: 18px; text-align: center;
-  font-size: 1rem; color: var(--color-text-dark);
+  font-weight: 600;
+  min-width: 18px;
+  text-align: center;
+  font-size: 1rem;
+  color: var(--color-text-dark);
 }
 
-.itemTotal { /* Just the price text now */
-  font-weight: 700; font-size: 1rem; color: var(--color-text-dark);
+.itemTotal {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--color-text-dark);
   white-space: nowrap;
 }
 
 .removeButton {
-    /* Positioned within controlsAndTotal container */
-    background: none; border: none; font-size: 1.3rem; color: var(--color-text-muted);
-    cursor: pointer; padding: var(--space-xxs); line-height: 1; transition: var(--transition-fast);
-    /* Add a little margin if needed, depends on final alignment */
-    /* margin-top: var(--space-xs); */
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: var(--space-xxs);
+  line-height: 1;
+  transition: var(--transition-fast);
 }
-.removeButton:hover { color: var(--color-error); transform: scale(1.1); }
-.removeButton:active { transform: scale(0.9); opacity: 0.8; }
 
+.removeButton:hover {
+  color: var(--color-error);
+  transform: scale(1.1);
+}
+
+.removeButton:active {
+  transform: scale(0.9);
+  opacity: 0.8;
+}
+
+/* Desktop-specific elements - hidden on mobile */
+.quantityControlDesktop,
+.itemTotalDesktop,
+.removeButtonDesktop {
+  display: none;
+}
 
 /* --- Desktop Adjustments --- */
 @media (min-width: 1024px) {
   .cartItem {
-    /* Columns: Img | Details | Quantity | Total | Remove */
-    grid-template-columns: 50px 1fr 90px 80px 35px;
-    gap: var(--space-md); /* Consistent gap */
-    padding: var(--space-md) var(--space-lg); /* Consistent padding */
-    align-items: center; /* Vertically center all grid items */
+    /* WIDER 5-column grid for desktop - MORE SPACE FOR PRODUCT NAME */
+    grid-template-columns: 50px minmax(200px, 1fr) 100px 90px 40px; /* Increased product name column */
+    grid-template-rows: auto;
+    gap: var(--space-md);
+    padding: var(--space-md) var(--space-lg);
+    align-items: center;
+    min-width: 0;
   }
 
+  /* Reset grid positions for desktop */
   .image {
-    grid-row: 1 / 2; /* Single row */
-    width: 50px; height: 50px;
+    grid-column: 1 / 2;
+    grid-row: 1 / 2;
+    width: 50px;
+    height: 50px;
   }
-  .details { grid-row: 1 / 2; align-self: center; padding-right: 0; }
-  .options { font-size: 0.8rem; }
-  .unitPrice { font-size: 0.85rem; }
 
-  /* ControlsAndTotal container no longer needed */
-  .controlsAndTotal { display: none; }
+  .details {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    align-self: center;
+    padding-right: 0;
+    min-width: 0;
+  }
 
-  /* Re-enable individual elements for desktop grid */
-  .quantityControl {
-    display: flex; /* Ensure it's visible again */
-    grid-column: 3 / 4; grid-row: 1 / 2;
-    justify-self: center; gap: var(--space-sm);
+  .name {
+    font-size: 1rem;
+    white-space: normal; /* Allow text to wrap */
+    overflow: visible; /* Don't hide overflow */
+    text-overflow: unset; /* Remove ellipsis */
+    line-height: 1.3;
+    word-wrap: break-word; /* Break long words if needed */
   }
-  .itemTotal {
-    display: block; /* Ensure it's visible again */
-    grid-column: 4 / 5; grid-row: 1 / 2;
-    justify-self: end; align-self: center; font-size: 1rem;
+
+  .options {
+    font-size: 0.8rem;
+    white-space: normal; /* Allow options to wrap too */
+    overflow: visible;
+    text-overflow: unset;
+    line-height: 1.3;
   }
-  .removeButton {
-    display: block; /* Ensure it's visible again */
-    grid-column: 5 / 6; grid-row: 1 / 2;
-    justify-self: center; align-self: center;
-    margin: 0; padding: 0; /* Reset mobile adjustments */
+
+  .unitPrice {
+    font-size: 0.85rem;
+  }
+
+  /* Hide mobile controlsAndTotal container on desktop */
+  .controlsAndTotal {
+    display: none;
+  }
+
+  /* Show individual desktop elements */
+  .quantityControlDesktop {
+    display: flex;
+    grid-column: 3 / 4;
+    grid-row: 1 / 2;
+    justify-self: center;
+    gap: var(--space-sm);
+  }
+
+  .itemTotalDesktop {
+    display: block;
+    grid-column: 4 / 5;
+    grid-row: 1 / 2;
+    justify-self: end;
+    align-self: center;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-text-dark);
+    white-space: nowrap;
+  }
+
+  .removeButtonDesktop {
+    display: block;
+    grid-column: 5 / 6;
+    grid-row: 1 / 2;
+    justify-self: center;
+    align-self: center;
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: var(--transition-fast);
+  }
+
+  .removeButtonDesktop:hover {
+    color: var(--color-error);
+    transform: scale(1.1);
+  }
+
+  .removeButtonDesktop:active {
+    transform: scale(0.9);
+    opacity: 0.8;
   }
 }

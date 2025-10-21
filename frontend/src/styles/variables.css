@@ -1,5 +1,5 @@
-/* src/styles/variables.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Merriweather:400;700&display=swap');
+/* frontend/src/styles/variables.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Merriweather:wght@400;700&display=swap');
 
 :root {
   /* Fuentes */
@@ -8,24 +8,35 @@
   --font-display: 'Poppins', sans-serif;
 
   /* * PALETA DE COLORES - TEMA OSCURO (BLACK/GOLD/RED) * */
-  --color-primary: #E0A939; /* Dorado rico y visible */
-  --color-primary-dark: #B0832C; /* Dorado oscuro (hover) */
-  --color-primary-light: #F3D894; /* Dorado claro (glow) */
-  --color-secondary: #E53935; /* Rojo/Chili vibrante */
-  --color-accent: #E53935; /* Rojo/Chili vibrante para CTA principal */
-  --color-accent-dark: #C62828; /* Rojo oscuro (hover) */
-  --color-bg-light: #121212;
-  --color-bg-dark: #000000;
-  --color-bg-card: #1E1E1E;
-  --color-bg-sidebar: #2C2C2C;
-  --color-text-dark: #F5F5F5;
-  --color-text-medium: #A0A0A0;
-  --color-text-light: #FFFFFF;
-  --color-text-muted: #666666;
-  --color-border: #333333;
-  --color-border-strong: #404040;
-  --color-success: #4CAF50;
-  --color-error: #EF4444;
+  --color-primary: #E0A939;       /* Dorado principal */
+  --color-primary-dark: #B0832C;  /* Dorado oscuro (hover/active) */
+  --color-primary-light: #F3D894; /* Dorado claro (glow/highlights) */
+  --color-secondary: #E53935;     /* Rojo secundario (if needed) */
+  --color-accent: #E53935;        /* Rojo acento principal (buttons, highlights) */
+  --color-accent-dark: #C62828;   /* Rojo oscuro (hover/active) */
+
+  /* Backgrounds */
+  --color-bg-dark: #0A0A0A;      /* Slightly off-black base */
+  --color-bg-light: #141414;     /* Lighter dark for main area */
+  --color-bg-card: #1E1E1E;      /* Card/Modal background */
+  --color-bg-sidebar: #242424;   /* Sidebar/Input background */
+  --background-gradient: linear-gradient(180deg, var(--color-bg-light) 0%, var(--color-bg-dark) 100vh); /* Gradient stops at viewport height */
+
+  /* Text Colors */
+  --color-text-dark: #EDEDED;     /* Principal (slightly softer white) */
+  --color-text-medium: #B0B0B0;   /* Secundario (gris claro) */
+  --color-text-light: #FFFFFF;    /* Puro blanco (use sparingly) */
+  --color-text-muted: #757575;    /* Terciario (gris oscuro) */
+  --color-text-on-primary: #1A1A1A; /* Texto oscuro sobre fondos dorados */
+  --color-text-on-accent: #FFFFFF; /* Texto blanco sobre fondos rojos */
+
+  /* Borders */
+  --color-border: #333333;       /* Borde suave */
+  --color-border-strong: #4D4D4D; /* Borde más visible */
+
+  /* Status Colors */
+  --color-success: #66BB6A;       /* Verde éxito */
+  --color-error: #EF5350;         /* Rojo error */
 
   /* Layout & UI */
   --space-unit: 8px;
@@ -38,23 +49,27 @@
   --space-xxl: calc(var(--space-unit) * 6);  /* 48px */
   --space-xxxl: calc(var(--space-unit) * 8); /* 64px */
 
-  --max-width: 1280px;
-  --content-padding: clamp(var(--space-md), 5vw, var(--space-xxl));
+  --max-width: 1320px; /* Slightly wider max width */
+  --content-padding: clamp(var(--space-lg), 6vw, var(--space-xxxl)); /* Adjusted padding */
 
-  --navbar-height-mobile: 65px;
-  --navbar-height-desktop: 75px;
-  --sidebar-width-desktop: 420px; /* Kept from previous version */
+  --navbar-height-mobile: 70px;
+  --navbar-height-desktop: 80px;
+  --sidebar-width-desktop: 400px; /* Slightly narrower */
 
+  /* Borders & Radius */
   --border-radius-sm: 4px;
   --border-radius-md: 8px;
-  --border-radius-lg: 12px;
+  --border-radius-lg: 12px; /* Adjusted back for consistency */
+  --border-radius-pill: 50px;
 
   /* Sombras */
-  --box-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --box-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
-  --box-shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.6);
-  --box-shadow-primary-glow: 0 0 6px rgba(224, 169, 57, 0.7);
-  --box-shadow-primary-strong: 0 0 10px rgba(224, 169, 57, 0.8);
+  --box-shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.3);
+  --box-shadow-md: 0 6px 15px rgba(0, 0, 0, 0.4);
+  --box-shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.5);
+  --box-shadow-inset: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+  --box-shadow-primary-glow: 0 0 12px rgba(224, 169, 57, 0.4);
+  --box-shadow-primary-strong: 0 0 18px rgba(224, 169, 57, 0.5);
+  --box-shadow-accent-glow: 0 0 10px rgba(229, 57, 53, 0.3);
 
   /* Transiciones */
   --transition-fast: all 0.15s ease-out;

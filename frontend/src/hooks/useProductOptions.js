@@ -1,97 +1,113 @@
-// src/hooks/useProductOptions.js
+// frontend/src/hooks/useProductOptions.js
 import { useState, useMemo, useEffect } from 'react';
 import { useCart } from '../contexts/CartContext';
 
-/**
- * Hook personalizado para manejar la lógica compleja del modal de opciones de producto.
- * Encapsula el estado de selección, cálculo de precio y validación.
- * @param {object} product - El producto que se está configurando.
- * @param {function} onClose - La función para cerrar el modal.
- */
 export const useProductOptions = (product, onClose) => {
-  // Conexión al contexto del carrito
   const { addItem } = useCart();
-  
-  // Estado para guardar las opciones seleccionadas
   const [selectedOptions, setSelectedOptions] = useState({});
 
-  // Efecto para inicializar el estado cuando el modal se abre
+  // Initialize state when product changes
   useEffect(() => {
-    if (!product) return;
+    if (!product || !product.options) {
+      setSelectedOptions({}); // Reset if no product or options
+      return;
+    };
     const defaults = {};
     product.options.forEach(group => {
+      // Initialize radios with the first item if available
       if (group.type === 'radio' && group.items.length > 0) {
         defaults[group.id] = [group.items[0].id];
       } else {
+        // Initialize checkboxes (or empty radios) as empty arrays
         defaults[group.id] = [];
       }
     });
     setSelectedOptions(defaults);
-  }, [product]);
+  }, [product]); // Rerun only when the product itself changes
 
-  // Calcula el precio total en tiempo real
+  // Calculate price based on current selections
   const currentPrice = useMemo(() => {
     if (!product) return 0;
     let total = product.basePrice;
-    product.options.forEach(group => {
-      const selections = selectedOptions[group.id] || [];
-      group.items.forEach(item => {
-        if (selections.includes(item.id)) {
-          total += item.priceModifier;
+    // Safely iterate even if selectedOptions isn't fully initialized yet
+    Object.keys(selectedOptions).forEach(groupId => {
+        const group = product.options.find(g => g.id === groupId);
+        const selections = selectedOptions[groupId] || [];
+        if (group) {
+            group.items.forEach(item => {
+                if (selections.includes(item.id)) {
+                    total += item.priceModifier;
+                }
+            });
         }
-      });
     });
+
     return total;
   }, [product, selectedOptions]);
 
-  // Maneja el cambio en un input
+  // Handle changes to radio/checkbox inputs
   const handleOptionChange = (groupId, itemId, groupType, maxOptions) => {
     setSelectedOptions(prev => {
-      const newSelections = { ...prev };
-      const currentGroupSelections = prev[groupId] || [];
+      const newSelectionsForGroup = [...(prev[groupId] || [])]; // Copy current selections for the group
 
       if (groupType === 'radio') {
-        newSelections[groupId] = [itemId];
-      } 
+        // Radio: always replace with the single selected item
+        return { ...prev, [groupId]: [itemId] };
+      }
       else if (groupType === 'checkbox') {
-        if (currentGroupSelections.includes(itemId)) {
-          newSelections[groupId] = currentGroupSelections.filter(id => id !== itemId);
+        const isCurrentlySelected = newSelectionsForGroup.includes(itemId);
+
+        if (isCurrentlySelected) {
+          // Checkbox: If selected, remove it
+          const updatedGroup = newSelectionsForGroup.filter(id => id !== itemId);
+          return { ...prev, [groupId]: updatedGroup };
         } else {
-          // *** CORRECCIÓN *** : Eliminado 'cite_start' y comentarios de cita
-          // Implementa la regla 'max' del manual
-          if (currentGroupSelections.length < maxOptions) {
-            newSelections[groupId] = [...currentGroupSelections, itemId];
+          // Checkbox: If not selected, check if adding exceeds max limit *before* adding
+          if (newSelectionsForGroup.length < maxOptions) {
+            const updatedGroup = [...newSelectionsForGroup, itemId];
+            return { ...prev, [groupId]: updatedGroup };
+          } else {
+            // Exceeds max limit, do nothing (or show feedback)
+            console.warn(`Cannot select more than ${maxOptions} options for group ${groupId}`);
+            return prev; // Return previous state unchanged
           }
-          // (Feedback visual opcional si se excede max)
         }
       }
-      return newSelections;
+      return prev; // Should not happen, but return prev state as fallback
     });
   };
 
-  // Validación de reglas (Min/Max)
+
+  // Validate if current selections meet min/max rules for *all* groups
   const isValid = useMemo(() => {
-    if (!product) return false;
-    // *** CORRECCIÓN *** : Eliminado 'cite_start' y comentarios de cita
-    // Implementa la regla 'min' del manual
+    // Ensure product and options exist and selectedOptions is populated
+    if (!product || !product.options || Object.keys(selectedOptions).length === 0) return false;
+
+    // Check every group defined in the product
     return product.options.every(group => {
       const selections = selectedOptions[group.id] || [];
       const count = selections.length;
-      return count >= group.min && count <= group.max;
+      // Check if count is within the defined min and max
+      const meetsMin = count >= group.min;
+      const meetsMax = count <= group.max;
+      // console.log(`Group ${group.id}: ${count} selected (min ${group.min}, max ${group.max}) -> min: ${meetsMin}, max: ${meetsMax}`); // Debug log
+      return meetsMin && meetsMax;
     });
   }, [selectedOptions, product]);
 
-  // Maneja el envío final al carrito
+
+  // Add the configured item to the cart and close modal
   const handleSubmit = () => {
     if (!isValid) {
-      console.warn("Validación de opciones fallida.");
+      console.warn("Validation failed. Cannot add item.", { selectedOptions, productOptions: product?.options }); // Log details
+      // Optionally provide user feedback here (e.g., using a state for error message)
       return;
     }
+    console.log("Adding item with options:", { product, selectedOptions, currentPrice }); // Log before adding
     addItem(product, selectedOptions, currentPrice);
-    onClose(); 
+    onClose();
   };
 
-  // Expone el estado y los manejadores
   return {
     selectedOptions,
     currentPrice,

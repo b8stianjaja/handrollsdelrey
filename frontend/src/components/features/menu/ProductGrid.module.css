@@ -1,10 +1,16 @@
-/* src/components/features/menu/ProductGrid.module.css */
+/* frontend/src/components/features/menu/ProductGrid.module.css */
 .grid {
   display: grid;
-  /* Columnas responsivas: mínimo 280px, crecen para llenar espacio */
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  
-  /* IMPORTANTE: Eliminar transiciones CSS para que GSAP tome el control total */
-  transition: none; 
+  gap: var(--space-lg); /* Increased gap slightly */
+  transition: none; /* GSAP handles transitions */
+}
+
+/* Wrapper for individual cards, targeted by GSAP stagger */
+.cardWrapper {
+  opacity: 0; /* Initial state for GSAP */
+  transform: translateY(15px); /* Initial state for GSAP */
+  /* Ensures cards within the wrapper take full height if needed */
+  display: flex;
+  flex-direction: column;
 }

@@ -1,65 +1,81 @@
-/* src/components/features/cart/CartDisplay.module.css */
+/* frontend/src/components/features/cart/CartDisplay.module.css */
 
 /* --- Mobile First: Bottom Sheet Modal --- */
 .cartOverlay {
-  position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.7); z-index: 1100;
-  display: flex; justify-content: center; align-items: flex-end; opacity: 0;
-  visibility: hidden; transition: opacity 0.3s ease-out, visibility 0s linear 0.3s;
-  backdrop-filter: blur(3px);
+  position: fixed; inset: 0; background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1050; /* Above floating button (900), below options modal (1100) */
+  display: flex; justify-content: center; align-items: flex-end;
+  opacity: 0;
+  visibility: hidden;
+  /* Simplify transition: only opacity and visibility */
+  transition: opacity 0.3s ease-out, visibility 0.3s step-end; /* Use step-end for visibility */
+  backdrop-filter: blur(4px);
+  -webkit-tap-highlight-color: transparent; /* Prevent tap highlight on overlay */
 }
-.cartOverlay.open { opacity: 1; visibility: visible; transition-delay: 0s; }
+.cartOverlay.open {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-out, visibility 0s step-start; /* Use step-start for visibility */
+}
+
 .cartDisplay {
   background-color: var(--color-bg-card); width: 100%; max-width: 640px; margin: 0 auto;
-  max-height: 85vh; border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
-  display: flex; flex-direction: column; box-shadow: 0 -5px 25px rgba(0,0,0,0.2);
-  transform: translateY(100%); transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  max-height: 80vh;
+  border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
+  display: flex; flex-direction: column;
+  box-shadow: 0 -8px 25px rgba(0,0,0,0.3);
+  transform: translateY(100%);
+  /* Apply transition specifically to transform */
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
+  z-index: 1051; /* Above its own overlay */
 }
-.cartOverlay.open .cartDisplay { transform: translateY(0%); }
+.cartOverlay.open .cartDisplay {
+  transform: translateY(0%);
+}
+
+/* ... (rest of the styles: header, title, closeButton, cartItemsScrollable, emptyMessage, Desktop @media query remain the same as the previous response) ... */
 .header {
   display: flex; justify-content: space-between; align-items: center;
-  padding: var(--space-md) var(--space-lg); border-bottom: 1px solid var(--color-border);
+  padding: var(--space-md) var(--space-lg);
+  border-bottom: 1px solid var(--color-border);
   flex-shrink: 0;
+  background-color: var(--color-bg-sidebar);
 }
-.title { margin: 0; color: var(--color-text-dark); font-size: 1.4rem; font-weight: 600; font-family: var(--font-headings); }
-.closeButton { background: none; border: none; font-size: 2rem; color: var(--color-text-muted); line-height: 1; padding: var(--space-xs); cursor: pointer; transition: var(--transition-fast); }
-.closeButton:hover { color: var(--color-text-dark); }
+.title {
+  margin: 0; color: var(--color-primary); font-size: 1.5rem;
+  font-weight: 700; font-family: var(--font-headings);
+}
+.closeButton {
+  background: none; border: none; font-size: 2.2rem;
+  color: var(--color-text-muted); line-height: 1; padding: var(--space-xs);
+  cursor: pointer; transition: var(--transition-fast);
+}
+.closeButton:hover { color: var(--color-error); transform: scale(1.1); }
 
-/* === SCROLLABLE ITEM LIST === */
 .cartItemsScrollable {
-  flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding: 0; min-height: 0;
-  scrollbar-width: none; -ms-overflow-style: none;
+  flex-grow: 1; overflow-y: auto; overflow-x: hidden; padding: 0; min-height: 100px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-primary-dark) var(--color-bg-card);
 }
-.cartItemsScrollable::-webkit-scrollbar { display: none; width: 0; height: 0; background: transparent; }
-.emptyMessage { text-align: center; color: var(--color-text-muted); padding: var(--space-xxl) var(--space-lg); font-weight: 500; font-style: italic; }
-
-/* === FOOTER SUMMARY AREA === */
+.cartItemsScrollable::-webkit-scrollbar { width: 6px; }
+.cartItemsScrollable::-webkit-scrollbar-track { background: var(--color-bg-card); }
+.cartItemsScrollable::-webkit-scrollbar-thumb { background-color: var(--color-primary-dark); border-radius: 10px; }
+.cartItemsScrollable::-webkit-scrollbar-thumb:hover { background-color: var(--color-primary); }
+.emptyMessage {
+  text-align: center; color: var(--color-text-muted);
+  padding: var(--space-xxxl) var(--space-lg);
+  font-weight: 500; font-style: italic; font-size: 1.1rem;
+}
 .cartDisplay > div:last-child { flex-shrink: 0; }
 
-/* --- Desktop: Static Sidebar --- */
 @media (min-width: 1024px) {
-  .cartOverlay {
-    position: static; background-color: transparent; opacity: 1; visibility: visible;
-    transition: none; padding: 0; display: block; height: 100%; width: 100%; backdrop-filter: none;
-  }
-  .cartDisplay { /* Fills the .sidebar element */
-    background-color: transparent; border-radius: 0; height: 100%; max-height: 100%;
-    transform: none; transition: none; box-shadow: none; width: 100%;
-    display: flex; flex-direction: column; overflow: hidden; /* Keep this */
-  }
+  /* ... Desktop styles ... */
+  .cartOverlay { position: static; background-color: transparent; opacity: 1; visibility: visible; transition: none; padding: 0; display: block; height: 100%; width: 100%; backdrop-filter: none; z-index: auto; }
+  .cartDisplay { background-color: transparent; border-radius: 0; height: 100%; max-height: 100%; transform: none; transition: none; box-shadow: none; width: 100%; display: flex; flex-direction: column; overflow: hidden; z-index: auto; }
   .closeButton { display: none; }
-  .header {
-     padding: var(--space-lg); justify-content: center; border-bottom: 1px solid var(--color-border);
-     background-color: var(--color-bg-card); border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0;
-     flex-shrink: 0;
-  }
-  .title { font-size: 1.6rem; }
-  .cartItemsScrollable {
-    padding: 0; background-color: var(--color-bg-card);
-    flex-grow: 1; min-height: 0; overflow-y: auto;
-  }
-  .cartDisplay > div:last-child { /* Selects CartSummary */
-      background-color: var(--color-bg-sidebar); border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
-      flex-shrink: 0;
-  }
+  .header { padding: var(--space-lg); justify-content: center; border-bottom: 1px solid var(--color-border-strong); background-color: var(--color-bg-card); border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0; flex-shrink: 0; }
+  .title { font-size: 1.8rem; }
+  .cartItemsScrollable { padding: 0; background-color: var(--color-bg-card); flex-grow: 1; min-height: 0; overflow-y: auto; }
+  .cartDisplay > div[class*="CartSummary_summary"] { background-color: var(--color-bg-sidebar); border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg); flex-shrink: 0; border-top: 1px solid var(--color-border-strong); }
 }

@@ -34,43 +34,39 @@
   }
 
   .menuPageLayout {
-    grid-template-columns: minmax(0, 1fr) var(--sidebar-width-desktop);
+    /* INCREASED SIDEBAR WIDTH: from var(--sidebar-width-desktop) to 420px */
+    grid-template-columns: minmax(0, 1fr) 420px; /* Increased sidebar width */
     gap: var(--space-xxl);
-    align-items: start; /* Revert back to start alignment */
+    align-items: start;
     max-width: var(--max-width);
     margin: 0 auto;
   }
 
   .mainContent {
-     min-height: 0; /* Keep for grid stability */
+     min-height: 0;
   }
 
-  /* NEW: Styles for the wrapper */
+  /* Show wrapper and sidebar on desktop */
   .sidebarWrapper {
-    display: block; /* Show the wrapper */
-    /* It takes up the grid column space, but doesn't do much else */
+    display: block;
     width: 100%;
-    /* Ensure it has a height context for sticky child if needed, though grid row height should suffice */
-    /* height: 100%; might be needed if grid row height is ambiguous */
-    position: relative; /* Establish positioning context if needed */
+    position: relative;
   }
 
-  /* UPDATED: Styles now apply to the INNER sidebar div */
   .sidebar {
-    display: flex; /* Still a flex container for CartDisplay */
+    display: flex;
     flex-direction: column;
-    position: sticky; /* Make the INNER div sticky */
+    position: sticky;
     top: calc(var(--navbar-height-desktop) + var(--space-lg));
-    /* Height calculation remains the same */
     height: calc(100vh - var(--navbar-height-desktop) - var(--space-lg) * 2);
     max-height: calc(100vh - var(--navbar-height-desktop) - var(--space-lg) * 2);
-    overflow: hidden; /* Keep clipping overflow */
+    overflow: hidden;
 
-    /* Visuals - Apply to inner div */
+    /* Visuals */
     border-radius: var(--border-radius-lg);
     border: 1px solid var(--color-border);
     box-shadow: var(--box-shadow-sm);
-    /* Background colors will come from CartDisplay */
-    /* background-color: var(--color-bg-sidebar); REMOVED */
+    /* Remove any fixed width that might be constraining it */
+    width: 100%; /* Ensure it takes full width of the grid column */
   }
 }

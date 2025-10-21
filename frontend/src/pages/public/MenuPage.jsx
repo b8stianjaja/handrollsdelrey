@@ -1,83 +1,133 @@
-// src/pages/public/MenuPage.jsx
-import React, { useState, useMemo, useEffect, useRef } from 'react'; // <-- Importar useRef
+// frontend/src/pages/public/MenuPage.jsx
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import MainLayout from '../../components/layout/MainLayout';
 import CategoryNavigation from '../../components/features/menu/CategoryNavigation';
+import HandrollSubTypeNav from '../../components/features/menu/HandrollSubTypeNav';
 import ProductGrid from '../../components/features/menu/ProductGrid';
-// 1. Importar los componentes del carrito
-import FloatingCartButton from '../../components/features/cart/FloatingCartButton'; 
-import CartDisplay from '../../components/features/cart/CartDisplay'; // Solo se importa UNA VEZ
-import menuService from '../../services/menuService'; 
-import ProductOptionsModal from '../../components/features/menu/ProductOptionsModal'; 
+import FloatingCartButton from '../../components/features/cart/FloatingCartButton';
+import CartDisplay from '../../components/features/cart/CartDisplay';
+import menuService from '../../services/menuService';
+import ProductOptionsModal from '../../components/features/menu/ProductOptionsModal';
 import styles from './MenuPage.module.css';
 
 const MenuPage = () => {
-  // Estados para datos del menú (sin cambios)
   const [categories, setCategories] = useState([]);
   const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true); 
-  const [error, setError] = useState(null); 
-
-  // Estado para modal de opciones (sin cambios)
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [selectedProduct, setSelectedProduct] = useState(null);
-  // Mantener el estado de la categoría, clave para la animación
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null); 
-
-  // **NUEVO:** Estado ÚNICO para el modal/sidebar del carrito
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  
-  // **CLAVE GSAP:** Referencia al contenedor de la cuadrícula de productos
   const gridContainerRef = useRef(null);
 
-  // Carga de datos (sin cambios)
+  // State for selected handroll sub-type (null means 'Todos')
+  const [selectedSubType, setSelectedSubType] = useState(null);
+
+  // State to track if we're on mobile
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Check screen size on mount and resize
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    checkScreenSize(); // Initial check
+    window.addEventListener('resize', checkScreenSize);
+
+    return () => {
+      window.removeEventListener('resize', checkScreenSize);
+    };
+  }, []);
+
+  // Fetch initial data
   useEffect(() => {
     const fetchMenu = async () => {
       try {
-        setIsLoading(true); 
-        setError(null); 
-        const menuData = await menuService.getMenuData(); 
+        setIsLoading(true);
+        setError(null);
+        const menuData = await menuService.getMenuData();
         setCategories(menuData.categories);
         setProducts(menuData.products);
-        if (!selectedCategoryId && menuData.categories.length > 0) {
-          setSelectedCategoryId(menuData.categories[0].id);
+        if (menuData.categories.length > 0) {
+          const initialCategoryId = menuData.categories[0].id;
+          setSelectedCategoryId(initialCategoryId);
+          // If the initial category is Handrolls, set default sub-type
+          if (initialCategoryId === 'cat-1') {
+            setSelectedSubType(null); // Default to 'Todos'
+          }
         }
       } catch (err) {
         console.error("MenuPage: Error cargando el menú:", err);
         setError("No se pudo cargar el menú.");
       } finally {
-        setIsLoading(false); 
+        setIsLoading(false);
       }
     };
-    fetchMenu(); 
-  // eslint-disable-next-line react-hooks/exhaustive-deps 
-  }, []); 
+    fetchMenu();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Run only once on mount
 
-  // Filtrado de productos (sin cambios)
+  // Memoized product filtering logic
   const filteredProducts = useMemo(() => {
-    if (!selectedCategoryId || products.length === 0) return []; 
-    return products.filter(p => p.categoryId === selectedCategoryId);
-  }, [selectedCategoryId, products]); 
+    if (!selectedCategoryId || products.length === 0) return [];
 
-  // Manejadores del modal de opciones (sin cambios)
+    let categoryProducts = products.filter(p => p.categoryId === selectedCategoryId);
+
+    // If Handrolls category is selected, apply sub-type filter
+    if (selectedCategoryId === 'cat-1' && selectedSubType !== null) {
+      categoryProducts = categoryProducts.filter(p => p.subCategory === selectedSubType);
+    }
+
+    return categoryProducts; // Always return a flat list
+
+  }, [selectedCategoryId, products, selectedSubType]);
+
+  // Handler for changing main category
+  const handleSelectCategory = (categoryId) => {
+    setSelectedCategoryId(categoryId);
+    // Reset sub-type selection if leaving/entering Handrolls category
+    if (categoryId === 'cat-1') {
+      setSelectedSubType(null); // Default to 'Todos' when selecting Handrolls
+    } else {
+      setSelectedSubType(null); // Clear sub-type for other categories
+    }
+  };
+
   const handleShowOptions = (product) => setSelectedProduct(product);
   const handleCloseOptions = () => setSelectedProduct(null);
+  
+  const openCart = () => {
+    console.log("Opening cart, current state:", isCartOpen);
+    setIsCartOpen(true);
+  };
 
-  // Manejadores para el carrito
-  const openCart = () => setIsCartOpen(true);
-  const closeCart = () => setIsCartOpen(false);
+  const closeCart = () => {
+    console.log("Closing cart");
+    setIsCartOpen(false);
+  };
 
-return (
+  // Key for ProductGrid to force re-animation when category or sub-type changes
+  const gridKey = `${selectedCategoryId}-${selectedSubType || 'all'}`;
+
+  return (
     <MainLayout>
       <div className={styles.menuPageContainer}>
         <div className={styles.menuPageLayout}>
-
-          {/* --- Main Content (Menu) --- */}
           <div className={styles.mainContent}>
-            {/* ... (CategoryNavigation, ProductGrid, etc.) ... */}
             {!isLoading && !error && categories.length > 0 && (
               <CategoryNavigation
                 categories={categories}
                 selectedCategoryId={selectedCategoryId}
-                onSelectCategory={setSelectedCategoryId}
+                onSelectCategory={handleSelectCategory}
+              />
+            )}
+
+            {/* Conditionally render SubTypeNav for Handrolls */}
+            {selectedCategoryId === 'cat-1' && !isLoading && !error && (
+              <HandrollSubTypeNav
+                selectedSubType={selectedSubType}
+                onSelectSubType={setSelectedSubType}
               />
             )}
 
@@ -86,38 +136,36 @@ return (
 
             {!isLoading && !error && products.length > 0 && (
               <ProductGrid
+                key={gridKey}
                 products={filteredProducts}
                 onShowOptions={handleShowOptions}
                 gridRef={gridContainerRef}
-                currentCategoryId={selectedCategoryId}
+                currentCategoryId={gridKey}
               />
             )}
-            {!isLoading && !error && filteredProducts.length === 0 && products.length > 0 && (
-             <p>No hay productos en esta categoría.</p>
-            )}
+             {!isLoading && !error && filteredProducts.length === 0 && products.length > 0 && (
+               <p>No hay productos que coincidan con tu selección.</p>
+             )}
           </div>
-
-          {/* --- Sidebar Wrapper (Desktop Grid Item) --- */}
-          {/* ADDED WRAPPER DIV */}
           <div className={styles.sidebarWrapper}>
-             {/* The original sidebar content now goes inside */}
              <div className={styles.sidebar}>
-                 <CartDisplay isOpen={isCartOpen} onClose={closeCart} />
+               {/* Desktop Cart Display - always visible in sidebar, only render on desktop */}
+               {!isMobile && <CartDisplay isOpen={true} onClose={closeCart} />}
              </div>
           </div>
-          {/* END WRAPPER DIV */}
+        </div>
+      </div>
 
+      {/* Mobile Cart Display - modal overlay, only render on mobile */}
+      {isMobile && <CartDisplay isOpen={isCartOpen} onClose={closeCart} />}
 
-        </div> {/* Fin .menuPageLayout */}
-      </div> {/* Fin .menuPageContainer */}
-
-      {/* --- Floating Elements / Modals --- */}
       <ProductOptionsModal
         product={selectedProduct}
         onClose={handleCloseOptions}
       />
-      <FloatingCartButton onClick={openCart} />
-
+      
+      {/* Floating button only on mobile */}
+      {isMobile && <FloatingCartButton onClick={openCart} />}
     </MainLayout>
   );
 };

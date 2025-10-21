@@ -1,231 +1,391 @@
-/* src/components/features/menu/ProductOptionsModal.module.css */
+/* frontend/src/components/features/menu/ProductOptionsModal.module.css */
 .overlay {
-  position: fixed;
-  inset: 0; /* Abreviatura para top, left, right, bottom 0 */
-  background-color: rgba(0, 0, 0, 0.75); /* Más oscuro */
-  display: flex;
-  justify-content: center;
+  position: fixed; 
+  inset: 0; 
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex; 
+  justify-content: center; 
   align-items: center;
-  z-index: 1000;
-  padding: var(--space-lg);
-  backdrop-filter: blur(4px); /* Efecto blur (opcional) */
-  animation: fadeIn 0.3s ease-out forwards; /* Animación entrada */
+  z-index: 1100;
+  padding: var(--space-sm); 
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease-out forwards;
 }
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
 .modal {
-  background-color: var(--color-bg-card);
-  border-radius: var(--border-radius-lg); 
-  width: 100%;
-  max-width: 600px; /* Más ancho */
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
+  background-color: var(--color-bg-card); 
+  border-radius: var(--border-radius-lg);
+  width: 100%; 
+  max-width: 550px; 
+  max-height: 90vh; /* Use viewport height instead of calculation */
+  display: flex; 
+  flex-direction: column; 
   box-shadow: var(--box-shadow-lg);
   overflow: hidden;
-  animation: scaleUp 0.3s ease-out forwards; /* Animación entrada */
-  transform: scale(0.95); /* Estado inicial para animación */
-  opacity: 0; /* Estado inicial para animación */
+  animation: scaleUp 0.35s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  transform: scale(0.9); 
+  opacity: 0;
+}
+@keyframes scaleUp { 
+  from { transform: scale(0.9) translateY(10px); opacity: 0; } 
+  to { transform: scale(1) translateY(0); opacity: 1; } 
 }
 
-@keyframes scaleUp {
-  from { transform: scale(0.95); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
-}
-
-
-.image {
-  width: 100%;
-  height: 250px; /* Más alta */
-  object-fit: cover;
+.image { 
+  width: 100%; 
+  height: 180px; /* Slightly reduced for mobile */
+  object-fit: cover; 
+  flex-shrink: 0; 
 }
 
 .header {
-  padding: var(--space-lg) var(--space-xl); 
+  padding: var(--space-md); 
   position: relative;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border); 
+  flex-shrink: 0;
 }
-
-.name {
-  margin: 0 0 var(--space-xs) 0;
-  font-size: 2rem; /* Más grande */
-  color: var(--color-text-dark); /* Color texto oscuro */
-  line-height: 1.2;
+.name { 
+  margin: 0 0 var(--space-xs) 0; 
+  font-size: 1.4rem; /* Reduced for mobile */
+  color: var(--color-primary-light); 
+  line-height: 1.2; 
 }
-
-.description {
-  margin: 0;
-  font-size: 1rem;
-  color: var(--color-text-medium);
-  line-height: 1.6;
+.description { 
+  margin: 0; 
+  font-size: 0.9rem; /* Slightly smaller */
+  color: var(--color-text-medium); 
+  line-height: 1.5; 
 }
 
 .closeButton {
-  position: absolute;
-  top: var(--space-md); 
-  right: var(--space-md);
-  font-size: 1.8rem; 
-  color: var(--color-text-muted);
-  background: none;
-  border: none;
+  position: absolute; 
+  top: var(--space-xs); 
+  right: var(--space-xs); 
+  font-size: 1.5rem; /* Smaller close button */
+  color: var(--color-text-muted); 
+  background: none; 
+  border: none; 
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
+  width: 32px; 
+  height: 32px; 
+  display: flex; 
+  justify-content: center; 
   align-items: center;
-  cursor: pointer;
-  line-height: 1;
+  cursor: pointer; 
+  line-height: 1; 
   transition: var(--transition-base);
 }
-.closeButton:hover {
-  color: var(--color-text-dark);
-  background-color: var(--color-bg-sidebar); /* Fondo sutil */
-  transform: rotate(90deg); /* Animación */
+.closeButton:hover { 
+  color: var(--color-error); 
+  background-color: rgba(239, 83, 80, 0.1); 
+  transform: rotate(90deg) scale(1.1); 
+}
+.closeButton:focus-visible { 
+  outline: 2px solid var(--color-error); 
+  outline-offset: 1px; 
 }
 
+/* --- Options Form --- */
 .optionsForm {
-  padding: var(--space-sm) var(--space-xl) var(--space-lg); /* Padding ajustado */
-  overflow-y: auto;
+  padding: var(--space-sm); /* Reduced padding */
+  overflow-y: auto; 
   flex-grow: 1;
-  background-color: var(--color-bg-light); 
-  /* Estilo scrollbar */
-  scrollbar-width: thin;
-  scrollbar-color: var(--color-primary-light) var(--color-bg-light);
+  min-height: 100px; 
+  background-color: var(--color-bg-light);
+  scrollbar-width: thin; 
+  scrollbar-color: var(--color-primary) var(--color-bg-light);
 }
-.optionsForm::-webkit-scrollbar {
-  width: 6px;
+.optionsForm::-webkit-scrollbar { width: 6px; }
+.optionsForm::-webkit-scrollbar-track { background: var(--color-bg-light); }
+.optionsForm::-webkit-scrollbar-thumb { 
+  background-color: var(--color-primary); 
+  border-radius: 10px; 
+  border: 2px solid var(--color-bg-light); 
 }
-.optionsForm::-webkit-scrollbar-thumb {
-  background-color: var(--color-primary-light);
-  border-radius: 10px;
+.optionsForm::-webkit-scrollbar-thumb:hover { 
+  background-color: var(--color-primary-light); 
 }
-.optionsForm::-webkit-scrollbar-thumb:hover {
-   background-color: var(--color-primary);
-}
-
 
 .optionGroup {
-  border: none;
-  padding: var(--space-lg) 0; 
+  border: none; 
+  padding: var(--space-md) 0; /* Reduced padding */
   margin: 0;
-  border-bottom: 1px solid var(--color-border); 
+  border-bottom: 1px solid var(--color-border);
 }
-.optionGroup:last-child {
-  border-bottom: none; 
-}
+.optionGroup:last-child { border-bottom: none; }
 
 .optionGroup legend {
-  font-size: 1.25rem; 
+  font-size: 1.05rem; /* Smaller font */
   font-weight: 600; 
-  margin-bottom: var(--space-md);
-  width: 100%;
-  padding-bottom: var(--space-sm);
-  color: var(--color-primary-dark);
-  display: flex; /* Para alinear reglas */
-  justify-content: space-between;
+  margin-bottom: var(--space-sm); /* Reduced margin */
+  width: 100%; 
+  padding-bottom: var(--space-xs); /* Reduced padding */
+  color: var(--color-primary);
+  display: flex; 
+  justify-content: space-between; 
   align-items: baseline;
+  flex-wrap: wrap; /* Allow rules to wrap on mobile */
+  gap: var(--space-xs);
 }
-.rules {
-  font-size: 0.85rem;
-  font-weight: 400; /* Normal */
-  color: var(--color-text-muted);
+.rules { 
+  font-size: 0.75rem; /* Smaller rules text */
+  font-weight: 400; 
+  color: var(--color-text-muted); 
 }
 
+/* --- Option Item Styling --- */
 .optionItem {
-  display: flex;
+  display: grid;
+  /* More compact grid for mobile */
+  grid-template-columns: min-content minmax(0, 1fr) auto;
   align-items: center;
-  padding: var(--space-sm); 
+  gap: var(--space-sm); /* Consistent gap */
+  padding: var(--space-xs); /* Reduced padding */
   border-radius: var(--border-radius-md);
-  transition: var(--transition-fast);
-  cursor: pointer; /* Hacer toda la fila clickeable */
-  margin-bottom: var(--space-xs); /* Espacio entre items */
-}
-.optionItem:hover {
-   background-color: #fff; 
-}
-/* Estilo cuando está seleccionado */
-.optionItem input:checked + label {
-  font-weight: 600; /* Semi-bold */
-  color: var(--color-primary-dark);
-}
-.optionItem input:checked ~ .priceMod {
-   font-weight: 700; /* Bold */
-}
-
-
-.optionItem label {
-  flex-grow: 1;
-  margin-left: var(--space-sm); 
+  transition: background-color var(--transition-fast);
   cursor: pointer;
-  color: var(--color-text-medium);
-  transition: var(--transition-fast);
+  margin-bottom: var(--space-xxs); /* Smaller margin */
 }
+.optionItem:hover,
+.optionItem:focus-within {
+   background-color: rgba(255, 255, 255, 0.04);
+}
+
+/* Input Styles */
 .optionItem input[type="radio"],
 .optionItem input[type="checkbox"] {
-  width: 20px;
-  height: 20px;
+  grid-column: 1 / 2;
+  width: 16px; /* Smaller inputs */
+  height: 16px;
   cursor: pointer;
-  accent-color: var(--color-primary); 
-  flex-shrink: 0; /* Evita que se encoja */
+  accent-color: var(--color-primary);
+  margin: 0;
+  appearance: none;
+  background-color: var(--color-bg-sidebar);
+  border: 1px solid var(--color-border-strong);
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  transition: border-color var(--transition-fast);
+  justify-self: start;
 }
-
-.priceMod {
-  font-weight: 500; 
-  color: var(--color-text-medium); 
-  margin-left: var(--space-md);
-  font-size: 0.9rem;
-  white-space: nowrap; /* Evita wrap */
-  transition: var(--transition-fast);
+.optionItem input[type="checkbox"] {
+  border-radius: var(--border-radius-sm);
 }
-
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: var(--space-lg) var(--space-xl); 
-  border-top: 1px solid var(--color-border);
-  background-color: var(--color-bg-sidebar); 
+.optionItem input::before {
+  content: ""; 
+  width: 8px; /* Smaller checkmark */
+  height: 8px; 
+  border-radius: 50%;
+  transform: scale(0); 
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--color-primary-dark);
 }
+.optionItem input[type="checkbox"]::before {
+  border-radius: 2px; 
+  background-color: var(--color-primary-dark);
+  clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+  box-shadow: none;
+}
+.optionItem input:checked::before { transform: scale(1); }
+.optionItem input:checked { border-color: var(--color-primary); }
+.optionItem input:focus-visible { 
+  outline: 2px solid var(--color-primary-light); 
+  outline-offset: 1px; 
+}
+.optionItem input:hover { border-color: var(--color-primary-light); }
 
-.totalPrice {
-  font-size: 1.6rem; 
-  font-weight: 700; /* Bold */
+/* Label Styles */
+.optionItem label {
+  grid-column: 2 / 3;
+  cursor: pointer;
   color: var(--color-text-dark);
-  font-family: var(--font-display);
+  transition: color var(--transition-fast);
+  padding: 0; /* Remove padding */
+  line-height: 1.3; /* Tighter line height */
+  justify-self: start;
+  min-width: 0;
+  font-size: 0.9rem; /* Smaller label text */
+  word-wrap: break-word;
+}
+
+/* Price Modifier Styles */
+.priceMod {
+  grid-column: 3 / 4;
+  font-weight: 500;
+  color: var(--color-text-medium);
+  font-size: 0.85rem; /* Smaller price text */
+  white-space: nowrap;
+  transition: color var(--transition-fast), font-weight var(--transition-fast);
+  justify-self: end;
+}
+
+/* Styles when checked */
+.optionItem input:checked + label {
+  font-weight: 500;
+  color: var(--color-primary-light);
+}
+.optionItem input:checked ~ .priceMod {
+   font-weight: 600;
+   color: var(--color-text-dark);
+}
+
+/* --- Footer --- */
+.footer {
+  display: flex; 
+  flex-direction: column;
+  gap: var(--space-sm);
+  align-items: stretch;
+  padding: var(--space-md); /* Reduced padding */
+  border-top: 1px solid var(--color-border);
+  background-color: var(--color-bg-sidebar);
+  flex-shrink: 0;
+}
+.totalPrice {
+  font-size: 1.3rem; /* Smaller price on mobile */
+  font-weight: 700; 
+  color: var(--color-primary);
+  font-family: var(--font-display); 
+  text-align: center;
 }
 
 .addButton {
-  background: linear-gradient(to right, var(--color-accent), #F0726E); /* Gradiente rojo */
-  color: white;
-  border: none;
-  padding: var(--space-md) var(--space-xl); 
-  border-radius: var(--border-radius-md);
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-dark));
+  color: var(--color-text-on-accent); 
+  border: none; 
+  padding: var(--space-sm) var(--space-md); /* Reduced padding */
+  border-radius: var(--border-radius-md); 
   font-weight: 600; 
   cursor: pointer;
-  font-size: 1.05rem; 
-  transition: var(--transition-base), transform 0.1s ease;
-  box-shadow: 0 4px 10px rgba(217, 83, 79, 0.25);
+  font-size: 1rem; /* Smaller button text */
+  transition: var(--transition-base), transform 0.1s ease, box-shadow 0.2s ease;
+  box-shadow: var(--box-shadow-accent-glow), var(--box-shadow-sm);
+  text-transform: uppercase; 
+  letter-spacing: 0.5px; /* Reduced letter spacing */
 }
-.addButton:hover {
-  opacity: 0.9;
-  box-shadow: 0 6px 15px rgba(217, 83, 79, 0.35);
-  transform: translateY(-2px);
+.addButton:hover { 
+  background: linear-gradient(135deg, var(--color-accent-dark), #B71C1C); 
+  transform: translateY(-2px); 
+  box-shadow: var(--box-shadow-accent-glow), var(--box-shadow-md); 
 }
-.addButton:active {
-  transform: translateY(0);
-   box-shadow: 0 2px 5px rgba(217, 83, 79, 0.25);
+.addButton:active { 
+  transform: translateY(0) scale(0.98); 
+  box-shadow: none; 
+}
+.addButton:disabled { 
+  background: var(--color-border-strong); 
+  color: var(--color-text-muted); 
+  cursor: not-allowed; 
+  box-shadow: none; 
+  transform: none; 
+  opacity: 0.7; 
 }
 
-.addButton:disabled {
-  background: #E0E0E0; 
-  color: var(--color-text-muted);
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-  opacity: 0.8;
+/* --- Desktop Adjustments --- */
+@media (min-width: 768px) {
+  .overlay { padding: var(--space-md); }
+  .modal { max-height: 85vh; }
+  
+  .image { height: 200px; }
+  
+  .header { padding: var(--space-lg); }
+  .name { font-size: 1.8rem; }
+  .description { font-size: 0.95rem; }
+  
+  .closeButton { 
+    top: var(--space-sm); 
+    right: var(--space-sm); 
+    width: 36px; 
+    height: 36px; 
+    font-size: 1.8rem;
+  }
+  
+  .optionsForm { padding: var(--space-sm) var(--space-lg); }
+  
+  .optionGroup { padding: var(--space-lg) 0; }
+  .optionGroup legend { 
+    font-size: 1.15rem; 
+    margin-bottom: var(--space-md);
+    flex-wrap: nowrap;
+  }
+  .rules { font-size: 0.8rem; }
+  
+  .optionItem {
+    grid-template-columns: min-content minmax(100px, max-content) auto;
+    gap: 0 var(--space-md);
+    padding: var(--space-sm);
+    margin-bottom: var(--space-xs);
+  }
+  
+  .optionItem input[type="radio"],
+  .optionItem input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+  }
+  .optionItem input::before {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .optionItem label { 
+    font-size: 1rem; 
+    line-height: 1.4;
+  }
+  
+  .priceMod { font-size: 0.9rem; }
+  
+  .footer {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+  }
+  .totalPrice {
+    font-size: 1.5rem;
+    text-align: left;
+  }
+  .addButton {
+    padding: var(--space-md) var(--space-lg);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    width: auto;
+  }
+}
+
+/* --- Small Mobile Adjustments --- */
+@media (max-width: 360px) {
+  .overlay { padding: var(--space-xs); }
+  .modal { max-height: 95vh; }
+  
+  .image { height: 140px; }
+  
+  .header { padding: var(--space-sm); }
+  .name { font-size: 1.2rem; }
+  .description { font-size: 0.85rem; }
+  
+  .optionsForm { padding: var(--space-xs); }
+  
+  .optionGroup legend { 
+    font-size: 1rem; 
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .optionItem {
+    grid-template-columns: min-content minmax(0, 1fr) auto;
+    gap: var(--space-xs);
+    padding: var(--space-xxs);
+  }
+  
+  .optionItem label { font-size: 0.85rem; }
+  .priceMod { font-size: 0.8rem; }
+  
+  .footer { padding: var(--space-sm); }
+  .totalPrice { font-size: 1.2rem; }
+  .addButton { 
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 0.9rem;
+  }
 }
